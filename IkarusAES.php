@@ -7,7 +7,7 @@
  * Based on Federal Information Processing Standards Publication 197 - 26th November 2001
  */
 
-class OmegaAES {
+class IkarusAES {
 /** @var int Number of rounds in AES algorithm (Nr)  */
     private $number_of_rounds;
 /** @var int Number of columns (32-bit words) comprising the State. (Nb) */
