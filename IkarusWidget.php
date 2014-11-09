@@ -11,7 +11,7 @@ class IkarusWidget
     private $login;
     private $password;
     private $data;
-    
+
     public function __construct($id, $key, $login, $password)
     {
         $this->id       = $id;
@@ -19,30 +19,30 @@ class IkarusWidget
         $this->login    = $login;
         $this->password = $password;
     }
-    
-    
-    
+
+
+
     public function widget()
     {
         // faz caralho a 4
-        
+
         echo $this->form();
-        
+
         if(isset($_POST["ikarusData"]))
         {
             if($this->validateParams($_POST["ikarusData"]))
             {
                 $this->data = $_POST["ikarusData"];
-				
+
 				$urls = $this->fetchSearchURLs();
-				
+
 				var_dump($urls);
             }
         }
     }
-    
-    
-    
+
+
+
     private function form()
     {
         $str_form = '<form name="IkarusWidgetSearch" method="post">
@@ -132,7 +132,7 @@ class IkarusWidget
                         </div>
                     </div>
                     </form>';
-        
+
         return $str_form;
     }
 
@@ -150,55 +150,55 @@ class IkarusWidget
                 preg_match('/^[0-9]$/',                        $data["babies"],        $matches);
     }
 
-	
-	
+
+
 	private function formatDate($date)
-    {   
+    {
         $date = explode("/", $date);
 		$date = $date[2] . "-" . $date[1] . "-" . $date[0];
 		return $date;
     }
-	
-	
+
+
 
     private function encryptParams()
-    {   
+    {
         $querySearch  = $this->data['trip'] . ";" . $this->data['from'] . ";" . $this->data['to'] . ";" . $this->formatDate($this->data['departureDate']) . ";";
 		$querySearch .= $this->formatDate($this->data['backDate']) . ";" . $this->data['adults'] . ";" . $this->data['children'] . ";" . $this->login . ";" . $this->password;
         var_dump($querySearch);
-		
+
         $ikarusCrypt = new IkarusCrypt($this->key);
-        
+
         return $ikarusCrypt->crypt($querySearch);
     }
-    
-    
-    
+
+
+
     private function fetchSearchURLs()
     {
         //http://ws.islogic.com.br/flights/ikarus_ws_resolver.php
-        
-        $ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL, "http://ws.islogic.com.br/flights/ikarus_ws_resolver.php"); 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-        $output = curl_exec($ch); 
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://ws.islogic.com.br/flights/ikarus_ws_resolver.php");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
         curl_close($ch);
-		
+
 		$urls = json_decode($output, true);
-        
+
 		$search = $this->encryptParams();
 		$programs = array_keys($urls);
-        
+
 		for($i=0; $i<count($programs); $i++)
 		{
 			$urls[$programs[$i]] .= $programs[$i] . "/index.php?search=" . $search . "&sm=" . $this->id;
 		}
-		
+
 		return $urls;
     }
-	
-	
-	
+
+
+
 	private function searchAction($urls)
     {
 		$programs = array_keys($urls);
@@ -206,14 +206,14 @@ class IkarusWidget
 		{
 			$urls[$programs[$i]] .= $programs[$i] . "/index.php?search=" . $search . "&sm=" . $this->id;
 		}
-		
+
     }
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 }
 
 
