@@ -1,5 +1,25 @@
 <?php
 
+// Helper functions
+
+function pp($obj)
+{
+    echo '<pre>';
+    print_r($obj);
+    echo '</pre>';
+}
+
+function puts($str)
+{
+    echo $str.'<br />';
+}
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+
+
+
 include "IkarusAES.php";
 include "IkarusCrypt.php";
 
@@ -29,10 +49,8 @@ class IkarusWidget
             if($this->validateParams($_POST["ikarusData"]))
             {
                 $this->data = $_POST["ikarusData"];
-
-				$urls = $this->fetchSearchURLs();
-
-				var_dump($urls);
+                echo $this->resultTable();
+                echo $this->searchResult();
             }
         }
     }
@@ -130,8 +148,80 @@ class IkarusWidget
                     </div>
                     </div>
                     </form>';
-
         return $str_form;
+    }
+
+
+
+    private function resultTable()
+    {
+        $resultTable = '<table class="table myCustomTable" data="" style="margin-bottom:0; font-size: 13px;">
+            <thead>
+                <tr>
+                    <th colspan="10">
+                        <table id="delete_loaders_ida" width="100%">
+                            <tr id="validaVooIdaTabela" style="display: none;">
+                                <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de Ida. </th>
+                            </tr>
+                            <tr id="verifica_loaders_ida">
+                                <td id="ida_tam_searchLoader" align="center" style="text-align: center;">
+                                    <img src="http://ikarus.islogic.com.br/img/tam_miles_ativo.png">
+                                    <br />
+                                    <img src="http://ikarus.islogic.com.br/img/loading_tam.gif">
+                                </td>
+                                <td id="ida_gol_searchLoader" align="center" style="text-align: center;">
+                                    <img src="http://ikarus.islogic.com.br/img/gol_miles_ativo.png">
+                                    <br />
+                                    <img src="http://ikarus.islogic.com.br/img/loading_gol.gif">
+                                </td>
+                                <td id="ida_azul_searchLoader" align="center" style="text-align: center;">
+                                    <img src="http://ikarus.islogic.com.br/img/azul_miles_ativo.png">
+                                    <br />
+                                    <img src="http://ikarus.islogic.com.br/img/loading_azul.gif">
+                                </td>
+                            </tr>
+                        </table>
+                    </th>
+                </tr>
+                <tr style="background-color: #eee;">
+                    <th style="text-align: center;">
+                        x
+                    </th>
+                    <th style="text-align: center;">
+                        Cia
+                    </th>
+                    <th style="text-align: center;">
+                        nº
+                    </th>
+                    <th style="text-align: center;">
+                        Paradas
+                    </th>
+                    <th style="text-align: center;">
+                        Partida
+                    </th>
+                    <th style="text-align: center;">
+                        Chegada
+                    </th>
+                    <th style="text-align: center;">
+                        na Cia
+                    </th>
+                    <th style="text-align: center;">
+                        em Milhas
+                    </th>
+                    <th style="text-align: center;">
+                        na BDS
+                    </th>
+                    <th style="text-align: center;">
+                        Info.
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tabela_ida">
+            </tbody>
+        </table>';
+
+        // $resultTable = '<table></table>';
+        return $resultTable;
     }
 
 
@@ -150,11 +240,11 @@ class IkarusWidget
 
 
 
-	private function formatDate($date)
+    private function formatDate($date)
     {
         $date = explode("/", $date);
-		$date = $date[2] . "-" . $date[1] . "-" . $date[0];
-		return $date;
+        $date = $date[2] . "-" . $date[1] . "-" . $date[0];
+        return $date;
     }
 
 
@@ -162,8 +252,8 @@ class IkarusWidget
     private function encryptParams()
     {
         $querySearch  = $this->data['trip'] . ";" . $this->data['from'] . ";" . $this->data['to'] . ";" . $this->formatDate($this->data['departureDate']) . ";";
-		$querySearch .= $this->formatDate($this->data['backDate']) . ";" . $this->data['adults'] . ";" . $this->data['children'] . ";" . $this->login . ";" . $this->password;
-        var_dump($querySearch);
+        $querySearch .= $this->formatDate($this->data['backDate']) . ";" . $this->data['adults'] . ";" . $this->data['children'] . ";" . $this->login . ";" . $this->password;
+        // pp($querySearch);
 
         $ikarusCrypt = new IkarusCrypt($this->key);
 
@@ -174,50 +264,41 @@ class IkarusWidget
 
     private function fetchSearchURLs()
     {
-        //http://ws.islogic.com.br/flights/ikarus_ws_resolver.php
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "http://ws.islogic.com.br/flights/ikarus_ws_resolver.php");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         curl_close($ch);
 
-		$urls = json_decode($output, true);
+        $urls = json_decode($output, true);
 
-		$search = $this->encryptParams();
-		$programs = array_keys($urls);
+        $encryptedSearch = $this->encryptParams();
+        $programs = array_keys($urls);
 
-		for($i=0; $i<count($programs); $i++)
-		{
-			$urls[$programs[$i]] .= $programs[$i] . "/index.php?search=" . $search . "&sm=" . $this->id;
-		}
+        for($i=0; $i < count($programs); $i++)
+        {
+            $urls[$programs[$i]] .= $programs[$i] . "/index.php?search=" . $encryptedSearch . "&sm=" . $this->id;
+        }
 
-		return $urls;
+        return $urls;
     }
 
 
 
-	private function searchAction($urls)
+    private function searchResult()
     {
-		$programs = array_keys($urls);
-		for($i=0; $i<count($programs); $i++)
-		{
-			$urls[$programs[$i]] .= $programs[$i] . "/index.php?search=" . $search . "&sm=" . $this->id;
-		}
+        $urls = $this->fetchSearchURLs();
+        pp($urls);
+        puts($urls['azul']);
+        $js = ' <script>
+                    // $(document).ready(function(){
+                        console.log("opa!");
 
+                    // });
+                </script>';
+
+        return $js;
     }
-
-
-
-
-
-
 }
 
-
-
-
-
-
-
-
+?>
