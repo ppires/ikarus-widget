@@ -1,7 +1,5 @@
 <meta charset="UTF-8">
 
-
-
 <link rel="stylesheet" type="text/css" href="css/jquery_ui/jquery.ui.1.10.0.ie.css" />
 <link rel="stylesheet" type="text/css" href="css/jquery_ui/jquery.ui-1.10.0.custom.css" />
 <link rel="stylesheet" type="text/css" href="css/plugins/select2/select2.css" />
@@ -12,7 +10,6 @@
 <script src="js/jquery/jquery.min.js"></script>
 <script src="js/jquery_ui/jquery-ui.min.js"></script>
 <script src="js/plugins/select2/select2.js"></script>
-
 
 <script>
     var IkarusJQuery = jQuery.noConflict();
@@ -36,9 +33,6 @@ $ikarus = new IkarusWidget($id, $key, $login, $password);
 echo $ikarus->form();
 $ikarus->widget();
 //echo $ikarus->resultTable();
-
-
-
 
 ?>
 
