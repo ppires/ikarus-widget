@@ -14,7 +14,4 @@ $ikarus = new IkarusWidget($id, $key, $login, $password);
 $ikarus->widget();
 
 
-
-
-
 ?>
