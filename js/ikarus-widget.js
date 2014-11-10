@@ -1088,41 +1088,7 @@ function tr_flights(voos, way, hash)
 
 
 
-function searchFlights(urlServer, tentativas_gol_miles)
-{
-	if(tentativas_gol_miles > 0)
-	{
-		$.ajax({
-			url: urlServer+'gol/index.php?search=3c44650fdab638f9244e086d4a552dbfafdae4581b3c3acf8b708b9a125eb4fa72a070f8d8cf0a4c3967f5a2b90f6fac53bcc2400d0efa66a8a5782c4c34134ae0e7fec692ac7b7a904ddd8c3318423b&sm=bds', 
-			type: 'GET',
-			success: function(data)
-			{
-				$('#ikarus_widget_inbound_'+'gol_miles'+'_searchLoader').remove();
-				$('#ikarus_widget_outbound_'+'gol_miles'+'_searchLoader').remove();
-				
-				hashFlights = 'gol_miles';
-				tempFlights = JSON.parse(data);
-				
-				$('#ikarus_widget_tabela_inbound').append(ikarusWidgetTrFlights(tempFlights['independentes'][hashFlights]['ida'], 'ida', hashFlights));
-				$('#ikarus_widget_tabela_outbound').append(ikarusWidgetTrFlights(tempFlights['independentes'][hashFlights]['volta'], 'volta', hashFlights));
-			},
-			error: function(data)
-			{			
-				if(tentativas_gol_miles > 0)
-				{
-					$('#ikarus_widget_inbound_'+'gol_miles'+'_searchLoader').remove();
-					$('#ikarus_widget_outbound_'+'gol_miles'+'_searchLoader').remove();
-				}
-				searchgol_miles(tentativas_gol_miles - 1);
-			}
-		});
-	}
-	else
-	{
-		$('#ikarus_widget_inbound_'+'gol_miles'+'_searchLoader').remove();
-		$('#ikarus_widget_outbound_'+'gol_miles'+'_searchLoader').remove();
-	}
-}
+
 
 
 
