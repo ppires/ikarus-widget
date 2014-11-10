@@ -1128,11 +1128,3 @@ function searchFlights(url, hash, tentativas_gol_miles)
 	}
 }
 
-
-
-
-
-
-
-
-

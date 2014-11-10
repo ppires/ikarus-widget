@@ -44,10 +44,6 @@ class IkarusWidget
 
     public function widget()
     {
-        // faz caralho a 4
-
-        echo $this->form();
-
         if(isset($_POST["ikarusData"]))
         {
             if($this->validateParams($_POST["ikarusData"]))
@@ -61,7 +57,7 @@ class IkarusWidget
 
 
 
-    private function form()
+    public function form()
     {
         $str_form = '<form name="IkarusWidgetSearch" method="post">
                     <div class="ikarus_widget_container">
@@ -110,8 +106,6 @@ class IkarusWidget
                                     <option value="9">9 adultos</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="ikarus_widget_row">
                             <div class="ikarus_widget_span4">
                                 <select id="ikarusDataChildren" name="ikarusData[children]" placeholder="Crian&#231;as">
                                     <option value="0">0 crian&#231;as</option>
@@ -126,8 +120,6 @@ class IkarusWidget
                                     <option value="9">9 crian&#231;as</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="ikarus_widget_row">
                             <div class="ikarus_widget_span4">
                                 <select id="ikarusDataBabies" name="ikarusData[babies]" placeholder="Beb&#234;s">
                                     <option value="0">0 beb&#234;s</option>
