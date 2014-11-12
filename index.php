@@ -10,6 +10,7 @@
 <script src="js/jquery/jquery.min.js"></script>
 <script src="js/jquery_ui/jquery-ui.min.js"></script>
 <script src="js/plugins/select2/select2.js"></script>
+<script src="js/accounting.min.js"></script>
 
 <script>
     var IkarusJQuery = jQuery.noConflict();
@@ -20,6 +21,8 @@
 <?php
 
 include "IkarusWidget.php";
+include "airports.php";
+include "programs.php";
 
 
 $login = "ikarus"; // seu login
@@ -28,9 +31,9 @@ $id = "ika";
 $key = "db5dd55d77bd7320ba2a467c05c16ce1";
 
 
-$ikarus = new IkarusWidget($id, $key, $login, $password);
+$ikarus = new IkarusWidget($id, $key, $login, $password, $programs, $airports);
 
-echo $ikarus->form();
+
 $ikarus->widget();
 //echo $ikarus->resultTable();
 
@@ -39,7 +42,7 @@ $ikarus->widget();
 
 
 <script>
-    
+
 		IkarusJQuery( "#ikarusDataDepartureDate" ).datepicker
 		({
 			prevText: 'Anterior',
@@ -66,7 +69,7 @@ $ikarus->widget();
             monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
             minDate: 0
         });
-        
+
         IkarusJQuery("#ikarusDataFrom").select2();
         IkarusJQuery("#ikarusDataTo").select2();
 </script>

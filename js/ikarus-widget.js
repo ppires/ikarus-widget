@@ -1,33 +1,36 @@
-if($("input[id*='Birthday']"))
-{
-	$("input[id*='Birthday']").each(function( value) {
-		$(this).mask("99/99/9999");
-	});
+// if(IkarusJQuery("input[id*='Birthday']"))
+// {
+// 	IkarusJQuery("input[id*='Birthday']").each(function( value) {
+// 		IkarusJQuery(this).mask("99/99/9999");
+// 	});
 
-}
-if($("input[id*='Ssn']"))
-{
-	$("input[id*='Ssn']").each(function( value) {
-		$(this).mask("999.999.999-99");
-	});
+// }
+// if(IkarusJQuery("input[id*='Ssn']"))
+// {
+// 	IkarusJQuery("input[id*='Ssn']").each(function( value) {
+// 		IkarusJQuery(this).mask("999.999.999-99");
+// 	});
 
-}
+// }
 
-function documentoMask(element, item)
-{
-	mask = $(element).val();
+// function documentoMask(element, item)
+// {
+// 	mask = IkarusJQuery(element).val();
 
-	$.mask.definitions['r']='[0-9\.]';
+// 	IkarusJQuery.mask.definitions['r']='[0-9\.]';
 
-	if(mask == "CPF") $("#Passenger"+item+"Ssn").mask("999.999.999-99");
-	else $("#Passenger"+item+"Ssn").mask("rrrrrrrrrrr");
-}
+// 	if(mask == "CPF") IkarusJQuery("#Passenger"+item+"Ssn").mask("999.999.999-99");
+// 	else IkarusJQuery("#Passenger"+item+"Ssn").mask("rrrrrrrrrrr");
+// }
 
-function calculateAge(birthday, now) {
-	var ageDifMs = now - birthday.getTime();
-	var ageDate = new Date(ageDifMs);
-	return Math.abs(ageDate.getUTCFullYear() - 1970);
-}
+// function calculateAge(birthday, now) {
+// 	var ageDifMs = now - birthday.getTime();
+// 	var ageDate = new Date(ageDifMs);
+// 	return Math.abs(ageDate.getUTCFullYear() - 1970);
+// }
+
+
+
 /*
 function calculateAge2(birthday, now) {
 
@@ -83,141 +86,136 @@ tam_teste = JSON.parse(tam_teste);
 */
 
 // Hash com informações dos aeroportos (sigla => nome)
-var airports = '<?php if(isset($hashToAirports)) echo json_encode($hashToAirports); ?>';
-airports = $.parseJSON(airports);
-
-// Hash com informações dos programas de milhas (sigla => nome)
-var programs = '<?php if(isset($programsByHash)) echo json_encode($programsByHash); ?>';
-programs = $.parseJSON(programs);
-
-var search = '<?php if(isset($pesquisa)) echo json_encode($pesquisa); ?>';
-search = $.parseJSON(search);
-if(search)
-{
-	search["adults"]   = parseInt(search["adults"]);
-	search["children"] = parseInt(search["children"]);
-	search["babies"]   = parseInt(search["babies"]);
-
-
-	function validateFormSelectFlights()
-	{
-		if(search['trip'] == "R")
-		{
-			if($('#TransactionVooida').val() && $('#TransactionVoovolta').val()) return true;
-			else
-			{
-				if(!$('#TransactionVoovolta').val())
-				{
-					$('#validaVooVoltaTabela').attr("style", "");
-					$(window).scrollTop($("#tabela_volta").offset())
-
-				}
-				if(!$('#TransactionVooida').val())
-				{
-					$('#validaVooIdaTabela').attr("style", "");
-					$(window).scrollTop($("#tabela_ida").offset())
-				}
-				return false;
-			}
-		}
-		else
-		{
-			if($('#TransactionVooida').val()) return true;
-			else
-			{
-				$('#validaVooIdaTabela').attr("style", "");
-				return false;
-			}
-		}
-	}
-
-
-	jQuery.validator.addMethod("idadeadulta", function(value) {
-
-		data = value.split("/");
-
-		if(search["trip"] == "R") dataVoo = search["arrival"];
-		else dataVoo = search["departure"];
-
-		now = new Date(dataVoo+" 00:00:00");
-		birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
-
-		age = calculateAge(birth, now);
-
-		if(age >= 12) return true;
-		else return false;
-
-	}, "Um passageiro adulto deve possuir mais que 12 anos até a data do(s) voo(s).");
-
-	jQuery.validator.addMethod("idadecrianca", function(value) {
-
-		data = value.split("/");
-
-		if(search["trip"] == "R") dataVoo = search["arrival"];
-		else dataVoo = search["departure"];
-
-		now = new Date(dataVoo+" 00:00:00");
-		birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
-
-		age = calculateAge(birth, now);
-
-		if(age < 12 && age >= 2) return true;
-		else return false;
-
-	}, "É considerado criança o passageiro entre 2 e 12 anos antes da data do(s) voo(s).");
-
-
-	jQuery.validator.addMethod("idadebebe", function(value) {
-
-		data = value.split("/");
-
-		if(search["trip"] == "R") dataVoo = search["arrival"];
-		else dataVoo = search["departure"];
-
-		now = new Date(dataVoo+" 00:00:00");
-		birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
-
-		age = calculateAge(birth, now);
-
-		if(age < 2) return true;
-		else return false;
-
-	}, "É considerado bebê o passageiro menor que 2 anos antes da data do(s) voo(s).");
-}
+// var airports = '<?php if(isset(IkarusJQueryhashToAirports)) echo json_encode(IkarusJQueryhashToAirports); ?>';
+// airports = IkarusJQuery.parseJSON(airports);
 
 
 
-var searchForm = '<?php if(isset($pesquisa)) echo json_encode($pesquisaForm); ?>';
-searchForm = $.parseJSON(searchForm);
-if(searchForm)
-{
-	$("#SearchesTrip").val(searchForm["trip"]);
-	$("#SearchesFrom").val(searchForm["from"]);
-	$("#SearchesTo").val(searchForm["to"]);
-	$("#SearchesDeparture").val(searchForm["departure"]);
-	$("#SearchesArrival").val(searchForm["arrival"]);
-	$("#SearchesAdults").val(searchForm["adults"]);
-	$("#SearchesChildren").val(searchForm["children"]);
-	$("#SearchesBabies").val(searchForm["babies"]);
-}
 
 
-$(window).scroll(function(){
 
-	//off = $("#localAnimate").offset();acompanhamentoDivAnime
-	max = $("#localAnimate").height();
-	max -= $("#acompanhamentoDivAnime").height();
-	max = max - 100;
+// var search = '<?php if(isset(IkarusJQuerypesquisa)) echo json_encode(IkarusJQuerypesquisa); ?>';
+// search = IkarusJQuery.parseJSON(search);
+// if(search)
+// {
+// 	search["adults"]   = parseInt(search["adults"]);
+// 	search["children"] = parseInt(search["children"]);
+// 	search["babies"]   = parseInt(search["babies"]);
 
-	if(($(window).scrollTop() < max) && $("body").width() >= 767)
-	{
-		$("#acompanhamentoDivAnime").stop().animate({ "marginTop": ($(window).scrollTop()) + "px"}, "slow");
-	}
-	if($("body").width() < 767)
-	{
-		$("#acompanhamentoDivAnime").stop().animate({ "marginTop": "0" + "px"}, "slow");
-	}
-});
+
+// 	function validateFormSelectFlights()
+// 	{
+// 		if(search['trip'] == "R")
+// 		{
+// 			if(IkarusJQuery('#TransactionVooida').val() && IkarusJQuery('#TransactionVoovolta').val()) return true;
+// 			else
+// 			{
+// 				if(!IkarusJQuery('#TransactionVoovolta').val())
+// 				{
+// 					IkarusJQuery('#validaVooVoltaTabela').attr("style", "");
+// 					IkarusJQuery(window).scrollTop(IkarusJQuery("#tabela_volta").offset())
+
+// 				}
+// 				if(!IkarusJQuery('#TransactionVooida').val())
+// 				{
+// 					IkarusJQuery('#validaVooIdaTabela').attr("style", "");
+// 					IkarusJQuery(window).scrollTop(IkarusJQuery("#tabela_ida").offset())
+// 				}
+// 				return false;
+// 			}
+// 		}
+// 		else
+// 		{
+// 			if(IkarusJQuery('#TransactionVooida').val()) return true;
+// 			else
+// 			{
+// 				IkarusJQuery('#validaVooIdaTabela').attr("style", "");
+// 				return false;
+// 			}
+// 		}
+// 	}
+
+
+// 	jQuery.validator.addMethod("idadeadulta", function(value) {
+
+// 		data = value.split("/");
+
+// 		if(search["trip"] == "R") dataVoo = search["arrival"];
+// 		else dataVoo = search["departure"];
+
+// 		now = new Date(dataVoo+" 00:00:00");
+// 		birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
+
+// 		age = calculateAge(birth, now);
+
+// 		if(age >= 12) return true;
+// 		else return false;
+
+// 	}, "Um passageiro adulto deve possuir mais que 12 anos até a data do(s) voo(s).");
+
+// 	jQuery.validator.addMethod("idadecrianca", function(value) {
+
+// 		data = value.split("/");
+
+// 		if(search["trip"] == "R") dataVoo = search["arrival"];
+// 		else dataVoo = search["departure"];
+
+// 		now = new Date(dataVoo+" 00:00:00");
+// 		birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
+
+// 		age = calculateAge(birth, now);
+
+// 		if(age < 12 && age >= 2) return true;
+// 		else return false;
+
+// 	}, "É considerado criança o passageiro entre 2 e 12 anos antes da data do(s) voo(s).");
+
+
+// 	jQuery.validator.addMethod("idadebebe", function(value) {
+
+// 		data = value.split("/");
+
+// 		if(search["trip"] == "R") dataVoo = search["arrival"];
+// 		else dataVoo = search["departure"];
+
+// 		now = new Date(dataVoo+" 00:00:00");
+// 		birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
+
+// 		age = calculateAge(birth, now);
+
+// 		if(age < 2) return true;
+// 		else return false;
+
+// 	}, "É considerado bebê o passageiro menor que 2 anos antes da data do(s) voo(s).");
+// }
+
+
+
+
+
+
+
+
+
+// IkarusJQuery(window).scroll(function(){
+
+// 	//off = IkarusJQuery("#localAnimate").offset();acompanhamentoDivAnime
+// 	max = IkarusJQuery("#localAnimate").height();
+// 	max -= IkarusJQuery("#acompanhamentoDivAnime").height();
+// 	max = max - 100;
+
+// 	if((IkarusJQuery(window).scrollTop() < max) && IkarusJQuery("body").width() >= 767)
+// 	{
+// 		IkarusJQuery("#acompanhamentoDivAnime").stop().animate({ "marginTop": (IkarusJQuery(window).scrollTop()) + "px"}, "slow");
+// 	}
+// 	if(IkarusJQuery("body").width() < 767)
+// 	{
+// 		IkarusJQuery("#acompanhamentoDivAnime").stop().animate({ "marginTop": "0" + "px"}, "slow");
+// 	}
+// });
+
+
+
 
 
 
@@ -236,129 +234,128 @@ function timestamp2BrasilHM(timestamp)
 
 
 
+// function criarAcompanhamento(trecho, voo, preco, precoE, milhasA, milhasC)
+// {
+// 	if(preco > 0) saldo = preco - precoE;
+// 	else saldo = 0;
+
+// 	str = "";
+// 	if(trecho == "ida") str = "Ida";
+// 	else str = "Volta";
+
+// 	html = '<div id="saldoacompanhamento'+trecho+'" value="'+saldo+'" style="text-align: center; background-color: #71C2E2; color: #FFF; font-weight: bold; font-size: 16px;">';
+// 		html += str;
+// 	html += '</div>';
+// 	html += '<div style="background-color: #FFFFFF">';
+// 		html += '<table class="table" style="margin: 0px !important;">';
+// 			for(i = 0; i < voo["Trip"].length; i++)
+// 			{
+// 				partida = timestamp2BrasilHM(voo["Trip"][i]["departure"]);
+// 				chegada = timestamp2BrasilHM(voo["Trip"][i]["arrival"]);
+
+// 				html += '<tr>';
+// 					html += '<td style="border: none !important; padding: 2px !important;">'+voo["Trip"][i]["from"]+" "+partida+'</td>';
+// 					html += '<td style="border: none !important; padding: 2px !important;">&rarr;</td>';
+// 					html += '<td style="border: none !important; padding: 2px !important; text-align: right;">'+voo["Trip"][i]["to"]+" "+chegada+'</td>';
+// 				html += '</tr>';
+// 			}
+// 		html += '</table>';
+// 	html += '</div>';
+// 	html += '<div style="background-color: #F5F5F5">';
+// 		html += '<table class="table" data="" style="margin: 0px !important;">';
+// 			html += '<tr>';
+
+// 				paradas = voo["Trip"].length - 1;
+// 				if(paradas == 0) paradas = "Voo Direto";
+// 				else
+// 				{
+// 					if(paradas == 1) paradas = "1 Parada";
+// 					else paradas = paradas+" Paradas";
+// 				}
+
+// 				part = new Date(parseInt(voo["Flight"]["departure"])*1000);
+// 				cheg = new Date(parseInt(voo["Flight"]["arrival"])*1000);
+// 				date = cheg - part;
+// 				hd = parseInt((date/1000/60/60).toFixed(2));
+// 				md = (date/1000/60/60 - parseInt(date/1000/60/60))*60;
+// 				md = parseInt(md.toFixed(2));
+
+// 				html += '<td style="border: none !important; padding: 2px !important;">'+paradas+'</td>';
+// 				html += '<td style="border: none !important; padding: 2px !important; text-align: right;">Duração '+hd+"h "+md+"m"+'</td>';
+// 			html += '</tr>';
+// 		html += '</table>';
+// 	html += '</div>';
+// 	html += '<div style="background-color: #FFFFFF">';
+// 		html += '<table class="table" style="margin: 0px !important;">';
+// 			if(search["adults"] > 0)
+// 			{
+// 				html += '<tr>';
+// 					html += '<td style="border: none !important; padding: 2px !important;">'+search["adults"]+' Adulto</td>';
+// 					html += '<td style="border: none !important; padding: 2px !important; text-align: right;"><b>'+ikarusAccounting.formatMoney(milhasA, "", 0, ".", "")+' pts</b></td>';
+// 				html += '</tr>';
+// 			}
+// 			if(search["children"] > 0)
+// 			{
+// 				html += '<tr>';
+// 					html += '<td style="border: none !important; padding: 2px !important;">'+search["children"]+'x Criança</td>';
+// 					html += '<td style="border: none !important; padding: 2px !important; text-align: right;"><b>'+ikarusAccounting.formatMoney(milhasC, "", 0, ".", "")+' pts</b></td>';
+// 				html += '</tr>';
+// 			}
+// 			if(search["children"] > 0)
+// 			{
+// 				html += '<tr>';
+// 					html += '<td style="border: none !important; padding: 2px !important;">'+search["babies"]+'x Bebê</td>';
+// 					html += '<td style="border: none !important; padding: 2px !important; text-align: right;"><b>0 pts</b></td>';
+// 				html += '</tr>';
+// 			}
+// 		html += '</table>';
+// 	html += '</div>';
+// 	html += '<div>';
+// 		html += '<table class="table" style="margin: 0px !important;">';
+// 			html += '<tr style="background-color: #F5F5F5">';
+// 				html += '<td style="border: none !important; padding: 2px !important;">preço na Cia</td>';
+// 				html += '<td width="10%" style="border: none !important; padding: 2px !important;">R$</td>';
+// 				html += '<td style="border: none !important; padding: 2px !important; text-align: right;"><b>'+ikarusAccounting.formatMoney(preco.toFixed(2), "", 2, ".", ",")+'</b></td>';
+// 			html += '</tr>';
+// 			html += '<tr style="background-color: #FFF">';
+// 				html += '<td style="border: none !important; padding: 2px !important;">preço na BDS</td>';
+// 				html += '<td width="10%" style="border: none !important; padding: 2px !important;">R$</td>';
+// 				html += '<td style="border: none !important; padding: 2px !important; text-align: right;"><b>'+ikarusAccounting.formatMoney(precoE.toFixed(2), "", 2, ".", ",")+'</b></td>';
+// 			html += '</tr>';
+// 		html += '</table>';
+// 	html += '</div>';
+
+// 	return html;
+// }
 
 
 
 
 
-function criarAcompanhamento(trecho, voo, preco, precoE, milhasA, milhasC)
-{
-	if(preco > 0) saldo = preco - precoE;
-	else saldo = 0;
+// function criarAcompanhamentoEconomia()
+// {
+// 	saldo1 = IkarusJQuery("#saldoacompanhamentoida").attr("value");
+// 	saldo2 = IkarusJQuery("#saldoacompanhamentovolta").attr("value");
 
-	str = "";
-	if(trecho == "ida") str = "Ida";
-	else str = "Volta";
+// 	if(saldo1) saldo1 = parseFloat(saldo1);
+// 	else saldo1 = 0;
+// 	if(saldo2) saldo2 = parseFloat(saldo2);
+// 	else saldo2 = 0;
 
-	html = '<div id="saldoacompanhamento'+trecho+'" value="'+saldo+'" style="text-align: center; background-color: #71C2E2; color: #FFF; font-weight: bold; font-size: 16px;">';
-		html += str;
-	html += '</div>';
-	html += '<div style="background-color: #FFFFFF">';
-		html += '<table class="table" style="margin: 0px !important;">';
-			for(i = 0; i < voo["Trip"].length; i++)
-			{
-				partida = timestamp2BrasilHM(voo["Trip"][i]["departure"]);
-				chegada = timestamp2BrasilHM(voo["Trip"][i]["arrival"]);
+// 	if((saldo1+saldo2) < 0) bg_color = '#E06D2C';
+// 	else bg_color = '#80C03B';
 
-				html += '<tr>';
-					html += '<td style="border: none !important; padding: 2px !important;">'+voo["Trip"][i]["from"]+" "+partida+'</td>';
-					html += '<td style="border: none !important; padding: 2px !important;">&rarr;</td>';
-					html += '<td style="border: none !important; padding: 2px !important; text-align: right;">'+voo["Trip"][i]["to"]+" "+chegada+'</td>';
-				html += '</tr>';
-			}
-		html += '</table>';
-	html += '</div>';
-	html += '<div style="background-color: #F5F5F5">';
-		html += '<table class="table" data="" style="margin: 0px !important;">';
-			html += '<tr>';
+// 	html = '<div style="background-color: '+bg_color+'">';
+// 	html += '<table class="table" style="margin: 0px !important;">';
+// 	html += '<tr>';
+// 	html += '<td style="border: none !important; padding: 2px !important; color: #FFF;"><b>Economia</b></td>';
+// 	html += '<td style="border: none !important; padding: 2px !important; text-align: right; color: #FFF;"><b>'+ikarusAccounting.formatMoney((saldo1+saldo2).toFixed(2), "R$ ", 2, ".", ",")+'</b></td>';
+// 	html += '</tr>';
+// 	html += '</table>';
+// 	html += '</div>';
 
-				paradas = voo["Trip"].length - 1;
-				if(paradas == 0) paradas = "Voo Direto";
-				else
-				{
-					if(paradas == 1) paradas = "1 Parada";
-					else paradas = paradas+" Paradas";
-				}
-
-				part = new Date(parseInt(voo["Flight"]["departure"])*1000);
-				cheg = new Date(parseInt(voo["Flight"]["arrival"])*1000);
-				date = cheg - part;
-				hd = parseInt((date/1000/60/60).toFixed(2));
-				md = (date/1000/60/60 - parseInt(date/1000/60/60))*60;
-				md = parseInt(md.toFixed(2));
-
-				html += '<td style="border: none !important; padding: 2px !important;">'+paradas+'</td>';
-				html += '<td style="border: none !important; padding: 2px !important; text-align: right;">Duração '+hd+"h "+md+"m"+'</td>';
-			html += '</tr>';
-		html += '</table>';
-	html += '</div>';
-	html += '<div style="background-color: #FFFFFF">';
-		html += '<table class="table" style="margin: 0px !important;">';
-			if(search["adults"] > 0)
-			{
-				html += '<tr>';
-					html += '<td style="border: none !important; padding: 2px !important;">'+search["adults"]+' Adulto</td>';
-					html += '<td style="border: none !important; padding: 2px !important; text-align: right;"><b>'+accounting.formatMoney(milhasA, "", 0, ".", "")+' pts</b></td>';
-				html += '</tr>';
-			}
-			if(search["children"] > 0)
-			{
-				html += '<tr>';
-					html += '<td style="border: none !important; padding: 2px !important;">'+search["children"]+'x Criança</td>';
-					html += '<td style="border: none !important; padding: 2px !important; text-align: right;"><b>'+accounting.formatMoney(milhasC, "", 0, ".", "")+' pts</b></td>';
-				html += '</tr>';
-			}
-			if(search["children"] > 0)
-			{
-				html += '<tr>';
-					html += '<td style="border: none !important; padding: 2px !important;">'+search["babies"]+'x Bebê</td>';
-					html += '<td style="border: none !important; padding: 2px !important; text-align: right;"><b>0 pts</b></td>';
-				html += '</tr>';
-			}
-		html += '</table>';
-	html += '</div>';
-	html += '<div>';
-		html += '<table class="table" style="margin: 0px !important;">';
-			html += '<tr style="background-color: #F5F5F5">';
-				html += '<td style="border: none !important; padding: 2px !important;">preço na Cia</td>';
-				html += '<td width="10%" style="border: none !important; padding: 2px !important;">R$</td>';
-				html += '<td style="border: none !important; padding: 2px !important; text-align: right;"><b>'+accounting.formatMoney(preco.toFixed(2), "", 2, ".", ",")+'</b></td>';
-			html += '</tr>';
-			html += '<tr style="background-color: #FFF">';
-				html += '<td style="border: none !important; padding: 2px !important;">preço na BDS</td>';
-				html += '<td width="10%" style="border: none !important; padding: 2px !important;">R$</td>';
-				html += '<td style="border: none !important; padding: 2px !important; text-align: right;"><b>'+accounting.formatMoney(precoE.toFixed(2), "", 2, ".", ",")+'</b></td>';
-			html += '</tr>';
-		html += '</table>';
-	html += '</div>';
-
-	return html;
-}
-
-function criarAcompanhamentoEconomia()
-{
-	saldo1 = $("#saldoacompanhamentoida").attr("value");
-	saldo2 = $("#saldoacompanhamentovolta").attr("value");
-
-	if(saldo1) saldo1 = parseFloat(saldo1);
-	else saldo1 = 0;
-	if(saldo2) saldo2 = parseFloat(saldo2);
-	else saldo2 = 0;
-
-	if((saldo1+saldo2) < 0) bg_color = '#E06D2C';
-	else bg_color = '#80C03B';
-
-	html = '<div style="background-color: '+bg_color+'">';
-	html += '<table class="table" style="margin: 0px !important;">';
-	html += '<tr>';
-	html += '<td style="border: none !important; padding: 2px !important; color: #FFF;"><b>Economia</b></td>';
-	html += '<td style="border: none !important; padding: 2px !important; text-align: right; color: #FFF;"><b>'+accounting.formatMoney((saldo1+saldo2).toFixed(2), "R$ ", 2, ".", ",")+'</b></td>';
-	html += '</tr>';
-	html += '</table>';
-	html += '</div>';
-
-	$("#acompanhamentoeconomia").html(html);
-}
+// 	IkarusJQuery("#acompanhamentoeconomia").html(html);
+// }
 
 
 
@@ -367,16 +364,16 @@ function criarAcompanhamentoEconomia()
 
 function abrirDetalhes(id)
 {
-	$('#btnOpenDetails__'+id).attr('style', 'display:none;');
-	$("#trDetails__"+id).fadeIn("slow");
-	$('#btnCloseDetails__'+id).attr('style', '');
+	IkarusJQuery('#btnOpenDetails__'+id).attr('style', 'display:none;');
+	IkarusJQuery("#trDetails__"+id).fadeIn("slow");
+	IkarusJQuery('#btnCloseDetails__'+id).attr('style', '');
 }
 
 function fecharDetalhes(id)
 {
-	$('#btnCloseDetails__'+id).attr('style', 'display:none;');
-	$("#trDetails__"+id).fadeOut("slow");
-	$('#btnOpenDetails__'+id).attr('style', '');
+	IkarusJQuery('#btnCloseDetails__'+id).attr('style', 'display:none;');
+	IkarusJQuery("#trDetails__"+id).fadeOut("slow");
+	IkarusJQuery('#btnOpenDetails__'+id).attr('style', '');
 }
 
 
@@ -388,16 +385,16 @@ function fecharDetalhes(id)
 
 function fecharVoosOperadora(trecho, operadora, naoFechar)
 {
-	trs = $('tr[id*="trVoo__'+trecho+'__'+operadora+'"]');
+	trs = IkarusJQuery('tr[id*="trVoo__'+trecho+'__'+operadora+'"]');
 	count = trs.length;
 	for(i=0; i< count; i++)
 	{
-		trFechar = $(trs[i]);
+		trFechar = IkarusJQuery(trs[i]);
 		if(trFechar.attr('id') == ("trVoo__"+naoFechar)) continue;
 
 		trFechar.fadeOut("slow");
 
-		$('#inputVoo__'+trFechar.attr('id').replace("trVoo__", "")).prop("checked", false);
+		IkarusJQuery('#inputVoo__'+trFechar.attr('id').replace("trVoo__", "")).prop("checked", false);
 
 		id = trFechar.attr('id');
 		id = id.split('__');
@@ -409,16 +406,16 @@ function fecharVoosOperadora(trecho, operadora, naoFechar)
 
 function abrirVoosOperadora(trecho, operadora, naoFechar)
 {
-	trs = $('tr[id*="trVoo__'+trecho+'__'+operadora+'"]');
+	trs = IkarusJQuery('tr[id*="trVoo__'+trecho+'__'+operadora+'"]');
 	count = trs.length;
 	for(i=0; i< count; i++)
 	{
-		trFechar = $(trs[i]);
+		trFechar = IkarusJQuery(trs[i]);
 		if(trFechar.attr('id') == ("trVoo__"+naoFechar)) continue;
 
 		trFechar.fadeIn("slow");
 
-		$('#inputVoo__'+trFechar.attr('id').replace("trVoo__", "")).prop("checked", false);
+		IkarusJQuery('#inputVoo__'+trFechar.attr('id').replace("trVoo__", "")).prop("checked", false);
 
 		id = trFechar.attr('id');
 		id = id.split('__');
@@ -437,17 +434,17 @@ function abrirVoosOperadora(trecho, operadora, naoFechar)
 
 function fecharTodosVoos(trecho, naoFechar)
 {
-	trs = $('tr[id*="trVoo__'+trecho+'__"]');
+	trs = IkarusJQuery('tr[id*="trVoo__'+trecho+'__"]');
 	count = trs.length;
 	for(i=0; i< count; i++)
 	{
-		trFechar = $(trs[i]);
+		trFechar = IkarusJQuery(trs[i]);
 
 		if(trFechar.attr('id') == ("trVoo__"+naoFechar)) continue;
 
 		trFechar.prop("checked", false);
 		trFechar.fadeOut("slow");
-		id = $(trs[i]).attr('id');
+		id = IkarusJQuery(trs[i]).attr('id');
 		id = id.split('__');
 		nameId = id[2];
 		for(j=3; j< id.length; j++) nameId += '__'+id[j];
@@ -457,17 +454,17 @@ function fecharTodosVoos(trecho, naoFechar)
 
 function abrirTodosVoos(trecho, naoFechar)
 {
-	trs = $('tr[id*="trVoo__'+trecho+'__"]');
+	trs = IkarusJQuery('tr[id*="trVoo__'+trecho+'__"]');
 	count = trs.length;
 	for(i=0; i< count; i++)
 	{
-		trFechar = $(trs[i]);
+		trFechar = IkarusJQuery(trs[i]);
 
 		if(trFechar.attr('id') == ("trVoo__"+naoFechar)) continue;
 
 		trFechar.prop("checked", false);
 		trFechar.fadeIn("slow");
-		id = $(trs[i]).attr('id');
+		id = IkarusJQuery(trs[i]).attr('id');
 		id = id.split('__');
 		nameId = id[2];
 		for(j=3; j< id.length; j++) nameId += '__'+id[j];
@@ -498,9 +495,9 @@ function atualizaPrecoNormalSell2()
 
 function makeCssComboPrecos(id)
 {
-	if($("#inputVoo__"+id).attr("sellingmode") == "2")
+	if(IkarusJQuery("#inputVoo__"+id).attr("sellingmode") == "2")
 	{
-		$("#trVoo__"+id+" td div");
+		IkarusJQuery("#trVoo__"+id+" td div");
 
 	}
 }
@@ -521,9 +518,9 @@ function makeTodosCssNormalPrecos(id)
 
 
 
-function buyRules(elemento)
+function buyRules(elemento, search, programs)
 {
-	input = $(elemento);
+	input = IkarusJQuery(elemento);
 	operacao = input.prop("checked");
 	hash = input.attr('hash');
 
@@ -544,13 +541,13 @@ function buyRules(elemento)
 
 	if(operacao)
 	{
-		selected = $('input[id*="inputVoo__'+id+'"]');
+		selected = IkarusJQuery('input[id*="inputVoo__'+id+'"]');
 		voo = JSON.parse(selected.val());
-		$('#TransactionVoo'+trecho).val(selected.val());
+		IkarusJQuery('#TransactionVoo'+trecho).val(selected.val());
 
 		if(trecho == "ida") str = "Ida";
 		if(trecho == "volta") str = "Volta";
-		$('#validaVoo'+str+'Tabela').attr("style", "display: none;");
+		IkarusJQuery('#validaVoo'+str+'Tabela').attr("style", "display: none;");
 
 
 		fecharTodosVoos(trecho, id);
@@ -567,8 +564,8 @@ function buyRules(elemento)
 		if(search["trip"] == "R")
 		{
 
-			selectedIda = $('input[id*="inputVoo__ida"]:checked');
-			selectedVolta = $('input[id*="inputVoo__volta"]:checked');
+			selectedIda = IkarusJQuery('input[id*="inputVoo__ida"]:checked');
+			selectedVolta = IkarusJQuery('input[id*="inputVoo__volta"]:checked');
 			if(selectedIda.length > 0 && selectedVolta.length > 0)
 			{
 				hashIda   = selectedIda.attr('hash');
@@ -581,18 +578,18 @@ function buyRules(elemento)
 						{
 							milhasA = parseInt(voo["Flight"]["miles_adults_combo"]);
 							milhasC = parseInt(voo["Flight"]["miles_children_combo"]);
-							$("#acompanhamento"+trecho).html(criarAcompanhamento(trecho, voo, totalComboDinheiro, totalComboEmpresa, milhasA, milhasC));
+							// IkarusJQuery("#acompanhamento"+trecho).html(criarAcompanhamento(trecho, voo, totalComboDinheiro, totalComboEmpresa, milhasA, milhasC));
 							makeCssComboPrecos(id);
 						}
 						else
 						{
 							milhasA = parseInt(voo["Flight"]["miles_adults"]);
 							milhasC = parseInt(voo["Flight"]["miles_children"]);
-							$("#acompanhamento"+trecho).html(criarAcompanhamento(trecho, voo, totalDinheiro, totalEmpresa, milhasA, milhasC));
+							// IkarusJQuery("#acompanhamento"+trecho).html(criarAcompanhamento(trecho, voo, totalDinheiro, totalEmpresa, milhasA, milhasC));
 							makeCssNormalPrecos(id);
 						}
 
-						outro = $('input[id*="inputVoo__'+outroTrecho+'"]:checked');
+						outro = IkarusJQuery('input[id*="inputVoo__'+outroTrecho+'"]:checked');
 						idOutro = outro.attr("id");
 						idOutro = idOutro.replace("inputVoo__", "");
 						outroVoo = JSON.parse(outro.val());
@@ -605,14 +602,14 @@ function buyRules(elemento)
 						{
 							milhasA2 = parseInt(outroVoo["Flight"]["miles_adults_combo"]);
 							milhasC2 = parseInt(outroVoo["Flight"]["miles_children_combo"]);
-							$("#acompanhamento"+outroTrecho).html(criarAcompanhamento(outroTrecho, outroVoo, totalComboDinheiro2, totalComboEmpresa2, milhasA2, milhasC2));
+							// IkarusJQuery("#acompanhamento"+outroTrecho).html(criarAcompanhamento(outroTrecho, outroVoo, totalComboDinheiro2, totalComboEmpresa2, milhasA2, milhasC2));
 							makeCssComboPrecos(idOutro);
 						}
 						else
 						{
 							milhasA2 = parseInt(outroVoo["Flight"]["miles_adults"]);
 							milhasC2 = parseInt(outroVoo["Flight"]["miles_children"]);
-							$("#acompanhamento"+outroTrecho).html(criarAcompanhamento(outroTrecho, outroVoo, totalDinheiro2, totalEmpresa2, milhasA2, milhasC2));
+							// IkarusJQuery("#acompanhamento"+outroTrecho).html(criarAcompanhamento(outroTrecho, outroVoo, totalDinheiro2, totalEmpresa2, milhasA2, milhasC2));
 							makeCssNormalPrecos(idOutro);
 						}
 
@@ -627,10 +624,10 @@ function buyRules(elemento)
 		{
 			milhasA = parseInt(voo["Flight"]["miles_adults"]);
 			milhasC = parseInt(voo["Flight"]["miles_children"]);
-			$("#acompanhamento"+trecho).html(criarAcompanhamento(trecho, voo, totalDinheiro, totalEmpresa, milhasA, milhasC));
+			// IkarusJQuery("#acompanhamento"+trecho).html(criarAcompanhamento(trecho, voo, totalDinheiro, totalEmpresa, milhasA, milhasC));
 			makeCssNormalPrecos(id);
 
-			outro = $('input[id*="inputVoo__'+outroTrecho+'"]:checked');
+			outro = IkarusJQuery('input[id*="inputVoo__'+outroTrecho+'"]:checked');
 			if(outro.length > 0)
 			{
 				idOutro = outro.attr("id");
@@ -642,19 +639,19 @@ function buyRules(elemento)
 				milhasA2 = parseInt(outroVoo["Flight"]["miles_adults"]);
 				milhasC2 = parseInt(outroVoo["Flight"]["miles_children"]);
 
-				$("#acompanhamento"+outroTrecho).html(criarAcompanhamento(outroTrecho, outroVoo, totalDinheiro2, totalEmpresa2, milhasA2, milhasC2));
+				// IkarusJQuery("#acompanhamento"+outroTrecho).html(criarAcompanhamento(outroTrecho, outroVoo, totalDinheiro2, totalEmpresa2, milhasA2, milhasC2));
 				makeCssNormalPrecos(idOutro);
 			}
 		}
 
-		criarAcompanhamentoEconomia();
+		// criarAcompanhamentoEconomia();
 
 
-		$(window).scrollTop($("#tabela_"+trecho).offset())
+		IkarusJQuery(window).scrollTop(IkarusJQuery("#tabela_"+trecho).offset())
 	}
 	else
 	{
-		$('#TransactionVoo'+trecho).val("");
+		IkarusJQuery('#TransactionVoo'+trecho).val("");
 
 		abrirTodosVoos(trecho, id);
 		if(trecho == "ida") str = "Ida";
@@ -662,8 +659,8 @@ function buyRules(elemento)
 
 		makeTodosCssNormalPrecos();
 
-		$("#acompanhamento"+trecho).html('<div id="saldoacompanhamento'+trecho+'" value="0" style="text-align: center; background-color: #71C2E2; color: #FFF; font-weight: bold; font-size: 16px;">'+str+'</div><div style="text-align: center; color: #ADADAD;">nenhum voo selecionado</div>');
-		outro = $('input[id*="inputVoo__'+outroTrecho+'"]:checked');
+		IkarusJQuery("#acompanhamento"+trecho).html('<div id="saldoacompanhamento'+trecho+'" value="0" style="text-align: center; background-color: #71C2E2; color: #FFF; font-weight: bold; font-size: 16px;">'+str+'</div><div style="text-align: center; color: #ADADAD;">nenhum voo selecionado</div>');
+		outro = IkarusJQuery('input[id*="inputVoo__'+outroTrecho+'"]:checked');
 		if(outro.length > 0)
 		{
 			outroVoo = JSON.parse(outro.val());
@@ -672,10 +669,10 @@ function buyRules(elemento)
 			milhasA = parseInt(outroVoo["Flight"]["miles_adults"]);
 			milhasC = parseInt(outroVoo["Flight"]["miles_children"]);
 
-			$("#acompanhamento"+outroTrecho).html(criarAcompanhamento(outroTrecho, outroVoo, totalDinheiro, totalEmpresa, milhasA, milhasC));
+			// IkarusJQuery("#acompanhamento"+outroTrecho).html(criarAcompanhamento(outroTrecho, outroVoo, totalDinheiro, totalEmpresa, milhasA, milhasC));
 		}
 
-		criarAcompanhamentoEconomia();
+		// criarAcompanhamentoEconomia();
 	}
 }
 
@@ -686,7 +683,7 @@ function buyRules(elemento)
 
 
 
-function tr_flights(voos, way, hash)
+function tr_flights(voos, way, hash, programs, airports, search)
 {
 	html = "";
 	for(i = 0; i < voos.length; i++)
@@ -762,40 +759,40 @@ function tr_flights(voos, way, hash)
 		voos[i]["Flight"]["totalComboEmpresa"] = totalComboEmpresa;
 
 
-		if(valorDinheiroAdt > 0) txtDinheiroAdt = accounting.formatMoney(valorDinheiroAdt.toFixed(2), "R$ ", 2, ".", ",");
+		if(valorDinheiroAdt > 0) txtDinheiroAdt = ikarusAccounting.formatMoney(valorDinheiroAdt.toFixed(2), "R$ ", 2, ".", ",");
 		else txtDinheiroAdt = " não informado ";
-		if(valorDinheiroCri > 0) txtDinheiroCri = accounting.formatMoney(valorDinheiroCri.toFixed(2), "R$ ", 2, ".", ",");
+		if(valorDinheiroCri > 0) txtDinheiroCri = ikarusAccounting.formatMoney(valorDinheiroCri.toFixed(2), "R$ ", 2, ".", ",");
 		else txtDinheiroCri = " não informado ";
 
-		if(valorMilhasAdt > 0) txtMilhasAdt = accounting.formatMoney(valorMilhasAdt, "", 0, ".", "");
+		if(valorMilhasAdt > 0) txtMilhasAdt = ikarusAccounting.formatMoney(valorMilhasAdt, "", 0, ".", "");
 		else txtMilhasAdt = " não informado ";
-		if(valorMilhasCri > 0) txtMilhasCri = accounting.formatMoney(valorMilhasCri, "", 0, ".", "");
+		if(valorMilhasCri > 0) txtMilhasCri = ikarusAccounting.formatMoney(valorMilhasCri, "", 0, ".", "");
 		else txtMilhasCri = " não informado ";
 
-		if(valorEmpresaAdt > 0) txtEmpresaAdt = accounting.formatMoney(valorEmpresaAdt.toFixed(2), "R$ ", 2, ".", ",");
+		if(valorEmpresaAdt > 0) txtEmpresaAdt = ikarusAccounting.formatMoney(valorEmpresaAdt.toFixed(2), "R$ ", 2, ".", ",");
 		else txtEmpresaAdt = " não informado ";
-		if(valorEmpresaCri > 0) txtEmpresaCri = accounting.formatMoney(valorEmpresaCri.toFixed(2), "R$ ", 2, ".", ",");
+		if(valorEmpresaCri > 0) txtEmpresaCri = ikarusAccounting.formatMoney(valorEmpresaCri.toFixed(2), "R$ ", 2, ".", ",");
 		else txtEmpresaCri = " não informado ";
 
-		if(valorComboDinheiroAdt > 0) txtComboDinheiroAdt = accounting.formatMoney(valorComboDinheiroAdt.toFixed(2), "R$ ", 2, ".", ",");
+		if(valorComboDinheiroAdt > 0) txtComboDinheiroAdt = ikarusAccounting.formatMoney(valorComboDinheiroAdt.toFixed(2), "R$ ", 2, ".", ",");
 		else txtComboDinheiroAdt = " não informado ";
-		if(valorComboDinheiroCri > 0) txtComboDinheiroCri = accounting.formatMoney(valorComboDinheiroCri.toFixed(2), "R$ ", 2, ".", ",");
+		if(valorComboDinheiroCri > 0) txtComboDinheiroCri = ikarusAccounting.formatMoney(valorComboDinheiroCri.toFixed(2), "R$ ", 2, ".", ",");
 		else txtComboDinheiroCri = " não informado ";
 
-		if(valorComboMilhasAdt > 0) txtComboMilhasAdt = accounting.formatMoney(valorComboMilhasAdt, "", 0, ".", "");
+		if(valorComboMilhasAdt > 0) txtComboMilhasAdt = ikarusAccounting.formatMoney(valorComboMilhasAdt, "", 0, ".", "");
 		else txtComboMilhasAdt = " não informado ";
-		if(valorComboMilhasCri > 0) txtComboMilhasCri = accounting.formatMoney(valorComboMilhasCri, "", 0, ".", "");
+		if(valorComboMilhasCri > 0) txtComboMilhasCri = ikarusAccounting.formatMoney(valorComboMilhasCri, "", 0, ".", "");
 		else txtComboMilhasCri = " não informado ";
 
-		if(valorComboEmpresaAdt > 0) txtComboEmpresaAdt = accounting.formatMoney(valorComboEmpresaAdt.toFixed(2), "R$ ", 2, ".", ",");
+		if(valorComboEmpresaAdt > 0) txtComboEmpresaAdt = ikarusAccounting.formatMoney(valorComboEmpresaAdt.toFixed(2), "R$ ", 2, ".", ",");
 		else txtComboEmpresaAdt = " não informado ";
-		if(valorComboEmpresaCri > 0) txtComboEmpresaCri = accounting.formatMoney(valorComboEmpresaCri.toFixed(2), "R$ ", 2, ".", ",");
+		if(valorComboEmpresaCri > 0) txtComboEmpresaCri = ikarusAccounting.formatMoney(valorComboEmpresaCri.toFixed(2), "R$ ", 2, ".", ",");
 		else txtComboEmpresaCri = " não informado ";
 
 
 
 		taxaembarque = parseFloat(voos[i]["Flight"]["pre_fee"])+parseFloat(voos[i]["Flight"]["fee_departure"])+parseFloat(voos[i]["Flight"]["fee_arrival"]);
-		taxaembarque = accounting.formatMoney(taxaembarque.toFixed(2), "R$ ", 2, ".", ",");
+		taxaembarque = ikarusAccounting.formatMoney(taxaembarque.toFixed(2), "R$ ", 2, ".", ",");
 
 
 
@@ -811,7 +808,7 @@ function tr_flights(voos, way, hash)
 				html += "<td>";
 					if(totalEmpresa > 0)
 					{
-						html += "<input type='checkbox' onchange='buyRules(this);' ";
+						html += "<input type='checkbox' onchange='buyRules(this, "+ JSON.stringify(search) +", "+ JSON.stringify(programs) +");' ";
 						html += "hash='" + hash + "' ";
 						html += "sellingmode='" + programs[hash]["selling_mode"] + "' ";
 						html += "id='inputVoo__" + way + "__" + hash + "__" + i +"' ";
@@ -839,7 +836,7 @@ function tr_flights(voos, way, hash)
 					}
 					else
 					{
-						html += "<input type='checkbox' onchange='buyRules(this);' style='display:none;' ";
+						html += "<input type='checkbox' onchange='buyRules(this, "+ JSON.stringify(search) +");' style='display:none;' ";
 						html += "hash='" + hash + "' ";
 						html += "sellingmode='" + programs[hash]["selling_mode"] + "' ";
 						html += "id='inputVoo__" + way + "__" + hash + "__" + i +"' ";
@@ -869,7 +866,7 @@ function tr_flights(voos, way, hash)
 
 
 				html += "<td>";
-					html += "<img src='/img/"+hash+"_ope.png' class='choice-header' style='max-width: 46px !important;' alt=''>";
+					html += "<img src='/images/"+hash+"_ativo.png' class='choice-header' style='max-width: 46px !important;' alt=''>";
 				html += "</td>";
 
 
@@ -1011,8 +1008,8 @@ function tr_flights(voos, way, hash)
 
 				html += "<td>";
 					html += "<div>"
-						html += "<bottom id='btnCloseDetails__"+way+"__"+hash+"__"+i+"' class='btn btn-danger btn-mini' style='display: none;' onclick=\"fecharDetalhes('"+way+"__"+hash+"__"+i+"');\"><i class='icon-remove'></i></bottom>"
-						html += "<bottom id='btnOpenDetails__"+way+"__"+hash+"__"+i+"' class='btn btn-success btn-mini' onclick=\"abrirDetalhes('"+way+"__"+hash+"__"+i+"');\"><i class='icon-zoom-in'></i></bottom>"
+						html += "<bottom id='btnCloseDetails__"+way+"__"+hash+"__"+i+"' style='display: none;' onclick=\"fecharDetalhes('"+way+"__"+hash+"__"+i+"');\"><b>-</b></bottom>"
+						html += "<bottom id='btnOpenDetails__"+way+"__"+hash+"__"+i+"' onclick=\"abrirDetalhes('"+way+"__"+hash+"__"+i+"');\"><b>+</b></bottom>"
 					html += "</div>"
 				html += "</td>";
 
@@ -1020,12 +1017,12 @@ function tr_flights(voos, way, hash)
 
 			html += "<tr style='display: none;' id='trDetails__"+way+"__"+hash+"__"+i+"'>";
 				html += "<td colspan='10' style='background-color: "+programs[hash]['color']+";'>";
-					html += "<div class='container-fluid'>";
-						html += "<div class='row-fluid tituloDetalhesVoo'>";
+					html += "<div class='ikarus_widget_container-fluid'>";
+						html += "<div class='ikarus_widget_row-fluid tituloDetalhesVoo'>";
 							html += "Detalhes do Voo";
 						html += "</div>";
-						html += "<div class='row-fluid'>";
-							html += "<div class='span12'>";
+						html += "<div class='ikarus_widget_row-fluid'>";
+							html += "<div class='ikarus_widget_span12'>";
 									html += "<table class='myCustomTable' align='center' width='100%' cellspacing='0' cellpadding='0' style='margin-bottom: 30px; background-color: #FFF;'>";
 										html += "<tr style='background-color: #F3F3F3;'>";
 											html += "<th style='text-align:center;'>A&eacute;rea</th>";
@@ -1093,38 +1090,43 @@ gol_teste = JSON.parse(gol_teste);
 tam_teste = '{"independentes":{"tam_miles":{"ida":[{"Flight":{"trip":"1","number":"JJ3818","stops":0,"from":"CNF","to":"BSB","departure":1416393180,"arrival":1416397920,"price_children":0,"price_adults":222.9,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"BSB","departure":1416393180,"arrival":1416397920,"number":"JJ3818","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0}]},{"Flight":{"trip":"1","number":"JJ3856","stops":0,"from":"CNF","to":"BSB","departure":1416403200,"arrival":1416408300,"price_children":0,"price_adults":124.9,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"BSB","departure":1416403200,"arrival":1416408300,"number":"JJ3856","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0}]},{"Flight":{"trip":"1","number":"JJ3844","stops":0,"from":"CNF","to":"BSB","departure":1416429420,"arrival":1416434700,"price_children":0,"price_adults":131,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"BSB","departure":1416429420,"arrival":1416434700,"number":"JJ3844","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0}]},{"Flight":{"trip":"1","number":"JJ3854","stops":0,"from":"CNF","to":"BSB","departure":1416440040,"arrival":1416445260,"price_children":0,"price_adults":131,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"BSB","departure":1416440040,"arrival":1416445260,"number":"JJ3854","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0}]},{"Flight":{"trip":"1","number":"JJ3441","stops":1,"from":"CNF","to":"BSB","departure":1416389400,"arrival":1416411720,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"GRU","departure":1416389400,"arrival":1416394200,"number":"JJ3441","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416405180,"arrival":1416411720,"number":"JJ3700","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3441","stops":1,"from":"CNF","to":"BSB","departure":1416389400,"arrival":1416416580,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"GRU","departure":1416389400,"arrival":1416394200,"number":"JJ3441","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416410340,"arrival":1416416580,"number":"JJ3706","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3753","stops":1,"from":"CNF","to":"BSB","departure":1416391440,"arrival":1416410580,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"SDU","departure":1416391440,"arrival":1416395040,"number":"JJ3753","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"SDU","to":"BSB","departure":1416403140,"arrival":1416410580,"number":"JJ3024","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3753","stops":1,"from":"CNF","to":"BSB","departure":1416391440,"arrival":1416417960,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"SDU","departure":1416391440,"arrival":1416395040,"number":"JJ3753","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"SDU","to":"BSB","departure":1416411660,"arrival":1416417960,"number":"JJ3026","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3385","stops":1,"from":"CNF","to":"BSB","departure":1416392340,"arrival":1416417960,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"GIG","departure":1416392340,"arrival":1416395820,"number":"JJ3385","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"SDU","to":"BSB","departure":1416411660,"arrival":1416417960,"number":"JJ3026","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3385","stops":1,"from":"CNF","to":"BSB","departure":1416392340,"arrival":1416420480,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"GIG","departure":1416392340,"arrival":1416395820,"number":"JJ3385","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GIG","to":"BSB","departure":1416413760,"arrival":1416420480,"number":"JJ3820","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3201","stops":1,"from":"CNF","to":"BSB","departure":1416394860,"arrival":1416409260,"price_children":0,"price_adults":215,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416394860,"arrival":1416399720,"number":"JJ3201","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416403200,"arrival":1416409260,"number":"JJ3718","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3201","stops":1,"from":"CNF","to":"BSB","departure":1416394860,"arrival":1416411720,"price_children":0,"price_adults":245.9,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416394860,"arrival":1416399720,"number":"JJ3201","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416405180,"arrival":1416411720,"number":"JJ3700","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3201","stops":1,"from":"CNF","to":"BSB","departure":1416394860,"arrival":1416416580,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416394860,"arrival":1416399720,"number":"JJ3201","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416410340,"arrival":1416416580,"number":"JJ3706","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3201","stops":1,"from":"CNF","to":"BSB","departure":1416394860,"arrival":1416418320,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416394860,"arrival":1416399720,"number":"JJ3201","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"BSB","departure":1416412200,"arrival":1416418320,"number":"JJ3582","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3213","stops":1,"from":"CNF","to":"BSB","departure":1416400200,"arrival":1416416580,"price_children":0,"price_adults":314.9,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416400200,"arrival":1416404940,"number":"JJ3213","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416410340,"arrival":1416416580,"number":"JJ3706","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3213","stops":1,"from":"CNF","to":"BSB","departure":1416400200,"arrival":1416425880,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416400200,"arrival":1416404940,"number":"JJ3213","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"BSB","departure":1416419700,"arrival":1416425880,"number":"JJ3579","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3345","stops":1,"from":"CNF","to":"BSB","departure":1416403080,"arrival":1416418320,"price_children":0,"price_adults":230,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"GRU","departure":1416403080,"arrival":1416408300,"number":"JJ3345","airplane":"Airbus Industrie A321","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"BSB","departure":1416412200,"arrival":1416418320,"number":"JJ3582","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3345","stops":1,"from":"CNF","to":"BSB","departure":1416403080,"arrival":1416425880,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"GRU","departure":1416403080,"arrival":1416408300,"number":"JJ3345","airplane":"Airbus Industrie A321","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"BSB","departure":1416419700,"arrival":1416425880,"number":"JJ3579","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3345","stops":1,"from":"CNF","to":"BSB","departure":1416403080,"arrival":1416429360,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"GRU","departure":1416403080,"arrival":1416408300,"number":"JJ3345","airplane":"Airbus Industrie A321","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416422700,"arrival":1416429360,"number":"JJ3710","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3263","stops":1,"from":"CNF","to":"BSB","departure":1416403620,"arrival":1416429360,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416403620,"arrival":1416409020,"number":"JJ3263","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416422700,"arrival":1416429360,"number":"JJ3710","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3769","stops":1,"from":"CNF","to":"BSB","departure":1416407640,"arrival":1416428460,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"SDU","departure":1416407640,"arrival":1416410880,"number":"JJ3769","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GIG","to":"BSB","departure":1416422160,"arrival":1416428460,"number":"JJ3814","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3769","stops":1,"from":"CNF","to":"BSB","departure":1416407640,"arrival":1416429300,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"SDU","departure":1416407640,"arrival":1416410880,"number":"JJ3769","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"SDU","to":"BSB","departure":1416422580,"arrival":1416429300,"number":"JJ3826","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3769","stops":1,"from":"CNF","to":"BSB","departure":1416407640,"arrival":1416431340,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"SDU","departure":1416407640,"arrival":1416410880,"number":"JJ3769","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"SDU","to":"BSB","departure":1416425280,"arrival":1416431340,"number":"JJ3148","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3343","stops":1,"from":"CNF","to":"BSB","departure":1416408360,"arrival":1416425880,"price_children":0,"price_adults":234.9,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"GRU","departure":1416408360,"arrival":1416411900,"number":"JJ3343","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"BSB","departure":1416419700,"arrival":1416425880,"number":"JJ3579","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3343","stops":1,"from":"CNF","to":"BSB","departure":1416408360,"arrival":1416429360,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"GRU","departure":1416408360,"arrival":1416411900,"number":"JJ3343","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416422700,"arrival":1416429360,"number":"JJ3710","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3343","stops":1,"from":"CNF","to":"BSB","departure":1416408360,"arrival":1416433140,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"GRU","departure":1416408360,"arrival":1416411900,"number":"JJ3343","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416426840,"arrival":1416433140,"number":"JJ3722","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3082","stops":1,"from":"CNF","to":"BSB","departure":1416410040,"arrival":1416429360,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416410040,"arrival":1416414540,"number":"JJ3082","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416422700,"arrival":1416429360,"number":"JJ3710","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3082","stops":1,"from":"CNF","to":"BSB","departure":1416410040,"arrival":1416433140,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416410040,"arrival":1416414540,"number":"JJ3082","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416426840,"arrival":1416433140,"number":"JJ3722","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3114","stops":1,"from":"CNF","to":"BSB","departure":1416415440,"arrival":1416429360,"price_children":0,"price_adults":234.9,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416415440,"arrival":1416419760,"number":"JJ3114","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416422700,"arrival":1416429360,"number":"JJ3710","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3114","stops":1,"from":"CNF","to":"BSB","departure":1416415440,"arrival":1416433140,"price_children":0,"price_adults":326.5,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416415440,"arrival":1416419760,"number":"JJ3114","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416426840,"arrival":1416433140,"number":"JJ3722","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3114","stops":1,"from":"CNF","to":"BSB","departure":1416415440,"arrival":1416441480,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416415440,"arrival":1416419760,"number":"JJ3114","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416435120,"arrival":1416441480,"number":"JJ3712","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3114","stops":1,"from":"CNF","to":"BSB","departure":1416415440,"arrival":1416443580,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416415440,"arrival":1416419760,"number":"JJ3114","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416437040,"arrival":1416443580,"number":"JJ3724","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3203","stops":1,"from":"CNF","to":"BSB","departure":1416418380,"arrival":1416433140,"price_children":0,"price_adults":326.5,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416418380,"arrival":1416423480,"number":"JJ3203","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416426840,"arrival":1416433140,"number":"JJ3722","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3203","stops":1,"from":"CNF","to":"BSB","departure":1416418380,"arrival":1416441480,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416418380,"arrival":1416423480,"number":"JJ3203","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416435120,"arrival":1416441480,"number":"JJ3712","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3203","stops":1,"from":"CNF","to":"BSB","departure":1416418380,"arrival":1416443580,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416418380,"arrival":1416423480,"number":"JJ3203","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416437040,"arrival":1416443580,"number":"JJ3724","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3203","stops":1,"from":"CNF","to":"BSB","departure":1416418380,"arrival":1416444840,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416418380,"arrival":1416423480,"number":"JJ3203","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416438300,"arrival":1416444840,"number":"JJ3218","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3759","stops":1,"from":"CNF","to":"BSB","departure":1416419580,"arrival":1416436860,"price_children":0,"price_adults":299.5,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"SDU","departure":1416419580,"arrival":1416423180,"number":"JJ3759","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"SDU","to":"BSB","departure":1416430320,"arrival":1416436860,"number":"JJ3028","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3759","stops":1,"from":"CNF","to":"BSB","departure":1416419580,"arrival":1416446640,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"SDU","departure":1416419580,"arrival":1416423180,"number":"JJ3759","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"SDU","to":"BSB","departure":1416440220,"arrival":1416446640,"number":"JJ3030","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3223","stops":1,"from":"CNF","to":"BSB","departure":1416422400,"arrival":1416441480,"price_children":0,"price_adults":326.5,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416422400,"arrival":1416427080,"number":"JJ3223","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416435120,"arrival":1416441480,"number":"JJ3712","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3223","stops":1,"from":"CNF","to":"BSB","departure":1416422400,"arrival":1416443580,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416422400,"arrival":1416427080,"number":"JJ3223","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416437040,"arrival":1416443580,"number":"JJ3724","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3223","stops":1,"from":"CNF","to":"BSB","departure":1416422400,"arrival":1416444840,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416422400,"arrival":1416427080,"number":"JJ3223","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416438300,"arrival":1416444840,"number":"JJ3218","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3223","stops":1,"from":"CNF","to":"BSB","departure":1416422400,"arrival":1416448740,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416422400,"arrival":1416427080,"number":"JJ3223","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416442680,"arrival":1416448740,"number":"JJ3714","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3122","stops":1,"from":"CNF","to":"BSB","departure":1416427560,"arrival":1416441480,"price_children":0,"price_adults":558.5,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416427560,"arrival":1416432480,"number":"JJ3122","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416435120,"arrival":1416441480,"number":"JJ3712","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3122","stops":1,"from":"CNF","to":"BSB","departure":1416427560,"arrival":1416443580,"price_children":0,"price_adults":430,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416427560,"arrival":1416432480,"number":"JJ3122","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416437040,"arrival":1416443580,"number":"JJ3724","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3122","stops":1,"from":"CNF","to":"BSB","departure":1416427560,"arrival":1416444840,"price_children":0,"price_adults":543.5,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416427560,"arrival":1416432480,"number":"JJ3122","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416438300,"arrival":1416444840,"number":"JJ3218","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3122","stops":1,"from":"CNF","to":"BSB","departure":1416427560,"arrival":1416448740,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416427560,"arrival":1416432480,"number":"JJ3122","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416442680,"arrival":1416448740,"number":"JJ3714","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3122","stops":1,"from":"CNF","to":"BSB","departure":1416427560,"arrival":1416452100,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":"1"},"Trip":[{"from":"CNF","to":"CGH","departure":1416427560,"arrival":1416432480,"number":"JJ3122","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"BSB","departure":1416446100,"arrival":1416452100,"number":"JJ3180","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3755","stops":1,"from":"CNF","to":"BSB","departure":1416432360,"arrival":1416446640,"price_children":0,"price_adults":299.5,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"SDU","departure":1416432360,"arrival":1416435600,"number":"JJ3755","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"SDU","to":"BSB","departure":1416440220,"arrival":1416446640,"number":"JJ3030","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3217","stops":1,"from":"CNF","to":"BSB","departure":1416434220,"arrival":1416448740,"price_children":0,"price_adults":363.9,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":0},"Trip":[{"from":"CNF","to":"CGH","departure":1416434220,"arrival":1416439080,"number":"JJ3217","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"BSB","departure":1416442680,"arrival":1416448740,"number":"JJ3714","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"1","number":"JJ3341","stops":1,"from":"CNF","to":"BSB","departure":1416436560,"arrival":1416452100,"price_children":0,"price_adults":262.9,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":23.37,"fee_arrival":"0","seat":"1"},"Trip":[{"from":"CNF","to":"GRU","departure":1416436560,"arrival":1416441900,"number":"JJ3341","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"BSB","departure":1416446100,"arrival":1416452100,"number":"JJ3180","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]}],"volta":[{"Flight":{"trip":"2","number":"JJ3845","stops":0,"from":"BSB","to":"CNF","departure":1417011960,"arrival":1417016400,"price_children":0,"price_adults":131,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CNF","departure":1417011960,"arrival":1417016400,"number":"JJ3845","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0}]},{"Flight":{"trip":"2","number":"JJ3857","stops":0,"from":"BSB","to":"CNF","departure":1417027200,"arrival":1417032120,"price_children":0,"price_adults":131,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CNF","departure":1417027200,"arrival":1417032120,"number":"JJ3857","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0}]},{"Flight":{"trip":"2","number":"JJ3819","stops":0,"from":"BSB","to":"CNF","departure":1417037760,"arrival":1417042320,"price_children":0,"price_adults":192,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CNF","departure":1417037760,"arrival":1417042320,"number":"JJ3819","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0}]},{"Flight":{"trip":"2","number":"JJ3853","stops":0,"from":"BSB","to":"CNF","departure":1417045320,"arrival":1417050900,"price_children":0,"price_adults":95,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CNF","departure":1417045320,"arrival":1417050900,"number":"JJ3853","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0}]},{"Flight":{"trip":"2","number":"JJ3181","stops":1,"from":"BSB","to":"CNF","departure":1416988620,"arrival":1417005840,"price_children":0,"price_adults":250.9,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"GRU","departure":1416988620,"arrival":1416994500,"number":"JJ3181","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417001100,"arrival":1417005840,"number":"JJ3344","airplane":"Airbus Industrie A321","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3181","stops":1,"from":"BSB","to":"CNF","departure":1416988620,"arrival":1417011480,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"GRU","departure":1416988620,"arrival":1416994500,"number":"JJ3181","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417007760,"arrival":1417011480,"number":"JJ3053","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3719","stops":1,"from":"BSB","to":"CNF","departure":1416990300,"arrival":1417004340,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416990300,"arrival":1416995940,"number":"JJ3719","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1416999420,"arrival":1417004340,"number":"JJ3262","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3719","stops":1,"from":"BSB","to":"CNF","departure":1416990300,"arrival":1417007640,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416990300,"arrival":1416995940,"number":"JJ3719","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417003080,"arrival":1417007640,"number":"JJ3216","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3719","stops":1,"from":"BSB","to":"CNF","departure":1416990300,"arrival":1417011480,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416990300,"arrival":1416995940,"number":"JJ3719","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417007760,"arrival":1417011480,"number":"JJ3053","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3719","stops":1,"from":"BSB","to":"CNF","departure":1416990300,"arrival":1417018020,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":45.6,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416990300,"arrival":1416995940,"number":"JJ3719","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417013400,"arrival":1417018020,"number":"JJ3115","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3173","stops":1,"from":"BSB","to":"CNF","departure":1416992400,"arrival":1417007640,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416992400,"arrival":1416998580,"number":"JJ3173","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417003080,"arrival":1417007640,"number":"JJ3216","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3173","stops":1,"from":"BSB","to":"CNF","departure":1416992400,"arrival":1417011480,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416992400,"arrival":1416998580,"number":"JJ3173","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417007760,"arrival":1417011480,"number":"JJ3053","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3173","stops":1,"from":"BSB","to":"CNF","departure":1416992400,"arrival":1417018020,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":45.6,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416992400,"arrival":1416998580,"number":"JJ3173","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417013400,"arrival":1417018020,"number":"JJ3115","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3173","stops":1,"from":"BSB","to":"CNF","departure":1416992400,"arrival":1417021200,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":48.06,"fee_arrival":"0","seat":"5"},"Trip":[{"from":"BSB","to":"CGH","departure":1416992400,"arrival":1416998580,"number":"JJ3173","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417017300,"arrival":1417021200,"number":"JJ3360","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3711","stops":1,"from":"BSB","to":"CNF","departure":1416997200,"arrival":1417011480,"price_children":0,"price_adults":274.5,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416997200,"arrival":1417003020,"number":"JJ3711","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417007760,"arrival":1417011480,"number":"JJ3053","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3711","stops":1,"from":"BSB","to":"CNF","departure":1416997200,"arrival":1417018020,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416997200,"arrival":1417003020,"number":"JJ3711","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417013400,"arrival":1417018020,"number":"JJ3115","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3711","stops":1,"from":"BSB","to":"CNF","departure":1416997200,"arrival":1417021200,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":"5"},"Trip":[{"from":"BSB","to":"CGH","departure":1416997200,"arrival":1417003020,"number":"JJ3711","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417017300,"arrival":1417021200,"number":"JJ3360","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3711","stops":1,"from":"BSB","to":"CNF","departure":1416997200,"arrival":1417024680,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":45.6,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416997200,"arrival":1417003020,"number":"JJ3711","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417020840,"arrival":1417024680,"number":"JJ3220","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3723","stops":1,"from":"BSB","to":"CNF","departure":1416999660,"arrival":1417018020,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416999660,"arrival":1417005900,"number":"JJ3723","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417013400,"arrival":1417018020,"number":"JJ3115","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3723","stops":1,"from":"BSB","to":"CNF","departure":1416999660,"arrival":1417021200,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":"5"},"Trip":[{"from":"BSB","to":"CGH","departure":1416999660,"arrival":1417005900,"number":"JJ3723","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417017300,"arrival":1417021200,"number":"JJ3360","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3723","stops":1,"from":"BSB","to":"CNF","departure":1416999660,"arrival":1417024680,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":45.6,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1416999660,"arrival":1417005900,"number":"JJ3723","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417020840,"arrival":1417024680,"number":"JJ3220","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3701","stops":1,"from":"BSB","to":"CNF","departure":1417004220,"arrival":1417018020,"price_children":0,"price_adults":191.9,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417004220,"arrival":1417010220,"number":"JJ3701","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417013400,"arrival":1417018020,"number":"JJ3115","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3701","stops":1,"from":"BSB","to":"CNF","departure":1417004220,"arrival":1417024680,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417004220,"arrival":1417010220,"number":"JJ3701","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417020840,"arrival":1417024680,"number":"JJ3220","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3701","stops":1,"from":"BSB","to":"CNF","departure":1417004220,"arrival":1417031220,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":45.6,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417004220,"arrival":1417010220,"number":"JJ3701","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417025940,"arrival":1417031220,"number":"JJ3123","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3701","stops":1,"from":"BSB","to":"CNF","departure":1417004220,"arrival":1417031880,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":45.6,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417004220,"arrival":1417010220,"number":"JJ3701","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417027860,"arrival":1417031880,"number":"JJ3202","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3578","stops":1,"from":"BSB","to":"CNF","departure":1417006920,"arrival":1417021200,"price_children":0,"price_adults":254.9,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":"5"},"Trip":[{"from":"BSB","to":"GRU","departure":1417006920,"arrival":1417012800,"number":"JJ3578","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417017300,"arrival":1417021200,"number":"JJ3360","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3578","stops":1,"from":"BSB","to":"CNF","departure":1417006920,"arrival":1417031220,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"GRU","departure":1417006920,"arrival":1417012800,"number":"JJ3578","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417025940,"arrival":1417031220,"number":"JJ3123","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3578","stops":1,"from":"BSB","to":"CNF","departure":1417006920,"arrival":1417031880,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":45.6,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"GRU","departure":1417006920,"arrival":1417012800,"number":"JJ3578","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417027860,"arrival":1417031880,"number":"JJ3202","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3703","stops":1,"from":"BSB","to":"CNF","departure":1417009440,"arrival":1417024680,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417009440,"arrival":1417015440,"number":"JJ3703","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417020840,"arrival":1417024680,"number":"JJ3220","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3703","stops":1,"from":"BSB","to":"CNF","departure":1417009440,"arrival":1417031220,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417009440,"arrival":1417015440,"number":"JJ3703","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417025940,"arrival":1417031220,"number":"JJ3123","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3703","stops":1,"from":"BSB","to":"CNF","departure":1417009440,"arrival":1417031880,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417009440,"arrival":1417015440,"number":"JJ3703","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417027860,"arrival":1417031880,"number":"JJ3202","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3703","stops":1,"from":"BSB","to":"CNF","departure":1417009440,"arrival":1417038000,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":48.06,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417009440,"arrival":1417015440,"number":"JJ3703","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417033800,"arrival":1417038000,"number":"JJ3326","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3457","stops":1,"from":"BSB","to":"CNF","departure":1417010700,"arrival":1417038000,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"GRU","departure":1417010700,"arrival":1417020720,"number":"JJ3457","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417033800,"arrival":1417038000,"number":"JJ3326","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3457","stops":1,"from":"BSB","to":"CNF","departure":1417010700,"arrival":1417038780,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"GRU","departure":1417010700,"arrival":1417020720,"number":"JJ3457","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417034520,"arrival":1417038780,"number":"JJ3264","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3709","stops":1,"from":"BSB","to":"CNF","departure":1417016400,"arrival":1417031220,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":11000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417016400,"arrival":1417022940,"number":"JJ3709","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417025940,"arrival":1417031220,"number":"JJ3123","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3709","stops":1,"from":"BSB","to":"CNF","departure":1417016400,"arrival":1417031880,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417016400,"arrival":1417022940,"number":"JJ3709","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417027860,"arrival":1417031880,"number":"JJ3202","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3709","stops":1,"from":"BSB","to":"CNF","departure":1417016400,"arrival":1417038000,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417016400,"arrival":1417022940,"number":"JJ3709","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417033800,"arrival":1417038000,"number":"JJ3326","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3709","stops":1,"from":"BSB","to":"CNF","departure":1417016400,"arrival":1417038780,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417016400,"arrival":1417022940,"number":"JJ3709","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417034520,"arrival":1417038780,"number":"JJ3264","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3709","stops":1,"from":"BSB","to":"CNF","departure":1417016400,"arrival":1417042500,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":9000,"pre_fee":"0","fee_departure":45.6,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417016400,"arrival":1417022940,"number":"JJ3709","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417037880,"arrival":1417042500,"number":"JJ3224","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3827","stops":1,"from":"BSB","to":"CNF","departure":1417019820,"arrival":1417046040,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":45.6,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"GIG","departure":1417019820,"arrival":1417025820,"number":"JJ3827","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"SDU","to":"CNF","departure":1417042440,"arrival":1417046040,"number":"JJ3752","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3705","stops":1,"from":"BSB","to":"CNF","departure":1417024200,"arrival":1417038780,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417024200,"arrival":1417030680,"number":"JJ3705","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417034520,"arrival":1417038780,"number":"JJ3264","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3705","stops":1,"from":"BSB","to":"CNF","departure":1417024200,"arrival":1417042500,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417024200,"arrival":1417030680,"number":"JJ3705","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417037880,"arrival":1417042500,"number":"JJ3224","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3705","stops":1,"from":"BSB","to":"CNF","departure":1417024200,"arrival":1417048500,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417024200,"arrival":1417030680,"number":"JJ3705","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417044180,"arrival":1417048500,"number":"JJ3226","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3027","stops":1,"from":"BSB","to":"CNF","departure":1417026600,"arrival":1417046040,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":8000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"SDU","departure":1417026600,"arrival":1417032240,"number":"JJ3027","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"SDU","to":"CNF","departure":1417042440,"arrival":1417046040,"number":"JJ3752","airplane":"Airbus Industrie A319","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3717","stops":1,"from":"BSB","to":"CNF","departure":1417033200,"arrival":1417048500,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417033200,"arrival":1417038720,"number":"JJ3717","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417044180,"arrival":1417048500,"number":"JJ3226","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3717","stops":1,"from":"BSB","to":"CNF","departure":1417033200,"arrival":1417056540,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":17000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":"5"},"Trip":[{"from":"BSB","to":"CGH","departure":1417033200,"arrival":1417038720,"number":"JJ3717","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417052100,"arrival":1417056540,"number":"JJ3442","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3721","stops":1,"from":"BSB","to":"CNF","departure":1417035240,"arrival":1417048500,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417035240,"arrival":1417040880,"number":"JJ3721","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417044180,"arrival":1417048500,"number":"JJ3226","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3721","stops":1,"from":"BSB","to":"CNF","departure":1417035240,"arrival":1417056540,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":17000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":"5"},"Trip":[{"from":"BSB","to":"CGH","departure":1417035240,"arrival":1417040880,"number":"JJ3721","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417052100,"arrival":1417056540,"number":"JJ3442","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3727","stops":1,"from":"BSB","to":"CNF","departure":1417035300,"arrival":1417048500,"price_children":0,"price_adults":161,"miles_children":0,"miles_adults":5000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":0},"Trip":[{"from":"BSB","to":"CGH","departure":1417035300,"arrival":1417041420,"number":"JJ3727","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"CGH","to":"CNF","departure":1417044180,"arrival":1417048500,"number":"JJ3226","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]},{"Flight":{"trip":"2","number":"JJ3587","stops":1,"from":"BSB","to":"CNF","departure":1417035600,"arrival":1417056540,"price_children":0,"price_adults":0,"miles_children":0,"miles_adults":17000,"pre_fee":"0","fee_departure":24.03,"fee_arrival":"0","seat":"5"},"Trip":[{"from":"BSB","to":"GRU","departure":1417035600,"arrival":1417041600,"number":"JJ3587","airplane":"Airbus Industrie A321","carrier":"Tam Linhas Aereas","kind":"Primeiro","index":0},{"from":"GRU","to":"CNF","departure":1417052100,"arrival":1417056540,"number":"JJ3442","airplane":"Airbus Industrie A320","carrier":"Tam Linhas Aereas","kind":"Conexao","index":1}]}]}}}';
 tam_teste = JSON.parse(tam_teste);
 */
-
-
-
-
-function searchFlights(url, hash, tentativas_gol_miles)
+function fillsearchForm(search)
 {
-	if (company == 'gol')
-	{
-		$.ajax({
-			url: url,
-			type: 'GET',
-			success: function(data)
-			{
-				$('#ikarus_widget_inbound_'+'gol_miles'+'_searchLoader').remove();
-				$('#ikarus_widget_outbound_'+'gol_miles'+'_searchLoader').remove();
+	IkarusJQuery("#ikarusDataTrip").val(search["trip"]);
+	IkarusJQuery("#ikarusDataFrom").select2("val", search["from"]);
+	IkarusJQuery("#ikarusDataTo").select2("val", search["to"]);
+	IkarusJQuery("#ikarusDataDepartureDate").val(search["departureDate"]);
+	IkarusJQuery("#ikarusDataBackDate").val(search["backDate"]);
+	IkarusJQuery("#ikarusDataAdults").val(search["adults"]);
+	IkarusJQuery("#ikarusDataChildren").val(search["children"]);
+	IkarusJQuery("#ikarusDataBabies").val(search["babies"]);
+}
 
-				hashFlights = 'gol_miles';
-				tempFlights = JSON.parse(data);
 
-				$('#ikarus_widget_tabela_inbound').append(ikarusWidgetTrFlights(tempFlights['independentes'][hashFlights]['ida'], 'ida', hashFlights));
-				$('#ikarus_widget_tabela_outbound').append(ikarusWidgetTrFlights(tempFlights['independentes'][hashFlights]['volta'], 'volta', hashFlights));
-			},
-			error: function(data)
-			{
-				if(tentativas_gol_miles > 0)
-				{
-					$('#ikarus_widget_inbound_'+'gol_miles'+'_searchLoader').remove();
-					$('#ikarus_widget_outbound_'+'gol_miles'+'_searchLoader').remove();
-				}
-				searchgol_miles(tentativas_gol_miles - 1);
-			}
-		});
-	}
+
+function searchFlights(url, hash, programs, airports, search)
+{
+	console.log(search);
+	var obj = {"chave": "valor"}
+	IkarusJQuery.ajax({
+		url: url,
+		type: 'GET',
+		success: function(data)
+		{
+			data = data.substring(data.indexOf("{"), data.lastIndexOf("}")+1);
+			// console.log('data '+ hash +": '"+ data + "'");
+			IkarusJQuery('#ida_'+ hash +'_searchLoader').remove();
+			IkarusJQuery('#volta_'+ hash +'_searchLoader').remove();
+			tempFlights = JSON.parse(data);
+			console.log('result '+ hash +":");
+			console.log(tempFlights);
+			IkarusJQuery('#ikarus_widget_tabela-ida').append(tr_flights(tempFlights['independentes'][hash]['ida'], 'ida', hash, programs, airports, search));
+			IkarusJQuery('#ikarus_widget_tabela-volta').append(tr_flights(tempFlights['independentes'][hash]['volta'], 'volta', hash, programs, airports, search));
+		},
+		error: function(data)
+		{
+			console.log('Erro ao buscar voos: ' + hash);
+		}
+	});
 }
 
