@@ -10,11 +10,16 @@
 <script src="js/jquery/jquery.min.js"></script>
 <script src="js/jquery_ui/jquery-ui.min.js"></script>
 <script src="js/plugins/select2/select2.js"></script>
+
 <script src="js/accounting.min.js"></script>
+<script src="js/jquery.maskedinput.js"></script>
 
 <script>
     var IkarusJQuery = jQuery.noConflict(true);
 </script>
+
+<script src="js/plugins/validate/jquery.validate.min.js"></script>
+<script src="js/plugins/validate/additional-methods.js"></script>
 
 
 
@@ -73,36 +78,3 @@ $ikarus->widget();
         IkarusJQuery("#ikarusDataFrom").ikarus_widget_select2();
         IkarusJQuery("#ikarusDataTo").ikarus_widget_select2();
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

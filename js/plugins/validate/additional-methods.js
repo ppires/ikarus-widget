@@ -1,5 +1,5 @@
 /*!
- * jQuery Validation Plugin 1.12.0pre
+ * IkarusJQuery Validation Plugin 1.12.0pre
  *
  * http://bassistance.de/jquery-plugins/jquery-plugin-validation/
  * http://docs.jquery.com/Plugins/Validation
@@ -18,113 +18,73 @@
             // remove punctuation
             .replace(/[.(),;:!?%#$'"_+=\/\-]*/g,'');
     }
-    jQuery.validator.addMethod("maxWords", function(value, element, params) {
+
+    IkarusJQuery.validator.addMethod("maxWords", function(value, element, params) {
         return this.optional(element) || stripHtml(value).match(/\b\w+\b/g).length <= params;
-    }, jQuery.validator.format("Please enter {0} words or less."));
+    }, IkarusJQuery.validator.format("Please enter {0} words or less."));
 
-    jQuery.validator.addMethod("minWords", function(value, element, params) {
+    IkarusJQuery.validator.addMethod("minWords", function(value, element, params) {
         return this.optional(element) || stripHtml(value).match(/\b\w+\b/g).length >= params;
-    }, jQuery.validator.format("Please enter at least {0} words."));
+    }, IkarusJQuery.validator.format("Please enter at least {0} words."));
 
-    jQuery.validator.addMethod("rangeWords", function(value, element, params) {
+    IkarusJQuery.validator.addMethod("rangeWords", function(value, element, params) {
         var valueStripped = stripHtml(value);
         var regex = /\b\w+\b/g;
         return this.optional(element) || valueStripped.match(regex).length >= params[0] && valueStripped.match(regex).length <= params[1];
-    }, jQuery.validator.format("Please enter between {0} and {1} words."));
+    }, IkarusJQuery.validator.format("Please enter between {0} and {1} words."));
 
 }());
 
-jQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {
+IkarusJQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {
     return this.optional(element) || /^[a-z\-.,()'"\s]+$/i.test(value);
 }, "Letters or punctuation only please");
 
-jQuery.validator.addMethod("alphanumeric", function(value, element) {
+IkarusJQuery.validator.addMethod("alphanumeric", function(value, element) {
     return this.optional(element) || /^\w+$/i.test(value);
 }, "Letters, numbers, and underscores only please");
 
-jQuery.validator.addMethod("lettersonly", function(value, element) {
+IkarusJQuery.validator.addMethod("lettersonly", function(value, element) {
     return this.optional(element) || /^[a-z]+$/i.test(value);
 }, "Letters only please");
 
-jQuery.validator.addMethod("nowhitespace", function(value, element) {
+IkarusJQuery.validator.addMethod("nowhitespace", function(value, element) {
     return this.optional(element) || /^\S+$/i.test(value);
 }, "No white space please");
 
-jQuery.validator.addMethod("ziprange", function(value, element) {
+IkarusJQuery.validator.addMethod("ziprange", function(value, element) {
     return this.optional(element) || /^90[2-5]\d\{2\}-\d{4}$/.test(value);
 }, "Your ZIP-code must be in the range 902xx-xxxx to 905-xx-xxxx");
 
-jQuery.validator.addMethod("zipcodeUS", function(value, element) {
+IkarusJQuery.validator.addMethod("zipcodeUS", function(value, element) {
     return this.optional(element) || /^\d{5}-\d{4}$|^\d{5}$/.test(value);
 }, "The specified US ZIP Code is invalid");
 
-jQuery.validator.addMethod("integer", function(value, element) {
+IkarusJQuery.validator.addMethod("integer", function(value, element) {
     return this.optional(element) || /^-?\d+$/.test(value);
 }, "A positive or negative non-decimal number please");
 
 
 
-jQuery.validator.addMethod("username", function(value) {
-    
-	result = value.match(/^[a-z0-9]+$/);
-	
-	if(result) return true;
-	else return false;
-	
-}, "Por favor use somente letras minúsculas e números.");
-
-jQuery.validator.addMethod("nomecompleto", function(value) {
-    
-	result = value.split(" ").length;
-	
-	if(result > 1) return true;
-	else return false;
-	
-}, "Por favor informe o nome completo.");
-
-
-jQuery.validator.addMethod("menorigualadults", function(value) {
-	
-	if(parseInt(value) <= parseInt($("#SearchesAdults").val())) return true;
-	else return false;
-	
-}, "A quantidade de bebês deve ser menor ou igual a quantidade de adultos.");
-
-jQuery.validator.addMethod("origemdiferentedestino", function(value) {
-	
-	if(value != $("#SearchesTo").val()) return true;
-	else return false;
-	
-}, "A ORIGEM deve ser diferente do DESTINO.");
-
-jQuery.validator.addMethod("destinodiferenteorigem", function(value) {
-	
-	if(value != $("#SearchesFrom").val()) return true;
-	else return false;
-	
-}, "O DESTINO deve ser diferente da ORIGEM.");
-
-
 function valid_credit_card(value) {
   // accept only digits, dashes or spaces
 	if (/[^0-9-\s]+/.test(value)) return false;
- 
+
 	// The Luhn Algorithm. It's so pretty.
 	var nCheck = 0, nDigit = 0, bEven = false;
 	value = value.replace(/\D/g, "");
- 
+
 	for (var n = value.length - 1; n >= 0; n--) {
 		var cDigit = value.charAt(n),
 			  nDigit = parseInt(cDigit, 10);
- 
+
 		if (bEven) {
 			if ((nDigit *= 2) > 9) nDigit -= 9;
 		}
- 
+
 		nCheck += nDigit;
 		bEven = !bEven;
 	}
- 
+
 	return (nCheck % 10) == 0;
 }
 
@@ -133,88 +93,88 @@ function valid_credit_card(value) {
         mul = 0,
         prodArr = [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [0, 2, 4, 6, 8, 1, 3, 5, 7, 9]],
         sum = 0;
- 
+
     while (len--) {
         sum += prodArr[mul][parseInt(luhn.charAt(len), 10)];
         mul ^= 1;
     }
- 
+
     return sum % 10 === 0 && sum > 0;
 };*/
 
-jQuery.validator.addMethod("mastercard", function(value) {
-	
+
+IkarusJQuery.validator.addMethod("mastercard", function(value) {
+
 	if(value.length != 16) return false;
 	else return valid_credit_card(value);
-	
+
 	return true;
 }, "Mastercard inválido.");
 
-jQuery.validator.addMethod("visacard16", function(value) {
-	
+IkarusJQuery.validator.addMethod("visacard16", function(value) {
+
 	if(value.length != 16) return false;
 	else return valid_credit_card(value);
-	
+
 	return true;
 }, "Visa inválido.");
 
-jQuery.validator.addMethod("visacard13", function(value) {
-	
+IkarusJQuery.validator.addMethod("visacard13", function(value) {
+
 	if(value.length != 13) return false;
 	else return valid_credit_card(value);
-	
+
 	return true;
 }, "Visa inválido.");
 
-jQuery.validator.addMethod("amex", function(value) {
-	
+IkarusJQuery.validator.addMethod("amex", function(value) {
+
 	if(value.length != 15) return false;
 	else return valid_credit_card(value);
-	
+
 	return true;
 }, "Amex inválido.");
 
 
-jQuery.validator.addMethod("cvvmastercard", function(value) {
-	
+IkarusJQuery.validator.addMethod("cvvmastercard", function(value) {
+
 	if(value.length != 3) return false;
-	
+
 	result = value.match(/^[0-9][0-9][0-9]$/);
 	if(result) return true;
 	else return false;
-	
+
 }, "Mastercard inválido.");
 
-jQuery.validator.addMethod("cvvvisacard16", function(value) {
-	
+IkarusJQuery.validator.addMethod("cvvvisacard16", function(value) {
+
 	if(value.length != 3) return false;
-	
+
 	result = value.match(/^[0-9][0-9][0-9]$/);
 	if(result) return true;
 	else return false;
-	
+
 }, "Visa inválido.");
 
-jQuery.validator.addMethod("cvvvisacard13", function(value) {
-	
+IkarusJQuery.validator.addMethod("cvvvisacard13", function(value) {
+
 	if(value.length != 3) return false;
-	
+
 	result = value.match(/^[0-9][0-9][0-9]$/);
 	if(result) return true;
 	else return false;
-	
+
 }, "Visa inválido.");
 
-jQuery.validator.addMethod("cvvamex", function(value) {
-	
+IkarusJQuery.validator.addMethod("cvvamex", function(value) {
+
 	if(value.length != 4) return false;
-	
+
 	result = value.match(/^[0-9][0-9][0-9]$/);
 	if(result) return true;
 	else return false;
-	
-}, "Amex inválido.");
 
+}, "Amex inválido.");
 
 
 /**
@@ -225,11 +185,11 @@ jQuery.validator.addMethod("cvvamex", function(value) {
  * @example <input type="text" size="20" name="VehicleID" class="{required:true,vinUS:true}" />
  * @desc Declares a required input element whose value must be a valid vehicle identification number.
  *
- * @name jQuery.validator.methods.vinUS
+ * @name IkarusJQuery.validator.methods.vinUS
  * @type Boolean
  * @cat Plugins/Validate/Methods
  */
-jQuery.validator.addMethod("vinUS", function(v) {
+IkarusJQuery.validator.addMethod("vinUS", function(v) {
     if (v.length !== 17) {
         return false;
     }
@@ -273,23 +233,23 @@ jQuery.validator.addMethod("vinUS", function(v) {
 /**
  * Return true, if the value is a valid date, also making this formal check dd/mm/yyyy.
  *
- * @example jQuery.validator.methods.date("01/01/1900")
+ * @example IkarusJQuery.validator.methods.date("01/01/1900")
  * @result true
  *
- * @example jQuery.validator.methods.date("01/13/1990")
+ * @example IkarusJQuery.validator.methods.date("01/13/1990")
  * @result false
  *
- * @example jQuery.validator.methods.date("01.01.1900")
+ * @example IkarusJQuery.validator.methods.date("01.01.1900")
  * @result false
  *
  * @example <input name="pippo" class="{dateITA:true}" />
  * @desc Declares an optional input element whose value must be a valid date.
  *
- * @name jQuery.validator.methods.dateITA
+ * @name IkarusJQuery.validator.methods.dateITA
  * @type Boolean
  * @cat Plugins/Validate/Methods
  */
-jQuery.validator.addMethod("dateITA", function(value, element) {
+IkarusJQuery.validator.addMethod("dateITA", function(value, element) {
     var check = false;
     var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
     if( re.test(value)) {
@@ -313,7 +273,7 @@ jQuery.validator.addMethod("dateITA", function(value, element) {
  * IBAN is the international bank account number.
  * It has a country - specific format, that is checked here too
  */
-jQuery.validator.addMethod("iban", function(value, element) {
+IkarusJQuery.validator.addMethod("iban", function(value, element) {
     // some quick simple tests to prevent needless work
     if (this.optional(element)) {
         return true;
@@ -432,22 +392,22 @@ jQuery.validator.addMethod("iban", function(value, element) {
     return cRest === 1;
 }, "Please specify a valid IBAN");
 
-jQuery.validator.addMethod("dateNL", function(value, element) {
+IkarusJQuery.validator.addMethod("dateNL", function(value, element) {
     return this.optional(element) || /^(0?[1-9]|[12]\d|3[01])[\.\/\-](0?[1-9]|1[012])[\.\/\-]([12]\d)?(\d\d)$/.test(value);
 }, "Please enter a correct date");
 
 /**
  * Dutch phone numbers have 10 digits (or 11 and start with +31).
  */
-jQuery.validator.addMethod("phoneNL", function(value, element) {
+IkarusJQuery.validator.addMethod("phoneNL", function(value, element) {
     return this.optional(element) || /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9]){8}$/.test(value);
 }, "Please specify a valid phone number.");
 
-jQuery.validator.addMethod("mobileNL", function(value, element) {
+IkarusJQuery.validator.addMethod("mobileNL", function(value, element) {
     return this.optional(element) || /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)6((\s|\s?\-\s?)?[0-9]){8}$/.test(value);
 }, "Please specify a valid mobile number");
 
-jQuery.validator.addMethod("postalcodeNL", function(value, element) {
+IkarusJQuery.validator.addMethod("postalcodeNL", function(value, element) {
     return this.optional(element) || /^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/.test(value);
 }, "Please specify a valid postal code");
 
@@ -457,7 +417,7 @@ jQuery.validator.addMethod("postalcodeNL", function(value, element) {
  * We accept the notation with spaces, as that is common.
  * acceptable: 123456789 or 12 34 56 789
  */
-jQuery.validator.addMethod("bankaccountNL", function(value, element) {
+IkarusJQuery.validator.addMethod("bankaccountNL", function(value, element) {
     if (this.optional(element)) {
         return true;
     }
@@ -479,21 +439,21 @@ jQuery.validator.addMethod("bankaccountNL", function(value, element) {
 /**
  * Dutch giro account numbers (not bank numbers) have max 7 digits
  */
-jQuery.validator.addMethod("giroaccountNL", function(value, element) {
+IkarusJQuery.validator.addMethod("giroaccountNL", function(value, element) {
     return this.optional(element) || /^[0-9]{1,7}$/.test(value);
 }, "Please specify a valid giro account number");
 
-jQuery.validator.addMethod("bankorgiroaccountNL", function(value, element) {
+IkarusJQuery.validator.addMethod("bankorgiroaccountNL", function(value, element) {
     return this.optional(element) ||
         ($.validator.methods["bankaccountNL"].call(this, value, element)) ||
         ($.validator.methods["giroaccountNL"].call(this, value, element));
 }, "Please specify a valid bank or giro account number");
 
 
-jQuery.validator.addMethod("time", function(value, element) {
+IkarusJQuery.validator.addMethod("time", function(value, element) {
     return this.optional(element) || /^([01]\d|2[0-3])(:[0-5]\d){1,2}$/.test(value);
 }, "Please enter a valid time, between 00:00 and 23:59");
-jQuery.validator.addMethod("time12h", function(value, element) {
+IkarusJQuery.validator.addMethod("time12h", function(value, element) {
     return this.optional(element) || /^((0?[1-9]|1[012])(:[0-5]\d){1,2}(\ ?[AP]M))$/i.test(value);
 }, "Please enter a valid time in 12-hour am/pm format");
 
@@ -513,26 +473,26 @@ jQuery.validator.addMethod("time12h", function(value, element) {
  * and not
  * 212 123 4567
  */
-jQuery.validator.addMethod("phoneUS", function(phone_number, element) {
+IkarusJQuery.validator.addMethod("phoneUS", function(phone_number, element) {
     phone_number = phone_number.replace(/\s+/g, "");
     return this.optional(element) || phone_number.length > 9 &&
         phone_number.match(/^(\+?1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
 }, "Please specify a valid phone number");
 
-jQuery.validator.addMethod('phoneUK', function(phone_number, element) {
+IkarusJQuery.validator.addMethod('phoneUK', function(phone_number, element) {
     phone_number = phone_number.replace(/\(|\)|\s+|-/g,'');
     return this.optional(element) || phone_number.length > 9 &&
         phone_number.match(/^(?:(?:(?:00\s?|\+)44\s?)|(?:\(?0))(?:\d{2}\)?\s?\d{4}\s?\d{4}|\d{3}\)?\s?\d{3}\s?\d{3,4}|\d{4}\)?\s?(?:\d{5}|\d{3}\s?\d{3})|\d{5}\)?\s?\d{4,5})$/);
 }, 'Please specify a valid phone number');
 
-jQuery.validator.addMethod('mobileUK', function(phone_number, element) {
+IkarusJQuery.validator.addMethod('mobileUK', function(phone_number, element) {
     phone_number = phone_number.replace(/\(|\)|\s+|-/g,'');
     return this.optional(element) || phone_number.length > 9 &&
         phone_number.match(/^(?:(?:(?:00\s?|\+)44\s?|0)7(?:[45789]\d{2}|624)\s?\d{3}\s?\d{3})$/);
 }, 'Please specify a valid mobile number');
 
 //Matches UK landline + mobile, accepting only 01-3 for landline or 07 for mobile to exclude many premium numbers
-jQuery.validator.addMethod('phonesUK', function(phone_number, element) {
+IkarusJQuery.validator.addMethod('phonesUK', function(phone_number, element) {
     phone_number = phone_number.replace(/\(|\)|\s+|-/g,'');
     return this.optional(element) || phone_number.length > 9 &&
         phone_number.match(/^(?:(?:(?:00\s?|\+)44\s?|0)(?:1\d{8,9}|[23]\d{9}|7(?:[45789]\d{8}|624\d{6})))$/);
@@ -546,29 +506,29 @@ jQuery.validator.addMethod('phonesUK', function(phone_number, element) {
 // http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_GB_Telephone_Numbers
 
 // Matches UK postcode. Does not match to UK Channel Islands that have their own postcodes (non standard UK)
-jQuery.validator.addMethod('postcodeUK', function(value, element) {
+IkarusJQuery.validator.addMethod('postcodeUK', function(value, element) {
     return this.optional(element) || /^((([A-PR-UWYZ][0-9])|([A-PR-UWYZ][0-9][0-9])|([A-PR-UWYZ][A-HK-Y][0-9])|([A-PR-UWYZ][A-HK-Y][0-9][0-9])|([A-PR-UWYZ][0-9][A-HJKSTUW])|([A-PR-UWYZ][A-HK-Y][0-9][ABEHMNPRVWXY]))\s?([0-9][ABD-HJLNP-UW-Z]{2})|(GIR)\s?(0AA))$/i.test(value);
 }, 'Please specify a valid UK postcode');
 
 // TODO check if value starts with <, otherwise don't try stripping anything
-jQuery.validator.addMethod("strippedminlength", function(value, element, param) {
-    return jQuery(value).text().length >= param;
-}, jQuery.validator.format("Please enter at least {0} characters"));
+IkarusJQuery.validator.addMethod("strippedminlength", function(value, element, param) {
+    return IkarusJQuery(value).text().length >= param;
+}, IkarusJQuery.validator.format("Please enter at least {0} characters"));
 
 // same as email, but TLD is optional
-jQuery.validator.addMethod("email2", function(value, element, param) {
+IkarusJQuery.validator.addMethod("email2", function(value, element, param) {
     return this.optional(element) || /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)*(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i.test(value);
-}, jQuery.validator.messages.email);
+}, IkarusJQuery.validator.messages.email);
 
 // same as url, but TLD is optional
-jQuery.validator.addMethod("url2", function(value, element, param) {
+IkarusJQuery.validator.addMethod("url2", function(value, element, param) {
     return this.optional(element) || /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)*(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value);
-}, jQuery.validator.messages.url);
+}, IkarusJQuery.validator.messages.url);
 
 // NOTICE: Modified version of Castle.Components.Validator.CreditCardValidator
 // Redistributed under the the Apache License 2.0 at http://www.apache.org/licenses/LICENSE-2.0
 // Valid Types: mastercard, visa, amex, dinersclub, enroute, discover, jcb, unknown, all (overrides all other settings)
-jQuery.validator.addMethod("creditcardtypes", function(value, element, param) {
+IkarusJQuery.validator.addMethod("creditcardtypes", function(value, element, param) {
     if (/[^0-9\-]+/.test(value)) {
         return false;
     }
@@ -634,28 +594,28 @@ jQuery.validator.addMethod("creditcardtypes", function(value, element, param) {
     return false;
 }, "Please enter a valid credit card number.");
 
-jQuery.validator.addMethod("ipv4", function(value, element, param) {
+IkarusJQuery.validator.addMethod("ipv4", function(value, element, param) {
     return this.optional(element) || /^(25[0-5]|2[0-4]\d|[01]?\d\d?)\.(25[0-5]|2[0-4]\d|[01]?\d\d?)\.(25[0-5]|2[0-4]\d|[01]?\d\d?)\.(25[0-5]|2[0-4]\d|[01]?\d\d?)$/i.test(value);
 }, "Please enter a valid IP v4 address.");
 
-jQuery.validator.addMethod("ipv6", function(value, element, param) {
+IkarusJQuery.validator.addMethod("ipv6", function(value, element, param) {
     return this.optional(element) || /^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))$/i.test(value);
 }, "Please enter a valid IP v6 address.");
 
 /**
  * Return true if the field value matches the given format RegExp
  *
- * @example jQuery.validator.methods.pattern("AR1004",element,/^AR\d{4}$/)
+ * @example IkarusJQuery.validator.methods.pattern("AR1004",element,/^AR\d{4}$/)
  * @result true
  *
- * @example jQuery.validator.methods.pattern("BR1004",element,/^AR\d{4}$/)
+ * @example IkarusJQuery.validator.methods.pattern("BR1004",element,/^AR\d{4}$/)
  * @result false
  *
- * @name jQuery.validator.methods.pattern
+ * @name IkarusJQuery.validator.methods.pattern
  * @type Boolean
  * @cat Plugins/Validate/Methods
  */
-jQuery.validator.addMethod("pattern", function(value, element, param) {
+IkarusJQuery.validator.addMethod("pattern", function(value, element, param) {
     if (this.optional(element)) {
         return true;
     }
@@ -680,7 +640,7 @@ jQuery.validator.addMethod("pattern", function(value, element, param) {
  * description: {require_from_group: [1,".productinfo"]}
  *
  */
-jQuery.validator.addMethod("require_from_group", function(value, element, options) {
+IkarusJQuery.validator.addMethod("require_from_group", function(value, element, options) {
     var validator = this;
     var selector = options[1];
     var validOrNot = $(selector, element.form).filter(function() {
@@ -694,7 +654,7 @@ jQuery.validator.addMethod("require_from_group", function(value, element, option
         fields.data('being_validated', false);
     }
     return validOrNot;
-}, jQuery.format("Please fill at least {0} of these fields."));
+}, IkarusJQuery.format("Please fill at least {0} of these fields."));
 
 /*
  * Lets you say "either at least X inputs that match selector Y must be filled,
@@ -714,7 +674,7 @@ jQuery.validator.addMethod("require_from_group", function(value, element, option
  * color:       {skip_or_fill_minimum: [2,".productinfo"]}
  *
  */
-jQuery.validator.addMethod("skip_or_fill_minimum", function(value, element, options) {
+IkarusJQuery.validator.addMethod("skip_or_fill_minimum", function(value, element, options) {
     var validator = this,
         numberRequired = options[0],
         selector = options[1];
@@ -730,10 +690,10 @@ jQuery.validator.addMethod("skip_or_fill_minimum", function(value, element, opti
         fields.data('being_validated', false);
     }
     return valid;
-}, jQuery.format("Please either skip these fields or fill at least {0} of them."));
+}, IkarusJQuery.format("Please either skip these fields or fill at least {0} of them."));
 
 // Accept a value from a file input based on a required mimetype
-jQuery.validator.addMethod("accept", function(value, element, param) {
+IkarusJQuery.validator.addMethod("accept", function(value, element, param) {
     // Split mime on commas in case we have multiple types we can accept
     var typeParam = typeof param === "string" ? param.replace(/\s/g, '').replace(/,/g, '|') : "image/*",
         optionalValue = this.optional(element),
@@ -764,10 +724,81 @@ jQuery.validator.addMethod("accept", function(value, element, param) {
     // Either return true because we've validated each file, or because the
     // browser does not support element.files and the FileList feature
     return true;
-}, jQuery.format("Please enter a value with a valid mimetype."));
+}, IkarusJQuery.format("Please enter a value with a valid mimetype."));
 
 // Older "accept" file extension method. Old docs: http://docs.jquery.com/Plugins/Validation/Methods/accept
-jQuery.validator.addMethod("extension", function(value, element, param) {
+IkarusJQuery.validator.addMethod("extension", function(value, element, param) {
     param = typeof param === "string" ? param.replace(/,/g, '|') : "png|jpe?g|gif";
     return this.optional(element) || value.match(new RegExp(".(" + param + ")$", "i"));
-}, jQuery.format("Please enter a value with a valid extension."));
+}, IkarusJQuery.format("Please enter a value with a valid extension."));
+
+
+
+
+
+IkarusJQuery.validator.addMethod("idadeadulta", function(value) {
+    data = value.split("/");
+    if(search["trip"] == "R") dataVoo = search["arrival"].split("-");
+    else dataVoo = search["departure"].split("-");
+    now = new Date(dataVoo[0], dataVoo[1], dataVoo[2], 0, 0, 0);
+    birth = new Date(data[2], data[1], data[0], 0, 0, 0);
+    age = calculateAge(birth, now);
+    if(age >= 12) return true;
+    else return false;
+}, "Um passageiro adulto deve possuir mais que 12 anos até a data do(s) voo(s).");
+
+
+IkarusJQuery.validator.addMethod("idadecrianca", function(value) {
+    data = value.split("/");
+    if(search["trip"] == "R") dataVoo = search["arrival"];
+    else dataVoo = search["departure"];
+    now = new Date(dataVoo+" 00:00:00");
+    birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
+    age = calculateAge(birth, now);
+    if(age < 12 && age >= 2) return true;
+    else return false;
+}, "É considerado criança o passageiro entre 2 e 12 anos antes da data do(s) voo(s).");
+
+
+IkarusJQuery.validator.addMethod("idadebebe", function(value) {
+    data = value.split("/");
+    if(search["trip"] == "R") dataVoo = search["arrival"];
+    else dataVoo = search["departure"];
+    now = new Date(dataVoo+" 00:00:00");
+    birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
+    age = calculateAge(birth, now);
+    if(age < 2) return true;
+    else return false;
+}, "É considerado bebê o passageiro menor que 2 anos antes da data do(s) voo(s).");
+
+
+IkarusJQuery.validator.addMethod("username", function(value) {
+    result = value.match(/^[a-z0-9]+$/);
+    if(result) return true;
+    else return false;
+}, "Por favor use somente letras minúsculas e números.");
+
+
+IkarusJQuery.validator.addMethod("nomecompleto", function(value) {
+    result = value.split(" ").length;
+    if(result > 1) return true;
+    else return false;
+}, "Por favor informe o nome completo.");
+
+
+IkarusJQuery.validator.addMethod("menorigualadults", function(value) {
+    if(parseInt(value) <= parseInt($("#SearchesAdults").val())) return true;
+    else return false;
+}, "A quantidade de bebês deve ser menor ou igual a quantidade de adultos.");
+
+
+IkarusJQuery.validator.addMethod("origemdiferentedestino", function(value) {
+    if(value != $("#SearchesTo").val()) return true;
+    else return false;
+}, "A ORIGEM deve ser diferente do DESTINO.");
+
+
+IkarusJQuery.validator.addMethod("destinodiferenteorigem", function(value) {
+    if(value != $("#SearchesFrom").val()) return true;
+    else return false;
+}, "O DESTINO deve ser diferente da ORIGEM.");

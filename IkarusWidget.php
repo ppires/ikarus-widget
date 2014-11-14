@@ -298,33 +298,254 @@ class IkarusWidget
 
         $resultTable .= '
                     </div>
-                </div>
-                <div class="ikarus_widget_row-fluid">';
+                </div>';
 
-
-        for ($i = 0; $i < $this->data['adults']; $i++)
-        {
-            $resultTable .= $this->adultForm();
-        }
-
-        for ($i = 0; $i < $this->data['children']; $i++)
-        {
-            $resultTable .= $this->childForm();
-        }
-
-        for ($i = 0; $i < $this->data['babies']; $i++)
-        {
-            $resultTable .= $this->babyForm();
-        }
-
+        $resultTable .= $this->passengerForms();
 
         $resultTable .= '
-                </div>
             </div>';
 
         return $resultTable;
     }
 
+
+
+    private function passengerForms()
+    {
+        $forms = '
+            <form class="validate-form">
+                <div class="ikarus_widget_row-fluid">';
+
+        $counter = 0;
+        for ($i = 1; $i <= $this->data['adults']; $i++)
+        {
+            $forms .= $this->adultForm($i, $counter);
+            $counter++;
+            if ($counter % 3 == 0)
+            {
+                $forms .= '
+                </div>
+                <div class="ikarus_widget_row-fluid">';
+            }
+        }
+
+        for ($i = 1; $i <= $this->data['children']; $i++)
+        {
+            $forms .= $this->childForm($i, $counter);
+            $counter++;
+            if ($counter % 3 == 0)
+            {
+                $forms .= '
+                </div>
+                <div class="ikarus_widget_row-fluid">';
+            }
+        }
+
+        for ($i = 1; $i <= $this->data['babies']; $i++)
+        {
+            $forms .= $this->babyForm($i, $counter);
+            $counter++;
+            if ($counter % 3 == 0)
+            {
+                $forms .= '
+                </div>
+                <div class="ikarus_widget_row-fluid">';
+            }
+        }
+        $forms .= '
+                </div>
+            </form>';
+
+        $forms .= $this->formsInputMasks();
+
+        return $forms;
+    }
+
+
+
+    private function formsInputMasks()
+    {
+        $script = '
+            <script>
+                IkarusJQuery("input.birthDateInput").mask("99/99/9999");
+                IkarusJQuery("input.cpfcnpj").mask("999.999.999-99");
+            </script>';
+
+        return $script;
+    }
+
+
+
+    private function adultForm($number, $counter)
+    {
+        $form = '
+            <div class="ikarus_widget_span4">
+                <div class="ikarus_widget_container-fluid">
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <h1 style="text-align: center; font-size: 23px;">Passageiro Adulto '. $number .'</h1>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input id="Passenger'. $counter .'Name" name="data[Passenger][0][name]" class="ikarus_widget_span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][0][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadeadulta="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span5">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Documento: </label>
+                                <div class="controls">
+                                    <select id="Passenger'. $counter .'Ssntype" name="data[Passenger][0][ssntype]" class="ikarus_widget_span5" onchange="ikarusWidgetJs.documentoMask(this, \''. $counter .'\')" style="width: 100%;">
+                                        <option value="CPF">CPF</option>
+                                        <option value="RG">RG</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ikarus_widget_span7">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">&nbsp;</label>
+                                <div class="controls">
+                                    <input id="Passenger'. $counter .'Ssn" name="data[Passenger][0][ssn]" class="ikarus_widget_span7 cpfcnpj" style="width: 100%;" maxlength="50" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- ikarus_widget_container-fluid -->
+            </div><!-- ikarus_widget_span4 -->';
+
+        return $form;
+    }
+
+    private function childForm($number, $counter)
+    {
+        $form = '
+            <div class="ikarus_widget_span4">
+                <div class="ikarus_widget_container-fluid">
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <h1 style="text-align: center; font-size: 23px;">Passageiro Criança '. $number .'</h1>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input id="Passenger'. $counter .'Name" name="data[Passenger][1][name]" class="ikarus_widget_span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][1][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadecrianca="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span5">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Documento: </label>
+                                <div class="controls">
+                                    <select id="Passenger'. $counter .'Ssntype" name="data[Passenger][1][ssntype]" class="ikarus_widget_span5" onchange="ikarusWidgetJs.documentoMask(this, \''. $counter .'\')" style="width: 100%;">
+                                        <option value="CPF">CPF</option>
+                                        <option value="RG">RG</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ikarus_widget_span7">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">&nbsp;</label>
+                                <div class="controls">
+                                    <input id="Passenger'. $counter .'Ssn" name="data[Passenger][1][ssn]" class="ikarus_widget_span7 cpfcnpj" style="width: 100%;" maxlength="50" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- ikarus_widget_container-fluid -->
+            </div><!-- ikarus_widget_span4 -->';
+
+        return $form;
+    }
+
+    private function babyForm($number, $counter)
+    {
+        $form = '
+            <div class="ikarus_widget_span4">
+                <div class="ikarus_widget_container-fluid">
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <h1 style="text-align: center; font-size: 23px;">Passageiro Bebê '. $number .'</h1>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input id="Passenger'. $counter .'Name" name="data[Passenger][2][name]" class="ikarus_widget_span4" data-rule-completename="true" maxlength="400" style="width: 100%;" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][2][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadebebe="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span5">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Documento: </label>
+                                <div class="controls">
+                                    <select id="Passenger'. $counter .'Ssntype" name="data[Passenger][2][ssntype]" class="ikarus_widget_span5" onchange="ikarusWidgetJs.documentoMask(this, \''. $counter .'\')" style="width: 100%;">
+                                        <option value="CPF">CPF</option>
+                                        <option value="RG">RG</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ikarus_widget_span7">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">&nbsp;</label>
+                                <div class="controls">
+                                    <input id="Passenger'. $counter .'Ssn" name="data[Passenger][2][ssn]" class="ikarus_widget_span7 cpfcnpj" style="width: 100%;" maxlength="50" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- ikarus_widget_container-fluid -->
+            </div><!-- ikarus_widget_span4 -->';
+
+        return $form;
+    }
 
 
     private function validateParams($data)
@@ -385,179 +606,6 @@ class IkarusWidget
     }
 
 
-
-    private function adultForm()
-    {
-        $form = '
-            <div class="span4">
-                <div class="container-fluid">
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <h1 style="text-align: center; font-size: 23px;">Passageiro Adulto 1</h1>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
-                                <div class="controls">
-                                    <input name="data[Passenger][0][name]" class="span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text" id="Passenger0Name">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
-                                <div class="controls">
-                                    <input name="data[Passenger][0][birthday]" class="span4" data-rule-idadeadulta="true" data-rule-required="true" style="width: 100%;" type="text" id="Passenger0Birthday">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">Documento: </label>
-                                <div class="controls">
-                                    <select name="data[Passenger][0][ssntype]" class="span5" onchange="documentoMask(this, \'0\')" style="width: 100%;" id="Passenger0Ssntype">
-                                        <option value="CPF">CPF</option>
-                                        <option value="RG">RG</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span7">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">&nbsp;</label>
-                                <div class="controls">
-                                    <input name="data[Passenger][0][ssn]" class="span7" style="width: 100%;" maxlength="50" type="text" id="Passenger0Ssn">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- container-fluid -->
-            </div><!-- span4 -->';
-
-        return $form;
-    }
-
-    private function childForm()
-    {
-        $form = '
-            <div class="span4">
-                <div class="container-fluid">
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <h1 style="text-align: center; font-size: 23px;">Passageiro Criança 1</h1>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
-                                <div class="controls">
-                                    <input name="data[Passenger][1][name]" class="span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text" id="Passenger1Name">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
-                                <div class="controls">
-                                    <input name="data[Passenger][1][birthday]" class="span4" data-rule-idadecrianca="true" data-rule-required="true" style="width: 100%;" type="text" id="Passenger1Birthday">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">Documento: </label>
-                                <div class="controls">
-                                    <select name="data[Passenger][1][ssntype]" class="span5" onchange="documentoMask(this, \'1\')" style="width: 100%;" id="Passenger1Ssntype">
-                                        <option value="CPF">CPF</option>
-                                        <option value="RG">RG</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span7">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">&nbsp;</label>
-                                <div class="controls">
-                                    <input name="data[Passenger][1][ssn]" class="span7" style="width: 100%;" maxlength="50" type="text" id="Passenger1Ssn">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- container-fluid -->
-            </div><!-- span4 -->';
-
-        return $form;
-    }
-
-    private function babyForm()
-    {
-        $form = '
-            <div class="span4">
-                <div class="container-fluid">
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <h1 style="text-align: center; font-size: 23px;">Passageiro Bebê 1</h1>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
-                                <div class="controls">
-                                    <input name="data[Passenger][2][name]" class="span4" data-rule-completename="true" maxlength="400" style="width: 100%;" type="text" id="Passenger2Name">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
-                                <div class="controls">
-                                    <input name="data[Passenger][2][birthday]" class="span4" data-rule-idadebebe="true" data-rule-required="true" style="width: 100%;" type="text" id="Passenger2Birthday">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span5">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">Documento: </label>
-                                <div class="controls">
-                                    <select name="data[Passenger][2][ssntype]" class="span5" onchange="documentoMask(this, \'2\')" style="width: 100%;" id="Passenger2Ssntype">
-                                        <option value="CPF">CPF</option>
-                                        <option value="RG">RG</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span7">
-                            <div class="control-group">
-                                <label class="control-label" for="validation_name">&nbsp;</label>
-                                <div class="controls">
-                                    <input name="data[Passenger][2][ssn]" class="span7" style="width: 100%;" maxlength="50" type="text" id="Passenger2Ssn">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- container-fluid -->
-            </div><!-- span4 -->';
-
-        return $form;
-    }
-
-
     private function searchResult()
     {
         $urls = $this->fetchSearchURLs();
@@ -565,6 +613,7 @@ class IkarusWidget
                 <script src="js/ikarus-widget.js"></script>
                 <script>
                     IkarusJQuery(document).ready(function(){
+                        ikarusWidgetJs.addValidationMethods('. json_encode($this->data) .');
                         ikarusWidgetJs.fillsearchForm('. json_encode($this->data) .');';
         foreach ($this->programs as $hash => $info) :
             if ($info['activated_sell'] == '1')
