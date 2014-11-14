@@ -36,45 +36,8 @@ $id = "ika";
 $key = "db5dd55d77bd7320ba2a467c05c16ce1";
 
 
-$ikarus = new IkarusWidget($id, $key, $login, $password, $programs, $airports);
-
-
+$ikarus = new IkarusWidget($id, $key, $login, $password, $programs, $airports, '/asdf');
 $ikarus->widget();
 //echo $ikarus->resultTable();
 
 ?>
-
-
-
-<script>
-
-		IkarusJQuery( "#ikarusDataDepartureDate" ).datepicker
-		({
-			prevText: 'Anterior',
-			nextText: 'Próximo',
-			numberOfMonths: 2,
-			dateFormat: 'dd/mm/yy',
-			dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
-			dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-			dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-			monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-			monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-			minDate: 0
-		});
-        IkarusJQuery( "#ikarusDataBackDate" ).datepicker
-        ({
-            prevText: 'Anterior',
-            nextText: 'Próximo',
-            numberOfMonths: 2,
-            dateFormat: 'dd/mm/yy',
-            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
-            dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-            minDate: 0
-        });
-
-        IkarusJQuery("#ikarusDataFrom").ikarus_widget_select2();
-        IkarusJQuery("#ikarusDataTo").ikarus_widget_select2();
-</script>

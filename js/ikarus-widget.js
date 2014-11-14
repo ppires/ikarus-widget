@@ -11,17 +11,17 @@ window.ikarusWidgetJs = (function() {
                 data = data.substring(data.indexOf("{"), data.lastIndexOf("}")+1);
                 if (data)
                 {
-	                // console.log('data '+ hash +": '"+ data + "'");
-	                IkarusJQuery('#ida_'+ hash +'_searchLoader').remove();
-	                IkarusJQuery('#volta_'+ hash +'_searchLoader').remove();
-	                tempFlights = JSON.parse(data);
-	                console.log('result '+ hash +":");
-	                console.log(tempFlights);
-	                IkarusJQuery('#ikarus_widget_tabela-ida').append(tr_flights(tempFlights['independentes'][hash]['ida'], 'ida', hash, programs, airports, search));
-	                if (search['trip'] == 'R')
-	                {
-		                IkarusJQuery('#ikarus_widget_tabela-volta').append(tr_flights(tempFlights['independentes'][hash]['volta'], 'volta', hash, programs, airports, search));
-	                }
+                    // console.log('data '+ hash +": '"+ data + "'");
+                    IkarusJQuery('#ida_'+ hash +'_searchLoader').remove();
+                    IkarusJQuery('#volta_'+ hash +'_searchLoader').remove();
+                    tempFlights = JSON.parse(data);
+                    console.log('result '+ hash +":");
+                    console.log(tempFlights);
+                    IkarusJQuery('#ikarus_widget_tabela-ida').append(tr_flights(tempFlights['independentes'][hash]['ida'], 'ida', hash, programs, airports, search));
+                    if (search['trip'] == 'R')
+                    {
+                        IkarusJQuery('#ikarus_widget_tabela-volta').append(tr_flights(tempFlights['independentes'][hash]['volta'], 'volta', hash, programs, airports, search));
+                    }
                 }
             },
             error: function(data)
@@ -33,51 +33,101 @@ window.ikarusWidgetJs = (function() {
 
 
 
-    var addValidationMethods = function(search)
+    var addDatepickers = function()
     {
-		// IkarusJQuery.validator.addMethod("idadeadulta", function(value) {
-		// 	data = value.split("/");
-		// 	if(search["trip"] == "R") dataVoo = search["arrival"].split("-");
-		// 	else dataVoo = search["departure"].split("-");
-		// 	now = new Date(dataVoo[0], dataVoo[1], dataVoo[2], 0, 0, 0);
-		// 	birth = new Date(data[2], data[1], data[0], 0, 0, 0);
-		// 	age = calculateAge(birth, now);
-		// 	if(age >= 12) return true;
-		// 	else return false;
-		// }, "Um passageiro adulto deve possuir mais que 12 anos até a data do(s) voo(s).");
+        IkarusJQuery("#ikarusDataDepartureDate").datepicker
+        ({
+            prevText: 'Anterior',
+            nextText: 'Próximo',
+            numberOfMonths: 2,
+            dateFormat: 'dd/mm/yy',
+            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
+            dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+            minDate: 0,
+            onClose: function(selectedDate) {
+                if (selectedDate) IkarusJQuery("#ikarusDataBackDate").datepicker( "option", "minDate", selectedDate );
+            }
+        });
 
+        IkarusJQuery("#ikarusDataBackDate").datepicker
+        ({
+            prevText: 'Anterior',
+            nextText: 'Próximo',
+            numberOfMonths: 2,
+            dateFormat: 'dd/mm/yy',
+            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
+            dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+            minDate: 0
+        });
 
-		// IkarusJQuery.validator.addMethod("idadecrianca", function(value) {
-		// 	data = value.split("/");
-		// 	if(search["trip"] == "R") dataVoo = search["arrival"];
-		// 	else dataVoo = search["departure"];
-		// 	now = new Date(dataVoo+" 00:00:00");
-		// 	birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
-		// 	age = calculateAge(birth, now);
-		// 	if(age < 12 && age >= 2) return true;
-		// 	else return false;
-		// }, "É considerado criança o passageiro entre 2 e 12 anos antes da data do(s) voo(s).");
-
-
-		// IkarusJQuery.validator.addMethod("idadebebe", function(value) {
-		// 	data = value.split("/");
-		// 	if(search["trip"] == "R") dataVoo = search["arrival"];
-		// 	else dataVoo = search["departure"];
-		// 	now = new Date(dataVoo+" 00:00:00");
-		// 	birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
-		// 	age = calculateAge(birth, now);
-		// 	if(age < 2) return true;
-		// 	else return false;
-		// }, "É considerado bebê o passageiro menor que 2 anos antes da data do(s) voo(s).");
+        IkarusJQuery("#ikarusDataFrom").ikarus_widget_select2();
+        IkarusJQuery("#ikarusDataTo").ikarus_widget_select2();
     }
 
 
 
-	var calculateAge = function(birthday, now) {
-		var ageDifMs = now - birthday.getTime();
-		var ageDate = new Date(ageDifMs);
-		return Math.abs(ageDate.getUTCFullYear() - 1970);
-	}
+    var addValidationMethods = function(search)
+    {
+        // IkarusJQuery.validator.addMethod("idadeadulta", function(value) {
+        //     data = value.split("/");
+        //     if(search["trip"] == "R") dataVoo = search["arrival"].split("-");
+        //     else dataVoo = search["departure"].split("-");
+        //     now = new Date(dataVoo[0], dataVoo[1], dataVoo[2], 0, 0, 0);
+        //     birth = new Date(data[2], data[1], data[0], 0, 0, 0);
+        //     age = calculateAge(birth, now);
+        //     if(age >= 12) return true;
+        //     else return false;
+        // }, "Um passageiro adulto deve possuir mais que 12 anos até a data do(s) voo(s).");
+
+
+        // IkarusJQuery.validator.addMethod("idadecrianca", function(value) {
+        //     data = value.split("/");
+        //     if(search["trip"] == "R") dataVoo = search["arrival"];
+        //     else dataVoo = search["departure"];
+        //     now = new Date(dataVoo+" 00:00:00");
+        //     birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
+        //     age = calculateAge(birth, now);
+        //     if(age < 12 && age >= 2) return true;
+        //     else return false;
+        // }, "É considerado criança o passageiro entre 2 e 12 anos antes da data do(s) voo(s).");
+
+
+        // IkarusJQuery.validator.addMethod("idadebebe", function(value) {
+        //     data = value.split("/");
+        //     if(search["trip"] == "R") dataVoo = search["arrival"];
+        //     else dataVoo = search["departure"];
+        //     now = new Date(dataVoo+" 00:00:00");
+        //     birth = new Date(data[2]+"-"+data[1]+"-"+data[0]+" 00:00:00");
+        //     age = calculateAge(birth, now);
+        //     if(age < 2) return true;
+        //     else return false;
+        // }, "É considerado bebê o passageiro menor que 2 anos antes da data do(s) voo(s).");
+    }
+
+
+    var onChangeTrip = function(element)
+    {
+        if (IkarusJQuery('#ikarusDataTrip').val() == "R")
+        {
+            IkarusJQuery('#ikarusDataBackDateDiv').show(500);
+        }
+        else {
+            IkarusJQuery('#ikarusDataBackDateDiv').hide(500);
+        }
+    }
+
+
+    var calculateAge = function(birthday, now) {
+        var ageDifMs = now - birthday.getTime();
+        var ageDate = new Date(ageDifMs);
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
 
 
 
@@ -93,13 +143,13 @@ window.ikarusWidgetJs = (function() {
     }
 
 
-	function makeCssComboPrecos(id)
-	{
-		if(IkarusJQuery("#inputVoo__"+id).attr("sellingmode") == "2")
-		{
-			IkarusJQuery("#trVoo__"+id+" td div");
-		}
-	}
+    function makeCssComboPrecos(id)
+    {
+        if(IkarusJQuery("#inputVoo__"+id).attr("sellingmode") == "2")
+        {
+            IkarusJQuery("#trVoo__"+id+" td div");
+        }
+    }
 
 
 
@@ -127,7 +177,7 @@ window.ikarusWidgetJs = (function() {
             if(trFechar.attr('id') == ("trVoo__"+naoFechar)) continue;
 
             trFechar.prop("checked", false);
-            trFechar.fadeOut("slow");
+            trFechar.fadeOut("fast");
             id = IkarusJQuery(trs[i]).attr('id');
             id = id.split('__');
             nameId = id[2];
@@ -231,13 +281,13 @@ window.ikarusWidgetJs = (function() {
     };
 
 
-	var documentoMask = function(element, item)
-	{
-		mask = IkarusJQuery(element).val();
-		IkarusJQuery.mask.definitions['r'] = '[0-9A-Za-z\.-]';
-		if(mask == "CPF") IkarusJQuery("#Passenger"+item+"Ssn").mask("999.999.999-99");
-		else IkarusJQuery("#Passenger"+item+"Ssn").mask("rrrr?rrrrrrrrrrrrrrrr");
-	}
+    var documentoMask = function(element, item)
+    {
+        mask = IkarusJQuery(element).val();
+        IkarusJQuery.mask.definitions['r'] = '[0-9A-Za-z\.-]';
+        if(mask == "CPF") IkarusJQuery("#Passenger"+item+"Ssn").mask("999.999.999-99");
+        else IkarusJQuery("#Passenger"+item+"Ssn").mask("rrrr?rrrrrrrrrrrrrrrr");
+    }
 
 
 
@@ -568,8 +618,8 @@ window.ikarusWidgetJs = (function() {
 
                     html += "<td>";
                         html += "<div>"
-                            html += "<bottom id='btnCloseDetails__"+way+"__"+hash+"__"+i+"' style='display: none;' onclick=\"fecharDetalhes('"+way+"__"+hash+"__"+i+"');\"><b>-</b></bottom>"
-                            html += "<bottom id='btnOpenDetails__"+way+"__"+hash+"__"+i+"' onclick=\"abrirDetalhes('"+way+"__"+hash+"__"+i+"');\"><b>+</b></bottom>"
+                            html += "<bottom id='btnCloseDetails__"+way+"__"+hash+"__"+i+"' style='display: none;' onclick=\"ikarusWidgetJs.fecharDetalhes('"+way+"__"+hash+"__"+i+"');\"><b>-</b></bottom>"
+                            html += "<bottom id='btnOpenDetails__"+way+"__"+hash+"__"+i+"' onclick=\"ikarusWidgetJs.abrirDetalhes('"+way+"__"+hash+"__"+i+"');\"><b>+</b></bottom>"
                         html += "</div>"
                     html += "</td>";
 
@@ -802,6 +852,10 @@ window.ikarusWidgetJs = (function() {
         searchFlights: searchFlights,
         buyRules: buyRules,
         documentoMask: documentoMask,
-        addValidationMethods: addValidationMethods
+        addValidationMethods: addValidationMethods,
+        onChangeTrip: onChangeTrip,
+        addDatepickers: addDatepickers,
+        abrirDetalhes: abrirDetalhes,
+        fecharDetalhes: fecharDetalhes
     };
 })();
