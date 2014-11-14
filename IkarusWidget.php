@@ -53,7 +53,6 @@ class IkarusWidget
     public function widget()
     {
 
-        // pp($this->airports);
 
         echo $this->configJs();
         echo $this->form();
@@ -63,6 +62,7 @@ class IkarusWidget
             if($this->validateParams($_POST["ikarusData"]))
             {
                 $this->data = $_POST["ikarusData"];
+                // pp($this->data);
                 echo $this->resultTable();
                 echo $this->searchResult();
             }
@@ -348,7 +348,7 @@ class IkarusWidget
     private function passengerForms()
     {
         $forms = '
-            <form name="IkarusWidgetPassengers" class="validate-form" method="post" action="'. $this->url_to_post .'">
+            <form name="IkarusWidgetPassengers" class="validate-form" method="post" action="'. $this->url_to_post .'" onsubmit=\'return ikarusWidgetJs.validatePassengerForms('. json_encode($this->data) .')\'>
                 <div class="ikarus_widget_row-fluid">';
 
         $counter = 0;
@@ -441,7 +441,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][0][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadeadulta="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa">
+                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][0][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadeadulta="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa" typePassenger="adult">
                                 </div>
                             </div>
                         </div>
@@ -498,7 +498,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][1][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadecrianca="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa">
+                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][1][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadecrianca="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa" typePassenger="child">
                                 </div>
                             </div>
                         </div>
@@ -555,7 +555,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][2][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadebebe="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa">
+                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][2][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadebebe="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa" typePassenger="baby">
                                 </div>
                             </div>
                         </div>
@@ -658,7 +658,6 @@ class IkarusWidget
         $js = '
                 <script>
                     IkarusJQuery(document).ready(function(){
-                        ikarusWidgetJs.addValidationMethods('. json_encode($this->data) .');
                         ikarusWidgetJs.fillsearchForm('. json_encode($this->data) .');';
         foreach ($this->programs as $hash => $info) :
             if ($info['activated_sell'] == '1')
