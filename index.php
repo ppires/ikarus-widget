@@ -13,7 +13,7 @@
 <script src="js/accounting.min.js"></script>
 
 <script>
-    var IkarusJQuery = jQuery.noConflict();
+    var IkarusJQuery = jQuery.noConflict(true);
 </script>
 
 
@@ -70,8 +70,8 @@ $ikarus->widget();
             minDate: 0
         });
 
-        IkarusJQuery("#ikarusDataFrom").select2();
-        IkarusJQuery("#ikarusDataTo").select2();
+        IkarusJQuery("#ikarusDataFrom").ikarus_widget_select2();
+        IkarusJQuery("#ikarusDataTo").ikarus_widget_select2();
 </script>
 
 
