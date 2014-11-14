@@ -20,10 +20,10 @@ ini_set("display_errors", 1);
 
 
 
+
+
 include "IkarusAES.php";
 include "IkarusCrypt.php";
-
-
 
 class IkarusWidget
 {
@@ -57,6 +57,7 @@ class IkarusWidget
             if($this->validateParams($_POST["ikarusData"]))
             {
                 $this->data = $_POST["ikarusData"];
+                pp($this->data);
                 echo $this->resultTable();
                 echo $this->searchResult();
             }
@@ -107,7 +108,6 @@ class IkarusWidget
                         <div class="ikarus_widget_span4">
                             <select id="ikarusDataAdults" name="ikarusData[adults]" placeholder="Adultos" class="ikarus_widget_passenger_input">
                                 <option value="1">1 adulto</option>
-                                <option value="0">0 adultos</option>
                                 <option value="2">2 adultos</option>
                                 <option value="3">3 adultos</option>
                                 <option value="4">4 adultos</option>
@@ -165,138 +165,162 @@ class IkarusWidget
     private function resultTable()
     {
         $resultTable = '
-        <div class="ikarus_widget_continer-fluid">
-            <div class="ikarus_widget_row-fluid">
-                <div class="ikarus_widget_span12">
-                    <table data="" style="margin-bottom:0; font-size: 13px" width="100%">
-                        <thead>
-                            <tr>
-                                <th colspan="10">
-                                    <table id="delete_loaders_ida" width="100%">
-                                        <tr id="validaVooIdaTabela" style="display: none;">
-                                            <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de Ida. </th>
-                                        </tr>
-                                        <tr id="verifica_loaders_ida">';
+            <div class="ikarus_widget_continer-fluid">
+                <div class="ikarus_widget_row-fluid">
+                    <div class="ikarus_widget_span12">
+                        <table data="" style="margin-bottom:0; font-size: 13px" width="100%">
+                            <thead>
+                                <tr>
+                                    <th colspan="10">
+                                        <table id="delete_loaders_ida" width="100%">
+                                            <tr id="validaVooIdaTabela" style="display: none;">
+                                                <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de Ida. </th>
+                                            </tr>
+                                            <tr id="verifica_loaders_ida">';
         foreach ($this->programs as $hash => $info) :
             if ($info['activated_sell'] == '1')
             {
                 $resultTable .= '
-                                            <td id="ida_'. $hash .'_searchLoader" align="center" style="text-align: center;">
-                                                <img src="/images/'. $hash .'_ativo.png">
-                                                <br />
-                                                <img src="/images/loading_'. $hash .'.gif">
-                                            </td>';
+                                                <td id="ida_'. $hash .'_searchLoader" align="center" style="text-align: center;">
+                                                    <img src="/images/'. $hash .'_ativo.png">
+                                                    <br />
+                                                    <img src="/images/loading_'. $hash .'.gif">
+                                                </td>';
             }
         endforeach;
         $resultTable .=     '
-                                        </tr>
-                                    </table>
-                                </th>
-                            </tr>
-                            <tr style="background-color: #eee;">
-                                <th style="text-align: center;">
-                                    x
-                                </th>
-                                <th style="text-align: center;">
-                                    Cia
-                                </th>
-                                <th style="text-align: center;">
-                                    nº
-                                </th>
-                                <th style="text-align: center;">
-                                    Paradas
-                                </th>
-                                <th style="text-align: center;">
-                                    Partida
-                                </th>
-                                <th style="text-align: center;">
-                                    Chegada
-                                </th>
-                                <th style="text-align: center;">
-                                    na Cia
-                                </th>
-                                <th style="text-align: center;">
-                                    em Milhas
-                                </th>
-                                <th style="text-align: center;">
-                                    na BDS
-                                </th>
-                                <th style="text-align: center;">
-                                    Info.
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="ikarus_widget_tabela-ida">
-                        </tbody>
-                    </table>';
+                                            </tr>
+                                        </table>
+                                    </th>
+                                </tr>
+                                <tr style="background-color: #eee;">
+                                    <th style="text-align: center;">
+                                        x
+                                    </th>
+                                    <th style="text-align: center;">
+                                        Cia
+                                    </th>
+                                    <th style="text-align: center;">
+                                        nº
+                                    </th>
+                                    <th style="text-align: center;">
+                                        Paradas
+                                    </th>
+                                    <th style="text-align: center;">
+                                        Partida
+                                    </th>
+                                    <th style="text-align: center;">
+                                        Chegada
+                                    </th>
+                                    <th style="text-align: center;">
+                                        na Cia
+                                    </th>
+                                    <th style="text-align: center;">
+                                        em Milhas
+                                    </th>
+                                    <th style="text-align: center;">
+                                        na BDS
+                                    </th>
+                                    <th style="text-align: center;">
+                                        Info.
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="ikarus_widget_tabela-ida">
+                            </tbody>
+                        </table>';
+
         if ($this->data['trip'] == "R")
         {
             $resultTable .= '
-                    <table data="" style="margin-bottom:0; font-size: 13px" width="100%">
-                        <thead>
-                            <tr>
-                                <th colspan="10">
-                                    <table id="delete_loaders_ida" width="100%">
-                                        <tr id="validaVooIdaTabela" style="display: none;">
-                                            <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de Ida. </th>
-                                        </tr>
-                                        <tr id="verifica_loaders_ida">';
-        foreach ($this->programs as $hash => $info) :
-            if ($info['activated_sell'] == '1')
-            {
-                $resultTable .= '
-                                            <td id="volta_'. $hash .'_searchLoader" align="center" style="text-align: center;">
-                                                <img src="/images/'. $hash .'_ativo.png">
-                                                <br />
-                                                <img src="/images/loading_'. $hash .'.gif">
-                                            </td>';
-            }
-        endforeach;
-        $resultTable .=     '
-                                        </tr>
-                                    </table>
-                                </th>
-                            </tr>
-                            <tr style="background-color: #eee;">
-                                <th style="text-align: center;">
-                                    x
-                                </th>
-                                <th style="text-align: center;">
-                                    Cia
-                                </th>
-                                <th style="text-align: center;">
-                                    nº
-                                </th>
-                                <th style="text-align: center;">
-                                    Paradas
-                                </th>
-                                <th style="text-align: center;">
-                                    Partida
-                                </th>
-                                <th style="text-align: center;">
-                                    Chegada
-                                </th>
-                                <th style="text-align: center;">
-                                    na Cia
-                                </th>
-                                <th style="text-align: center;">
-                                    em Milhas
-                                </th>
-                                <th style="text-align: center;">
-                                    na BDS
-                                </th>
-                                <th style="text-align: center;">
-                                    Info.
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="ikarus_widget_tabela-volta">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>';
+                        <table data="" style="margin-bottom:0; font-size: 13px" width="100%">
+                            <thead>
+                                <tr>
+                                    <th colspan="10">
+                                        <table id="delete_loaders_ida" width="100%">
+                                            <tr id="validaVooIdaTabela" style="display: none;">
+                                                <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de Ida. </th>
+                                            </tr>
+                                            <tr id="verifica_loaders_ida">';
+            foreach ($this->programs as $hash => $info) :
+                if ($info['activated_sell'] == '1')
+                {
+                    $resultTable .= '
+                                                <td id="volta_'. $hash .'_searchLoader" align="center" style="text-align: center;">
+                                                    <img src="/images/'. $hash .'_ativo.png">
+                                                    <br />
+                                                    <img src="/images/loading_'. $hash .'.gif">
+                                                </td>';
+                }
+            endforeach;
+            $resultTable .=     '
+                                            </tr>
+                                        </table>
+                                    </th>
+                                </tr>
+                                <tr style="background-color: #eee;">
+                                    <th style="text-align: center;">
+                                        x
+                                    </th>
+                                    <th style="text-align: center;">
+                                        Cia
+                                    </th>
+                                    <th style="text-align: center;">
+                                        nº
+                                    </th>
+                                    <th style="text-align: center;">
+                                        Paradas
+                                    </th>
+                                    <th style="text-align: center;">
+                                        Partida
+                                    </th>
+                                    <th style="text-align: center;">
+                                        Chegada
+                                    </th>
+                                    <th style="text-align: center;">
+                                        na Cia
+                                    </th>
+                                    <th style="text-align: center;">
+                                        em Milhas
+                                    </th>
+                                    <th style="text-align: center;">
+                                        na BDS
+                                    </th>
+                                    <th style="text-align: center;">
+                                        Info.
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="ikarus_widget_tabela-volta">
+                            </tbody>
+                        </table>';
         }
+
+        $resultTable .= '
+                    </div>
+                </div>
+                <div class="ikarus_widget_row-fluid">';
+
+
+        for ($i = 0; $i < $this->data['adults']; $i++)
+        {
+            $resultTable .= $this->adultForm();
+        }
+
+        for ($i = 0; $i < $this->data['children']; $i++)
+        {
+            $resultTable .= $this->childForm();
+        }
+
+        for ($i = 0; $i < $this->data['babies']; $i++)
+        {
+            $resultTable .= $this->babyForm();
+        }
+
+
+        $resultTable .= '
+                </div>
+            </div>';
 
         return $resultTable;
     }
@@ -362,6 +386,178 @@ class IkarusWidget
 
 
 
+    private function adultForm()
+    {
+        $form = '
+            <div class="span4">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <h1 style="text-align: center; font-size: 23px;">Passageiro Adulto 1</h1>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input name="data[Passenger][0][name]" class="span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text" id="Passenger0Name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input name="data[Passenger][0][birthday]" class="span4" data-rule-idadeadulta="true" data-rule-required="true" style="width: 100%;" type="text" id="Passenger0Birthday">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Documento: </label>
+                                <div class="controls">
+                                    <select name="data[Passenger][0][ssntype]" class="span5" onchange="documentoMask(this, \'0\')" style="width: 100%;" id="Passenger0Ssntype">
+                                        <option value="CPF">CPF</option>
+                                        <option value="RG">RG</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">&nbsp;</label>
+                                <div class="controls">
+                                    <input name="data[Passenger][0][ssn]" class="span7" style="width: 100%;" maxlength="50" type="text" id="Passenger0Ssn">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- container-fluid -->
+            </div><!-- span4 -->';
+
+        return $form;
+    }
+
+    private function childForm()
+    {
+        $form = '
+            <div class="span4">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <h1 style="text-align: center; font-size: 23px;">Passageiro Criança 1</h1>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input name="data[Passenger][1][name]" class="span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text" id="Passenger1Name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input name="data[Passenger][1][birthday]" class="span4" data-rule-idadecrianca="true" data-rule-required="true" style="width: 100%;" type="text" id="Passenger1Birthday">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Documento: </label>
+                                <div class="controls">
+                                    <select name="data[Passenger][1][ssntype]" class="span5" onchange="documentoMask(this, \'1\')" style="width: 100%;" id="Passenger1Ssntype">
+                                        <option value="CPF">CPF</option>
+                                        <option value="RG">RG</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">&nbsp;</label>
+                                <div class="controls">
+                                    <input name="data[Passenger][1][ssn]" class="span7" style="width: 100%;" maxlength="50" type="text" id="Passenger1Ssn">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- container-fluid -->
+            </div><!-- span4 -->';
+
+        return $form;
+    }
+
+    private function babyForm()
+    {
+        $form = '
+            <div class="span4">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <h1 style="text-align: center; font-size: 23px;">Passageiro Bebê 1</h1>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input name="data[Passenger][2][name]" class="span4" data-rule-completename="true" maxlength="400" style="width: 100%;" type="text" id="Passenger2Name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="controls">
+                                    <input name="data[Passenger][2][birthday]" class="span4" data-rule-idadebebe="true" data-rule-required="true" style="width: 100%;" type="text" id="Passenger2Birthday">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">Documento: </label>
+                                <div class="controls">
+                                    <select name="data[Passenger][2][ssntype]" class="span5" onchange="documentoMask(this, \'2\')" style="width: 100%;" id="Passenger2Ssntype">
+                                        <option value="CPF">CPF</option>
+                                        <option value="RG">RG</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="control-group">
+                                <label class="control-label" for="validation_name">&nbsp;</label>
+                                <div class="controls">
+                                    <input name="data[Passenger][2][ssn]" class="span7" style="width: 100%;" maxlength="50" type="text" id="Passenger2Ssn">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- container-fluid -->
+            </div><!-- span4 -->';
+
+        return $form;
+    }
+
+
     private function searchResult()
     {
         $urls = $this->fetchSearchURLs();
@@ -369,12 +565,12 @@ class IkarusWidget
                 <script src="js/ikarus-widget.js"></script>
                 <script>
                     IkarusJQuery(document).ready(function(){
-                        fillsearchForm('. json_encode($this->data) .');';
+                        ikarusWidgetJs.fillsearchForm('. json_encode($this->data) .');';
         foreach ($this->programs as $hash => $info) :
             if ($info['activated_sell'] == '1')
             {
                 $js .= '
-                        searchFlights("'. $urls[$info['wsname']] .'", "'. $hash .'", '. json_encode($this->programs) .', '. json_encode($this->airports) .', '. json_encode($this->data) .');';
+                        ikarusWidgetJs.searchFlights("'. $urls[$info['wsname']] .'", "'. $hash .'", '. json_encode($this->programs) .', '. json_encode($this->airports) .', '. json_encode($this->data) .');';
             }
         endforeach;
         $js .= '
