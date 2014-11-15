@@ -71,6 +71,7 @@ class IkarusWidget
 
                     <script src='{$this->widget_url}/js/jquery/ikarus_widget_jquery.min.js'></script>
                     <script src='{$this->widget_url}/js/jquery_ui/ikarus_widget_jquery-ui.min.js'></script>
+                    <script src='{$this->widget_url}/js/ikarus_widget_airports.js'></script>
                     <script src='{$this->widget_url}/js/plugins/select2/ikarus_widget_select2.js'></script>
 
                     <script src='{$this->widget_url}/js/ikarus_widget_accounting.min.js'></script>
@@ -90,7 +91,7 @@ class IkarusWidget
 
 
         echo $this->configJs();
-        echo $this->form();
+        echo $this->searchForm();
 
         if(isset($_POST["ikarusData"]))
         {
@@ -106,7 +107,7 @@ class IkarusWidget
 
     
 
-    public function form()
+    public function searchForm()
     {
         $str_form = '
             <form name="IkarusWidgetSearch" method="post">
@@ -124,28 +125,12 @@ class IkarusWidget
                     </div>
                     <div class="ikarus_widget_row-fluid">
                         <div class="ikarus_widget_span6">
-                            <select id="ikarusDataFrom" name="ikarusData[from]" placeholder="Origem" class="ikarus_widget_span12 ikarus_widget_airport_input">
-                                <option value=""></option>';
-
-        foreach ($this->airports as $acronym => $airport) :
-            $str_form .= '
-                                <option value="'. $acronym .'">'. $airport['name'] .'</option>';
-        endforeach;
-
-        $str_form .= '
-                            </select>
+                            <input id="ikarusDataFrom" name="ikarusData[from]" placeholder="Origem" class="ikarus_widget_span12 ikarus_widget_airport_input">
+                            </input>
                         </div>
                         <div class="ikarus_widget_span6">
-                            <select id="ikarusDataTo" name="ikarusData[to]" placeholder="Destino" class="ikarus_widget_span12 ikarus_widget_airport_input">
-                                <option value=""></option>';
-
-        foreach ($this->airports as $acronym => $airport) :
-            $str_form .= '
-                                <option value="'. $acronym .'">'. $airport['name'] .'</option>';
-        endforeach;
-
-        $str_form .= '
-                            </select>
+                            <input id="ikarusDataTo" name="ikarusData[to]" placeholder="Destino" class="ikarus_widget_span12 ikarus_widget_airport_input">
+                            </input>
                         </div>
                     </div>
                     <div class="ikarus_widget_row-fluid">
@@ -698,7 +683,7 @@ class IkarusWidget
             if ($info['activated_sell'] == '1')
             {
                 $js .= '
-                        ikarusWidgetJs.searchFlights("'. $urls[$info['wsname']] .'", "'. $hash .'", '. json_encode($this->programs) .', '. json_encode($this->airports) .', '. json_encode($this->data) .');';
+                        ikarusWidgetJs.searchFlights("'. $urls[$info['wsname']] .'", "'. $hash .'", '. json_encode($this->programs) .', '. json_encode($this->data) .');';
             }
         endforeach;
         $js .= '
