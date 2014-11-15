@@ -36,32 +36,32 @@ class IkarusWidget
     private $programs;
     private $airports;
     private $url_to_post;
-    public static $widget_url;
+    public $widget_url;
 
     public function __construct($id, $key, $login, $password, $programs, $airports, $options = array())
-    {        
+    {
         $this->id             = $id;
         $this->key            = $key;
         $this->login          = $login;
         $this->password       = $password;
         $this->airports       = $airports;
         $this->programs       = $programs;
-        
+
         if(isset($options['url_to_post'])) $this->url_to_post = $options['url_to_post'];
-        
+
         if(isset($options['widget_url']))
         {
             if($options['widget_url'] != "") $this->widget_url   = $options['widget_url'] . "/ikarus_widget";
         }
         else $this->widget_url = "/ikarus_widget";
-        
+
         echo $this->assets();
     }
-    
-    
-    
+
+
+
     private function assets()
-    {   
+    {
         $assets = " <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/jquery_ui/ikarus_widget_jquery.ui.1.10.0.ie.css' />
                     <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/jquery_ui/ikarus_widget_jquery.ui-1.10.0.custom.css' />
                     <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/plugins/select2/ikarus_widget_select2.css' />
@@ -81,9 +81,9 @@ class IkarusWidget
                     </script>";
         return $assets;
     }
-    
-    
-    
+
+
+
 
     public function widget()
     {
@@ -104,7 +104,7 @@ class IkarusWidget
         }
     }
 
-    
+
 
     public function form()
     {
