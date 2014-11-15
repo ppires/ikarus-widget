@@ -36,32 +36,32 @@ class IkarusWidget
     private $programs;
     private $airports;
     private $url_to_post;
-    public $widget_url;
+    public static $widget_url;
 
     public function __construct($id, $key, $login, $password, $programs, $airports, $options = array())
-    {
+    {        
         $this->id             = $id;
         $this->key            = $key;
         $this->login          = $login;
         $this->password       = $password;
         $this->airports       = $airports;
         $this->programs       = $programs;
-
+        
         if(isset($options['url_to_post'])) $this->url_to_post = $options['url_to_post'];
-
+        
         if(isset($options['widget_url']))
         {
             if($options['widget_url'] != "") $this->widget_url   = $options['widget_url'] . "/ikarus_widget";
         }
         else $this->widget_url = "/ikarus_widget";
-
+        
         echo $this->assets();
     }
-
-
-
+    
+    
+    
     private function assets()
-    {
+    {   
         $assets = " <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/jquery_ui/ikarus_widget_jquery.ui.1.10.0.ie.css' />
                     <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/jquery_ui/ikarus_widget_jquery.ui-1.10.0.custom.css' />
                     <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/plugins/select2/ikarus_widget_select2.css' />
@@ -71,7 +71,6 @@ class IkarusWidget
 
                     <script src='{$this->widget_url}/js/jquery/ikarus_widget_jquery.min.js'></script>
                     <script src='{$this->widget_url}/js/jquery_ui/ikarus_widget_jquery-ui.min.js'></script>
-                    <script src='{$this->widget_url}/js/ikarus_widget_airports.js'></script>
                     <script src='{$this->widget_url}/js/plugins/select2/ikarus_widget_select2.js'></script>
 
                     <script src='{$this->widget_url}/js/ikarus_widget_accounting.min.js'></script>
@@ -82,16 +81,16 @@ class IkarusWidget
                     </script>";
         return $assets;
     }
-
-
-
+    
+    
+    
 
     public function widget()
     {
 
 
         echo $this->configJs();
-        echo $this->searchForm();
+        echo $this->form();
 
         if(isset($_POST["ikarusData"]))
         {
@@ -105,9 +104,9 @@ class IkarusWidget
         }
     }
 
+    
 
-
-    public function searchForm()
+    public function form()
     {
         $str_form = '
             <form name="IkarusWidgetSearch" method="post">
@@ -125,12 +124,28 @@ class IkarusWidget
                     </div>
                     <div class="ikarus_widget_row-fluid">
                         <div class="ikarus_widget_span6">
-                            <input id="ikarusDataFrom" name="ikarusData[from]" placeholder="Origem" class="ikarus_widget_span12 ikarus_widget_airport_input">
-                            </input>
+                            <select id="ikarusDataFrom" name="ikarusData[from]" placeholder="Origem" class="ikarus_widget_span12 ikarus_widget_airport_input">
+                                <option value=""></option>';
+
+        foreach ($this->airports as $acronym => $airport) :
+            $str_form .= '
+                                <option value="'. $acronym .'">'. $airport['name'] .'</option>';
+        endforeach;
+
+        $str_form .= '
+                            </select>
                         </div>
                         <div class="ikarus_widget_span6">
-                            <input id="ikarusDataTo" name="ikarusData[to]" placeholder="Destino" class="ikarus_widget_span12 ikarus_widget_airport_input">
-                            </input>
+                            <select id="ikarusDataTo" name="ikarusData[to]" placeholder="Destino" class="ikarus_widget_span12 ikarus_widget_airport_input">
+                                <option value=""></option>';
+
+        foreach ($this->airports as $acronym => $airport) :
+            $str_form .= '
+                                <option value="'. $acronym .'">'. $airport['name'] .'</option>';
+        endforeach;
+
+        $str_form .= '
+                            </select>
                         </div>
                     </div>
                     <div class="ikarus_widget_row-fluid">
@@ -683,7 +698,7 @@ class IkarusWidget
             if ($info['activated_sell'] == '1')
             {
                 $js .= '
-                        ikarusWidgetJs.searchFlights("'. $urls[$info['wsname']] .'", "'. $hash .'", '. json_encode($this->programs) .', '. json_encode($this->data) .');';
+                        ikarusWidgetJs.searchFlights("'. $urls[$info['wsname']] .'", "'. $hash .'", '. json_encode($this->programs) .', '. json_encode($this->airports) .', '. json_encode($this->data) .');';
             }
         endforeach;
         $js .= '

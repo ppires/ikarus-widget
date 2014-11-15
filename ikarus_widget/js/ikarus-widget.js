@@ -1,6 +1,6 @@
 window.ikarusWidgetJs = (function() {
 
-    var searchFlights = function(url, hash, programs, search)
+    var searchFlights = function(url, hash, programs, airports, search)
     {
         IkarusJQuery.ajax({
             url: url,
@@ -17,10 +17,10 @@ window.ikarusWidgetJs = (function() {
                     tempFlights = JSON.parse(data);
                     console.log('result '+ hash +":");
                     console.log(tempFlights);
-                    IkarusJQuery('#ikarus_widget_tabela-ida').append(tr_flights(tempFlights['independentes'][hash]['ida'], 'ida', hash, programs, search));
+                    IkarusJQuery('#ikarus_widget_tabela-ida').append(tr_flights(tempFlights['independentes'][hash]['ida'], 'ida', hash, programs, airports, search));
                     if (search['trip'] == 'R')
                     {
-                        IkarusJQuery('#ikarus_widget_tabela-volta').append(tr_flights(tempFlights['independentes'][hash]['volta'], 'volta', hash, programs, search));
+                        IkarusJQuery('#ikarus_widget_tabela-volta').append(tr_flights(tempFlights['independentes'][hash]['volta'], 'volta', hash, programs, airports, search));
                     }
                 }
             },
@@ -65,17 +65,9 @@ window.ikarusWidgetJs = (function() {
             monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
             minDate: 0
         });
-        
-        var options = [];
-        var count = 0;
-        IkarusJQuery.each(ikarusWidgetAirports, function( index, value) {
-            options[count] = {};
-            options[count]["id"]   =  value["acronym"];
-            options[count]["text"] =  value["name"];
-            count++;
-        });
-        IkarusJQuery("#ikarusDataFrom").ikarus_widget_select2({data:options});
-        IkarusJQuery("#ikarusDataTo").ikarus_widget_select2({data:options});
+
+        IkarusJQuery("#ikarusDataFrom").ikarus_widget_select2();
+        IkarusJQuery("#ikarusDataTo").ikarus_widget_select2();
     }
 
 
@@ -91,7 +83,6 @@ window.ikarusWidgetJs = (function() {
 
     var validatePassengerForms = function(search)
     {
-        var i = 0;
         // Validação nome do passageiro
         IkarusJQuery('.ikarus_widget_validation_error').each(function(i, element){
             IkarusJQuery(element).remove();
@@ -144,9 +135,8 @@ window.ikarusWidgetJs = (function() {
         // Validação do CPF
         if (false)
         {
-            var i = 0;
             var ssns = IkarusJQuery("input[id$='Ssn']");
-            for(i = 0; i < ssns.length; i++)
+            for(var i = 0; i < ssns.length; i++)
             {
                 var ssn = IkarusJQuery(ssns[i]).val();
                 if(ssn)
@@ -173,12 +163,11 @@ window.ikarusWidgetJs = (function() {
     var validarCPF = function(strCPF)
     {
         var Soma;
-        var i = 0;
         var Resto;
         Soma = 0;
         if (strCPF == "00000000000")
             return false;
-        for (i = 1; i <= 9; i++)
+        for (var i = 1; i <= 9; i++)
             Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);
         Resto = (Soma * 10) % 11;
         if ((Resto == 10) || (Resto == 11))
@@ -262,8 +251,6 @@ window.ikarusWidgetJs = (function() {
 
     var fecharTodosVoos = function(trecho, naoFechar)
     {
-        var i = 0;
-        var j = 0;
         trs = IkarusJQuery('tr[id*="trVoo__'+trecho+'__"]');
         count = trs.length;
         for(i=0; i< count; i++)
@@ -285,8 +272,6 @@ window.ikarusWidgetJs = (function() {
 
     var abrirTodosVoos = function(trecho, naoFechar)
     {
-        var i = 0;
-        var j = 0;
         trs = IkarusJQuery('tr[id*="trVoo__'+trecho+'__"]');
         count = trs.length;
         for(i=0; i< count; i++)
@@ -309,8 +294,6 @@ window.ikarusWidgetJs = (function() {
 
     var fecharVoosOperadora = function(trecho, operadora, naoFechar)
     {
-        var i = 0;
-        var j = 0;
         trs = IkarusJQuery('tr[id*="trVoo__'+trecho+'__'+operadora+'"]');
         count = trs.length;
         for(i=0; i< count; i++)
@@ -333,8 +316,6 @@ window.ikarusWidgetJs = (function() {
 
     var abrirVoosOperadora = function(trecho, operadora, naoFechar)
     {
-        var i = 0;
-        var j = 0;
         trs = IkarusJQuery('tr[id*="trVoo__'+trecho+'__'+operadora+'"]');
         count = trs.length;
         for(i=0; i< count; i++)
@@ -396,11 +377,9 @@ window.ikarusWidgetJs = (function() {
 
 
 
-    var tr_flights = function(voos, way, hash, programs, search)
+    var tr_flights = function(voos, way, hash, programs, airports, search)
     {
         html = "";
-        var i = 0;
-        var j = 0;
         for(i = 0; i < voos.length; i++)
         {
             voos[i]["Flight"]["hash"] = hash;
@@ -591,10 +570,10 @@ window.ikarusWidgetJs = (function() {
                     html += "<td>"+voos[i]["Flight"]["stops"]+"</td>";
 
 
-                    html += "<td title='"+ikarusWidgetAirports[voos[i]["Flight"]["from"]]["name"]+"'>"+voos[i]["Flight"]["from"]+" "+partida+"</td>";
+                    html += "<td title='"+airports[voos[i]["Flight"]["from"]]["name"]+"'>"+voos[i]["Flight"]["from"]+" "+partida+"</td>";
 
 
-                    html += "<td title='"+ikarusWidgetAirports[voos[i]["Flight"]["to"]]["name"]+"'>"+voos[i]["Flight"]["to"]+" "+chegada+"</td>";
+                    html += "<td title='"+airports[voos[i]["Flight"]["to"]]["name"]+"'>"+voos[i]["Flight"]["to"]+" "+chegada+"</td>";
 
 
 
@@ -765,11 +744,11 @@ window.ikarusWidgetJs = (function() {
                                                         }
                                                     html += "</td>";
                                                     html += "<td class='linhaDetalhesVoos"+(j%2)+"'>";
-                                                        html += ""+ikarusWidgetAirports[voos[i]["Trip"][j]["from"]]["name"]+"";
+                                                        html += ""+airports[voos[i]["Trip"][j]["from"]]["name"]+"";
                                                         html += " ["+partida+"] ";
                                                     html += "</td>";
                                                     html += "<td class='linhaDetalhesVoos"+(j%2)+"'>";
-                                                        html += ""+ikarusWidgetAirports[voos[i]["Trip"][j]["to"]]["name"]+"";
+                                                        html += ""+airports[voos[i]["Trip"][j]["to"]]["name"]+"";
                                                         html += " ["+chegada+"] ";
                                                     html += "</td>";
                                                 html += "</tr>";
