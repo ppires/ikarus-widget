@@ -71,8 +71,7 @@ $options = array(
 );
 
 $ikarus = new IkarusWidget($id, $key, $login, $password, $programs, $airports, $options);
-echo $ikarus->searchForm();
-echo $ikarus->searchForm();
+
 $ikarus->widget();
 //echo $ikarus->resultTable();
 

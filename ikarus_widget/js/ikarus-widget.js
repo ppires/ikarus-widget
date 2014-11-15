@@ -66,9 +66,13 @@ window.ikarusWidgetJs = (function() {
             minDate: 0
         });
         
-        var options = {};
+        var options = [];
+        var count = 0;
         IkarusJQuery.each(ikarusWidgetAirports, function( index, value) {
-            options[value["acronym"]] =  value["nick"];
+            options[count] = {};
+            options[count]["id"]   =  value["acronym"];
+            options[count]["text"] =  value["name"];
+            count++;
         });
         IkarusJQuery("#ikarusDataFrom").ikarus_widget_select2({data:options});
         IkarusJQuery("#ikarusDataTo").ikarus_widget_select2({data:options});
