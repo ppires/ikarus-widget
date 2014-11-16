@@ -36,6 +36,7 @@ class IkarusWidget
     private $programs;
     private $airports;
     private $url_to_post;
+    private $assets_url;
     public $widget_url;
 
     public function __construct($id, $key, $login, $password, $programs, $airports, $options = array())
@@ -47,38 +48,63 @@ class IkarusWidget
         $this->airports       = $airports;
         $this->programs       = $programs;
 
-        if(isset($options['url_to_post'])) $this->url_to_post = $options['url_to_post'];
+        if(isset($options['url_to_post']))
+            $this->url_to_post = $options['url_to_post'];
 
         if(isset($options['widget_url']))
         {
-            if($options['widget_url'] != "") $this->widget_url   = $options['widget_url'] . "/ikarus_widget";
+            $this->widget_url = $options['widget_url'] . "/ikarus_widget";
+            $this->assets_url = $this->CdnAssetsUrl();//$this->widget_url;
         }
-        else $this->widget_url = "/ikarus_widget";
+        else
+        {
+            $this->widget_url = "/ikarus_widget";
+            $this->assets_url = $this->CdnAssetsUrl();
+        }
 
-        echo $this->assets();
+        echo $this->configJs();
     }
 
 
 
+    private function configJs()
+    {
+        $html = $this->assets();
+        $html .= '
+            <script>
+                var IkarusJQuery = jQuery.noConflict(true);
+
+                IkarusJQuery(document).ready(function(){
+                    ikarusWidgetJs.addDatepickers();
+                    ikarusWidgetJs.setAssetsUrl("'. $this->assets_url .'");
+                });
+            </script>';
+
+        return $html;
+    }
+
+
     private function assets()
     {
-        $assets = " <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/jquery_ui/ikarus_widget_jquery.ui.1.10.0.ie.css' />
-                    <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/jquery_ui/ikarus_widget_jquery.ui-1.10.0.custom.css' />
-                    <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/plugins/select2/ikarus_widget_select2.css' />
+        $assets = "
+            <link rel='stylesheet' type='text/css' href='{$this->assets_url}/css/jquery_ui/ikarus_widget_jquery.ui.1.10.0.ie.min.css' />
+            <link rel='stylesheet' type='text/css' href='{$this->assets_url}/css/jquery_ui/ikarus_widget_jquery.ui-1.10.0.custom.min.css' />
+            <link rel='stylesheet' type='text/css' href='{$this->assets_url}/css/plugins/select2/ikarus_widget_select2.min.css' />
 
-                    <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/bootstrap/ikarus_widget_bootstrap.css' />
-                    <link rel='stylesheet' type='text/css' href='{$this->widget_url}/css/bootstrap/ikarus_widget_bootstrap-responsive.css' />
+            <link rel='stylesheet' type='text/css' href='{$this->assets_url}/css/bootstrap/ikarus_widget_bootstrap.min.css' />
+            <link rel='stylesheet' type='text/css' href='{$this->assets_url}/css/bootstrap/ikarus_widget_bootstrap-responsive.min.css' />
 
-                    <script src='{$this->widget_url}/js/jquery/ikarus_widget_jquery.min.js'></script>
-                    <script src='{$this->widget_url}/js/jquery_ui/ikarus_widget_jquery-ui.min.js'></script>
-                    <script src='{$this->widget_url}/js/plugins/select2/ikarus_widget_select2.js'></script>
+            <script src='{$this->assets_url}/js/jquery/ikarus_widget_jquery.min.js'></script>
+            <script src='{$this->assets_url}/js/jquery_ui/ikarus_widget_jquery-ui.min.js'></script>
+            <script src='{$this->assets_url}/js/plugins/select2/ikarus_widget_select2.min.js'></script>
 
-                    <script src='{$this->widget_url}/js/ikarus_widget_accounting.min.js'></script>
-                    <script src='{$this->widget_url}/js/ikarus_widget_jquery.maskedinput.js'></script>
+            <script src='{$this->assets_url}/js/ikarus_widget_accounting.min.js'></script>
+            <script src='{$this->assets_url}/js/ikarus_widget_jquery.maskedinput.min.js'></script>
 
-                    <script>
-                        var IkarusJQuery = jQuery.noConflict(true);
-                    </script>";
+
+            <script src='/ikarus_widget/js/ikarus-widget.js'></script>";
+         // <script src='{$this->assets_url}/js/ikarus-widget.min.js'></script>
+
         return $assets;
     }
 
@@ -87,27 +113,34 @@ class IkarusWidget
 
     public function widget()
     {
-
-
-        echo $this->configJs();
-        echo $this->form();
+        echo $this->searchForm();
 
         if(isset($_POST["ikarusData"]))
         {
-            if($this->validateParams($_POST["ikarusData"]))
+            $this->data = $_POST["ikarusData"];
+            if ($this->validateParams())
             {
-                $this->data = $_POST["ikarusData"];
-                // pp($this->data);
                 echo $this->resultTable();
-                echo $this->searchResult();
+                echo $this->executeSearch();
             }
+            else
+                $this->data = null;
         }
     }
 
 
 
-    public function form()
+    public function searchForm()
     {
+        if(!empty($this->data))
+        {
+            pp($this->data);
+
+            if($this->data['trip'] == 'O')
+                $str_hide_back_date = ' style="display: none;" ';
+        }
+        else $str_hide_back_date = "";
+
         $str_form = '
             <form name="IkarusWidgetSearch" method="post">
                 <div class="ikarus_widget_container">
@@ -152,7 +185,7 @@ class IkarusWidget
                         <div class="ikarus_widget_span6">
                             <input id="ikarusDataDepartureDate" name="ikarusData[departureDate]" placeholder="Ida" class="ikarus_widget_date_input"></input>
                         </div>
-                        <div id="ikarusDataBackDateDiv" class="ikarus_widget_span6">
+                        <div id="ikarusDataBackDateDiv" class="ikarus_widget_span6"'. $str_hide_back_date .'>
                             <input id="ikarusDataBackDate" name="ikarusData[backDate]" placeholder="Volta" class="ikarus_widget_date_input"></input>
                         </div>
                     </div>
@@ -214,24 +247,6 @@ class IkarusWidget
 
 
 
-
-
-    private function configJs()
-    {
-        $html = "
-            <script src='{$this->widget_url}/js/ikarus-widget.js'></script>
-
-            <script>
-                IkarusJQuery(document).ready(function(){
-                    ikarusWidgetJs.addDatepickers();
-                });
-            </script>";
-
-        return $html;
-    }
-
-
-
     private function resultTable()
     {
         $resultTable = '
@@ -252,9 +267,9 @@ class IkarusWidget
             {
                 $resultTable .= '
                                                 <td id="ida_'. $hash .'_searchLoader" align="center" style="text-align: center;">
-                                                    <img src="/images/'. $hash .'_ativo.png">
+                                                    <img src="'. $this->assets_url .'/images/'. $hash .'_ativo.png">
                                                     <br />
-                                                    <img src="/images/loading_'. $hash .'.gif">
+                                                    <img src="'. $this->assets_url .'/images/loading_'. $hash .'.gif">
                                                 </td>';
             }
         endforeach;
@@ -317,9 +332,9 @@ class IkarusWidget
                 {
                     $resultTable .= '
                                                 <td id="volta_'. $hash .'_searchLoader" align="center" style="text-align: center;">
-                                                    <img src="/images/'. $hash .'_ativo.png">
+                                                    <img src="'. $this->assets_url .'/images/'. $hash .'_ativo.png">
                                                     <br />
-                                                    <img src="/images/loading_'. $hash .'.gif">
+                                                    <img src="'. $this->assets_url .'/images/loading_'. $hash .'.gif">
                                                 </td>';
                 }
             endforeach;
@@ -623,19 +638,23 @@ class IkarusWidget
     }
 
 
-    private function validateParams($data)
+    private function validateParams()
     {
-        $ok =   preg_match('/^R|O$/',                          $data["trip"],          $matches) &&
-                preg_match('/^[A-Z]{3}$/',                     $data["from"],          $matches) &&
-                preg_match('/^[A-Z]{3}$/',                     $data["to"],            $matches) &&
-                preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/', $data["departureDate"], $matches) &&
-                preg_match('/^[1-9]$/',                        $data["adults"],        $matches) &&
-                preg_match('/^[0-9]$/',                        $data["children"],      $matches) &&
-                preg_match('/^[0-9]$/',                        $data["babies"],        $matches);
+        $ok =   preg_match('/^R|O$/',                          $this->data["trip"],          $matches) &&
+                preg_match('/^[A-Z]{3}$/',                     $this->data["from"],          $matches) &&
+                preg_match('/^[A-Z]{3}$/',                     $this->data["to"],            $matches) &&
+                preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/', $this->data["departureDate"], $matches) &&
+                preg_match('/^[1-9]$/',                        $this->data["adults"],        $matches) &&
+                preg_match('/^[0-9]$/',                        $this->data["children"],      $matches) &&
+                preg_match('/^[0-9]$/',                        $this->data["babies"],        $matches);
 
-        if ($data["trip"] == 'R')
+        if ($this->data["trip"] == 'R')
         {
-            $ok = $ok && preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/', $data["backDate"], $matches);
+            $ok = $ok && preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/', $this->data["backDate"], $matches);
+        }
+        else
+        {
+            $this->data['backDate'] = $this->data['departureDate'];
         }
 
         return $ok;
@@ -687,7 +706,7 @@ class IkarusWidget
     }
 
 
-    private function searchResult()
+    private function executeSearch()
     {
         $urls = $this->fetchSearchURLs();
         $js = '
@@ -706,6 +725,17 @@ class IkarusWidget
                 </script>';
 
         return $js;
+    }
+
+
+
+    private function CdnAssetsUrl()
+    {
+        // se requisição for HTTPS
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            return 'https://b0cd121070f4f386acbd-2eb8a6300f37edb7ee8c5206c9b8eeee.ssl.cf5.rackcdn.com';
+        else
+            return 'http://a4c1b54576e846a59bc6-2eb8a6300f37edb7ee8c5206c9b8eeee.r66.cf5.rackcdn.com';
     }
 }
 
