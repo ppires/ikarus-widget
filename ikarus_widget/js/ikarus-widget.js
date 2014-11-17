@@ -1,7 +1,10 @@
 window.ikarusWidgetJs = (function() {
 
+    var _assetsUrl = '';
+
     var searchFlights = function(url, hash, programs, airports, search)
     {
+        console.log(url);
         IkarusJQuery.ajax({
             url: url,
             timeout: 120000,
@@ -30,6 +33,14 @@ window.ikarusWidgetJs = (function() {
             }
         });
     };
+
+
+
+    var setAssetsUrl = function(url)
+    {
+        _assetsUrl = url;
+        console.log('assets url: ' + _assetsUrl);
+    }
 
 
 
@@ -560,7 +571,8 @@ window.ikarusWidgetJs = (function() {
 
 
                     html += "<td>";
-                        html += "<img src='/images/"+hash+"_ativo.png' class='choice-header' style='max-width: 46px !important;' alt=''>";
+                        // html += "<img src='/images/"+hash+"_ativo.png' class='choice-header' style='max-width: 46px !important;' alt=''>";
+                        html += "<img src='"+ _assetsUrl + '/images/' + hash +"_ativo.png' class='choice-header' style='max-width: 46px !important;' alt=''>";
                     html += "</td>";
 
 
@@ -934,6 +946,8 @@ window.ikarusWidgetJs = (function() {
     return {
         fillsearchForm: fillsearchForm,
         searchFlights: searchFlights,
+        setAssetsUrl: setAssetsUrl,
+
         buyRules: buyRules,
         documentoMask: documentoMask,
         onChangeTrip: onChangeTrip,
