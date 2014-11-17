@@ -110,9 +110,6 @@ class IkarusWidget
     {
         $str_form = '
             <form name="IkarusWidgetSearch" method="post">
-                <div class="ikarus_widget_container">
-                <div class="ikarus_widget_row">
-                <div class="ikarus_widget_span12">
                 <div class="ikarus_widget_container-fluid">
                     <div class="ikarus_widget_row-fluid">
                         <div class="ikarus_widget_span3">
@@ -205,9 +202,6 @@ class IkarusWidget
                         </div>
                     </div>
                 </div>
-                </div>
-                </div>
-                </div>
             </form>';
         return $str_form;
     }
@@ -238,7 +232,7 @@ class IkarusWidget
             <div class="ikarus_widget_continer-fluid">
                 <div class="ikarus_widget_row-fluid">
                     <div class="ikarus_widget_span12">
-                        <table data="" style="margin-bottom:0; font-size: 13px" width="100%">
+                        <table class="ikarus_widget_table" style="margin-bottom:0; font-size: 13px" width="100%">
                             <thead>
                                 <tr>
                                     <th colspan="10">
@@ -303,15 +297,15 @@ class IkarusWidget
         if ($this->data['trip'] == "R")
         {
             $resultTable .= '
-                        <table data="" style="margin-bottom:0; font-size: 13px" width="100%">
+                        <table data="" style="padding-top: 100px; margin-bottom:0; font-size: 13px" width="100%">
                             <thead>
+                                <tr>
+                                    <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de Ida. </th>
+                                </tr>
                                 <tr>
                                     <th colspan="10">
                                         <table id="delete_loaders_ida" width="100%">
-                                            <tr id="validaVooIdaTabela" style="display: none;">
-                                                <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de Ida. </th>
-                                            </tr>
-                                            <tr id="verifica_loaders_ida">';
+                                            <tr>';
             foreach ($this->programs as $hash => $info) :
                 if ($info['activated_sell'] == '1')
                 {

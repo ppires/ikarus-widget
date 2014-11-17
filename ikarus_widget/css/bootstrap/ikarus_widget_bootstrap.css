@@ -343,7 +343,36 @@ textarea.ikarus_widget_span12,
     
     
     
-    
+.ikarus_widget_table {
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0; 
+  width: 100%;
+  margin-bottom: 20px; }
+  .ikarus_widget_table th,
+  .ikarus_widget_table td {
+    padding: 8px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd; }
+  .ikarus_widget_table th {
+    font-weight: bold; }
+  .ikarus_widget_table thead th {
+    vertical-align: bottom;
+  }
+  .ikarus_widget_table caption + thead tr:first-child th,
+  .ikarus_widget_table caption + thead tr:first-child td,
+  .ikarus_widget_table colgroup + thead tr:first-child th,
+  .ikarus_widget_table colgroup + thead tr:first-child td,
+  .ikarus_widget_table thead:first-child tr:first-child th,
+  .ikarus_widget_table thead:first-child tr:first-child td {
+    border-top: 0; }
+  .ikarus_widget_table tbody + tbody {
+    border-top: 2px solid #dddddd; }
+  .ikarus_widget_table .ikarus_widget_table {
+    background-color: white; }
     
     
     

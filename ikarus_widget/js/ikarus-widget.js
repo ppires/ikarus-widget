@@ -700,7 +700,7 @@ window.ikarusWidgetJs = (function() {
 
 
 
-                    html += "<td>";
+                    html += "<td style='text-align:center;vertical-align:middle;'>";
                         html += "<div>"
                             html += "<bottom id='btnCloseDetails__"+way+"__"+hash+"__"+i+"' style='display: none;' onclick=\"ikarusWidgetJs.fecharDetalhes('"+way+"__"+hash+"__"+i+"');\"><b>-</b></bottom>"
                             html += "<bottom id='btnOpenDetails__"+way+"__"+hash+"__"+i+"' onclick=\"ikarusWidgetJs.abrirDetalhes('"+way+"__"+hash+"__"+i+"');\"><b>+</b></bottom>"
