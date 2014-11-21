@@ -47,7 +47,7 @@ class IkarusWidget
 
     public function __construct($id, $key, $login, $password, $programs, $airports, $options = array())
     {
-        $this->id             = $id;search_form_type
+        $this->id             = $id;
         $this->key            = $key;
         $this->login          = $login;
         $this->password       = $password;
