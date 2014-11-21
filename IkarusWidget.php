@@ -47,11 +47,6 @@ class IkarusWidget
 
     public function __construct($id, $key, $login, $password, $programs, $airports, $options = array())
     {
-
-        puts(getcwd());
-        pp($options);
-
-
         $this->id             = $id;
         $this->key            = $key;
         $this->login          = $login;
@@ -88,7 +83,7 @@ class IkarusWidget
         if(isset($options['myappwebroot']) && $options['myappwebroot'] === 'cloud')
             $this->assets_url = $this->CdnAssetsUrl();
         else
-            $this->assets_url = '/ikarusWidget';
+            $this->assets_url = '/ikarus_widget';
 
 
         echo $this->configJs();
