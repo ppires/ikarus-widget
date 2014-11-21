@@ -47,6 +47,10 @@ class IkarusWidget
 
     public function __construct($id, $key, $login, $password, $programs, $airports, $options = array())
     {
+
+        // pp($options);
+        // pp($_POST);
+
         $this->id             = $id;
         $this->key            = $key;
         $this->login          = $login;
@@ -512,7 +516,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Name" name="data[Passenger][0][name]" class="ikarus_widget_span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text">
+                                    <input id="Passenger'. $counter .'Name" name="data[Passenger]['. $counter .'][name]" class="ikarus_widget_span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text">
                                 </div>
                             </div>
                         </div>
@@ -522,7 +526,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][0][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadeadulta="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa" typePassenger="adult">
+                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger]['. $counter .'][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadeadulta="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa" typePassenger="adult">
                                 </div>
                             </div>
                         </div>
@@ -532,7 +536,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Documento: </label>
                                 <div class="ikarus_widget_controls">
-                                    <select id="Passenger'. $counter .'Ssntype" name="data[Passenger][0][ssntype]" class="ikarus_widget_span5" onchange="ikarusWidgetJs.documentoMask(this, \''. $counter .'\')" style="width: 100%;">
+                                    <select id="Passenger'. $counter .'Ssntype" name="data[Passenger]['. $counter .'][ssntype]" class="ikarus_widget_span5" onchange="ikarusWidgetJs.documentoMask(this, \''. $counter .'\')" style="width: 100%;">
                                         <option value="CPF">CPF</option>
                                         <option value="RG">RG</option>
                                     </select>
@@ -543,7 +547,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">&nbsp;</label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Ssn" name="data[Passenger][0][ssn]" class="ikarus_widget_span7 cpfcnpj" style="width: 100%;" maxlength="50" type="text">
+                                    <input id="Passenger'. $counter .'Ssn" name="data[Passenger]['. $counter .'][ssn]" class="ikarus_widget_span7 cpfcnpj" style="width: 100%;" maxlength="50" type="text">
                                 </div>
                             </div>
                         </div>
@@ -569,7 +573,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Name" name="data[Passenger][1][name]" class="ikarus_widget_span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text">
+                                    <input id="Passenger'. $counter .'Name" name="data[Passenger]['. $counter .'][name]" class="ikarus_widget_span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text">
                                 </div>
                             </div>
                         </div>
@@ -579,7 +583,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][1][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadecrianca="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa" typePassenger="child">
+                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger]['. $counter .'][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadecrianca="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa" typePassenger="child">
                                 </div>
                             </div>
                         </div>
@@ -589,7 +593,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Documento: </label>
                                 <div class="ikarus_widget_controls">
-                                    <select id="Passenger'. $counter .'Ssntype" name="data[Passenger][1][ssntype]" class="ikarus_widget_span5" onchange="ikarusWidgetJs.documentoMask(this, \''. $counter .'\')" style="width: 100%;">
+                                    <select id="Passenger'. $counter .'Ssntype" name="data[Passenger]['. $counter .'][ssntype]" class="ikarus_widget_span5" onchange="ikarusWidgetJs.documentoMask(this, \''. $counter .'\')" style="width: 100%;">
                                         <option value="CPF">CPF</option>
                                         <option value="RG">RG</option>
                                     </select>
@@ -600,7 +604,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">&nbsp;</label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Ssn" name="data[Passenger][1][ssn]" class="ikarus_widget_span7 cpfcnpj" style="width: 100%;" maxlength="50" type="text">
+                                    <input id="Passenger'. $counter .'Ssn" name="data[Passenger]['. $counter .'][ssn]" class="ikarus_widget_span7 cpfcnpj" style="width: 100%;" maxlength="50" type="text">
                                 </div>
                             </div>
                         </div>
@@ -626,7 +630,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Name" name="data[Passenger][2][name]" class="ikarus_widget_span4" data-rule-completename="true" maxlength="400" style="width: 100%;" type="text">
+                                    <input id="Passenger'. $counter .'Name" name="data[Passenger]['. $counter .'][name]" class="ikarus_widget_span4" data-rule-completename="true" maxlength="400" style="width: 100%;" type="text">
                                 </div>
                             </div>
                         </div>
@@ -636,7 +640,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger][2][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadebebe="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa" typePassenger="baby">
+                                    <input id="Passenger'. $counter .'Birthday" name="data[Passenger]['. $counter .'][birthday]" class="ikarus_widget_span4 birthDateInput" data-rule-idadebebe="true" data-rule-required="true" style="width: 100%;" type="text" placeholder="dd/mm/aaaa" typePassenger="baby">
                                 </div>
                             </div>
                         </div>
@@ -646,7 +650,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Documento: </label>
                                 <div class="ikarus_widget_controls">
-                                    <select id="Passenger'. $counter .'Ssntype" name="data[Passenger][2][ssntype]" class="ikarus_widget_span5" onchange="ikarusWidgetJs.documentoMask(this, \''. $counter .'\')" style="width: 100%;">
+                                    <select id="Passenger'. $counter .'Ssntype" name="data[Passenger]['. $counter .'][ssntype]" class="ikarus_widget_span5" onchange="ikarusWidgetJs.documentoMask(this, \''. $counter .'\')" style="width: 100%;">
                                         <option value="CPF">CPF</option>
                                         <option value="RG">RG</option>
                                     </select>
@@ -657,7 +661,7 @@ class IkarusWidget
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">&nbsp;</label>
                                 <div class="ikarus_widget_controls">
-                                    <input id="Passenger'. $counter .'Ssn" name="data[Passenger][2][ssn]" class="ikarus_widget_span7 cpfcnpj" style="width: 100%;" maxlength="50" type="text">
+                                    <input id="Passenger'. $counter .'Ssn" name="data[Passenger]['. $counter .'][ssn]" class="ikarus_widget_span7 cpfcnpj" style="width: 100%;" maxlength="50" type="text">
                                 </div>
                             </div>
                         </div>

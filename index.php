@@ -69,8 +69,8 @@
             "search_form_type"     => "GET",
             "search_form_location" => "",
 
-            "post_data_content"    => array("passenger", "buyer"),
-            "url_to_post_data"     => "/teste.php",
+            "post_data_info"    => array("passenger", "buyer"),
+            "url_to_post_data"     => "/",
             "myappwebroot"         => "local"
         );
 
