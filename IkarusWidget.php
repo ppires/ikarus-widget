@@ -466,22 +466,22 @@ class IkarusWidget
             }
             $forms .= '
                     </div>
-                    <div class="ikarus_widget_row-fluid">
+                    <div class="ikarus_widget_row-fluid">';
+
+            if ($this->post_buyer_info)
+            {
+                $forms .= $this->buyerForm();
+                $forms .= '
+                    </div>
+                    <div class="ikarus_widget_row-fluid">';
+            }
+            $forms .= '
                         <div class="ikarus_widget_span12" align="center">
                             <input type="submit" value="Enviar dados" class="ikarus_widget_btn_input" style="float: none;">
                         </div>
                     </div>
                 </form>';
             $forms .= $this->formsInputMasks();
-        }
-
-        if ($this->post_buyer_info)
-        {
-            // Adicionar aqui forms do comprador
-
-            // nome
-            // telefone
-            // email de contato
         }
 
         return $forms;
@@ -495,9 +495,58 @@ class IkarusWidget
             <script>
                 IkarusJQuery("input.birthDateInput").mask("99/99/9999");
                 IkarusJQuery("input.cpfcnpj").mask("999.999.999-99");
+                IkarusJQuery("input.telephone").mask("(99) 9999-9999?9");
             </script>';
 
         return $script;
+    }
+
+
+
+    private function buyerForm()
+    {
+        $form = '
+            <div class="ikarus_widget_span4">
+                <div class="ikarus_widget_container-fluid">
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <h1 style="text-align: center; font-size: 23px;">Comprador</h1>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <div class="ikarus_widget_control-group">
+                                <label class="ikarus_widget_control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="ikarus_widget_controls">
+                                    <input id="BuyerName" name="data[Buyer][name]" class="ikarus_widget_span4" data-rule-completename="true" data-rule-required="true" maxlength="400" style="width: 100%;" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <div class="ikarus_widget_control-group">
+                                <label class="ikarus_widget_control-label" for="validation_name">Email: <b style="color: #FF0000; font-size:15px;">*</b></label>
+                                <div class="ikarus_widget_controls">
+                                    <input id="BuyerEmail" name="data[Buyer][email]" class="ikarus_widget_span4" data-rule-required="true" style="width: 100%;" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12">
+                            <div class="ikarus_widget_control-group">
+                                <label class="ikarus_widget_control-label" for="validation_name">Telefone: </label>
+                                <div class="ikarus_widget_controls">
+                                    <input id="BuyerTel" name="data[Buyer][tel]" class="ikarus_widget_span4 telephone" data-rule-required="true" style="width: 100%;" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- ikarus_widget_container-fluid -->
+            </div><!-- ikarus_widget_span4 -->';
+
+        return $form;
     }
 
 
@@ -725,7 +774,7 @@ class IkarusWidget
         if($this->login == "sandbox")
         {
             $encryptedSearch = $this->encryptParams();
-            
+
             $urls = array();
             foreach ($this->programs as $hash => $info) :
             if ($info['activated_sell'] == '1')
