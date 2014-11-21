@@ -32,35 +32,59 @@ class IkarusWidget
     private $key;
     private $login;
     private $password;
-    private $data;
     private $programs;
     private $airports;
-    private $url_to_post;
+
+    private $data;
+
+    // variáveis passadas pelo cliente
+    private $search_form_type;
+    private $search_form_location;
+    private $url_to_post_data;
+    private $post_passenger_info;
+    private $post_buyer_info;
     private $assets_url;
-    public $widget_url;
 
     public function __construct($id, $key, $login, $password, $programs, $airports, $options = array())
     {
-        $this->id             = $id;
+        $this->id             = $id;search_form_type
         $this->key            = $key;
         $this->login          = $login;
         $this->password       = $password;
         $this->airports       = $airports;
         $this->programs       = $programs;
 
-        if(isset($options['url_to_post']))
-            $this->url_to_post = $options['url_to_post'];
+        if(isset($options['search_form_type']))
+            $this->search_form_type = strtolower($options['search_form_type']);
+        else
+            $this->search_form_type = 'post';
 
-        if(isset($options['widget_url']))
+        if(isset($options['search_form_location']))
+            $this->search_form_location = $options['search_form_location'];
+        else
+            $this->search_form_location = '';
+
+        if(isset($options['post_data_info']))
         {
-            $this->widget_url = $options['widget_url'] . "/ikarus_widget";
-            $this->assets_url = $this->CdnAssetsUrl();//$this->widget_url;
+            $this->post_passenger_info = in_array('passenger', $options['post_data_info']);
+            $this->post_buyer_info = in_array('buyer', $options['post_data_info']);
         }
         else
         {
-            $this->widget_url = "/ikarus_widget";
-            $this->assets_url = $this->CdnAssetsUrl();
+            $this->post_passenger_info = false;
+            $this->post_buyer_info = false;
         }
+
+        if(isset($options['url_to_post_data']))
+            $this->url_to_post_data = $options['url_to_post_data'];
+        else
+            $this->url_to_post_data = $this->search_form_location;
+
+        if(isset($options['myappwebroot']) && $options['myappwebroot'] === 'cloud')
+            $this->assets_url = '';
+        else
+            $this->assets_url = $this->CdnAssetsUrl();
+
 
         echo $this->configJs();
     }
@@ -142,7 +166,7 @@ class IkarusWidget
         else $str_hide_back_date = "";
 
         $str_form = '
-            <form name="IkarusWidgetSearch" method="post">
+            <form name="IkarusWidgetSearch" method="'. $this->search_form_type .'" action="'. $this->search_form_location .'">
                 <div class="ikarus_widget_container-fluid">
                     <div class="ikarus_widget_row-fluid">
                         <div class="ikarus_widget_span3">
@@ -391,56 +415,63 @@ class IkarusWidget
 
     private function passengerForms()
     {
-        $forms = '
-            <form name="IkarusWidgetPassengers" class="validate-form" method="post" action="'. $this->url_to_post .'" onsubmit=\'return ikarusWidgetJs.validatePassengerForms('. json_encode($this->data) .')\'>
-                <div class="ikarus_widget_row-fluid">';
-
-        $counter = 0;
-        for ($i = 1; $i <= $this->data['adults']; $i++)
+        if ($this->post_passenger_info)
         {
-            $forms .= $this->adultForm($i, $counter);
-            $counter++;
-            if ($counter % 3 == 0)
-            {
-                $forms .= '
-                </div>
-                <div class="ikarus_widget_row-fluid">';
-            }
-        }
+            $forms = '
+                <form name="IkarusWidgetPassengers" class="validate-form" method="post" action="'. $this->url_to_post_data .'" onsubmit=\'return ikarusWidgetJs.validatePassengerForms('. json_encode($this->data) .')\'>
+                    <div class="ikarus_widget_row-fluid">';
 
-        for ($i = 1; $i <= $this->data['children']; $i++)
-        {
-            $forms .= $this->childForm($i, $counter);
-            $counter++;
-            if ($counter % 3 == 0)
+            $counter = 0;
+            for ($i = 1; $i <= $this->data['adults']; $i++)
             {
-                $forms .= '
-                </div>
-                <div class="ikarus_widget_row-fluid">';
-            }
-        }
-
-        for ($i = 1; $i <= $this->data['babies']; $i++)
-        {
-            $forms .= $this->babyForm($i, $counter);
-            $counter++;
-            if ($counter % 3 == 0)
-            {
-                $forms .= '
-                </div>
-                <div class="ikarus_widget_row-fluid">';
-            }
-        }
-        $forms .= '
-                </div>
-                <div class="ikarus_widget_row-fluid">
-                    <div class="ikarus_widget_span12" align="center">
-                        <input type="submit" value="Enviar dados" class="ikarus_widget_btn_input" style="float: none;">
+                $forms .= $this->adultForm($i, $counter);
+                $counter++;
+                if ($counter % 3 == 0)
+                {
+                    $forms .= '
                     </div>
-                </div>
-            </form>';
+                    <div class="ikarus_widget_row-fluid">';
+                }
+            }
 
-        $forms .= $this->formsInputMasks();
+            for ($i = 1; $i <= $this->data['children']; $i++)
+            {
+                $forms .= $this->childForm($i, $counter);
+                $counter++;
+                if ($counter % 3 == 0)
+                {
+                    $forms .= '
+                    </div>
+                    <div class="ikarus_widget_row-fluid">';
+                }
+            }
+
+            for ($i = 1; $i <= $this->data['babies']; $i++)
+            {
+                $forms .= $this->babyForm($i, $counter);
+                $counter++;
+                if ($counter % 3 == 0)
+                {
+                    $forms .= '
+                    </div>
+                    <div class="ikarus_widget_row-fluid">';
+                }
+            }
+            $forms .= '
+                    </div>
+                    <div class="ikarus_widget_row-fluid">
+                        <div class="ikarus_widget_span12" align="center">
+                            <input type="submit" value="Enviar dados" class="ikarus_widget_btn_input" style="float: none;">
+                        </div>
+                    </div>
+                </form>';
+            $forms .= $this->formsInputMasks();
+        }
+
+        if ($this->post_buyer_info)
+        {
+            // Adicionar aqui forms do comprador
+        }
 
         return $forms;
     }

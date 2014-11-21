@@ -15,21 +15,21 @@
 /* =                                                                                                                        = */
 /* =         $options = array(                                                                                              = */
 /* =                                                                                                                        = */
-/* =             "search_form_type"     => "GET",          //Tipo de envio dos dados.                                       = */
+/* =             "search_form_type"     => "GET",          // Tipo de envio dos dados.                                       = */
 /* =                                                                                                                        = */
-/* =             "search_form_location" => "",             //"" para mesma página ou "/sua_uri" para outra localização.     = */
+/* =             "search_form_location" => "",             // "" para mesma página ou "/sua_uri" para outra localização.     = */
 /* =                                                                                                                        = */
-/* =             "post_data_info"       => array(          //Após selecionar os voos da pesquisa o usuário poderá informar  = */
-/* =                                         "passenger",  //os dados do passageiro e também seus dados. Você pode remover  = */
-/* =                                         "buyer"       //ambos os dados para somente disponbilizar a pesquisa.          = */
+/* =             "post_data_info"       => array(          // Após selecionar os voos da pesquisa o usuário poderá informar  = */
+/* =                                         "passenger",  // os dados do passageiro e também seus dados. Você pode remover  = */
+/* =                                         "buyer"       // ambos os dados para somente disponbilizar a pesquisa.          = */
 /* =                                       ),                                                                               = */
 /* =                                                                                                                        = */
-/* =             "url_to_post_data"     => "/teste.php",   //Localização do post com os dados dos voos, passageiros, ou     = */
-/* =                                                       //cliente.                                                       = */
+/* =             "url_to_post_data"     => "/teste.php",   // Localização do post com os dados dos voos, passageiros, ou     = */
+/* =                                                       // cliente.                                                       = */
 /* =                                                                                                                        = */
-/* =             "myappwebroot"         => "cloud"         //"cloud" para incluir js, css, e img do nosso servidor.         = */
-/* =                                                       //"local" para usar localmente. Para o uso local você deverá     = */
-/* =                                                       //copiar a pasta ikarus_widget para o webroot de sua aplicação.  = */
+/* =             "myappwebroot"         => "cloud"         // "cloud" para incluir js, css, e img do nosso servidor.         = */
+/* =                                                       // "local" para usar localmente. Para o uso local você deverá     = */
+/* =                                                       // copiar a pasta ikarus_widget para o webroot de sua aplicação.  = */
 /* =         );                                                                                                             = */
 /* =                                                                                                                        = */
 /* =                                                                                                                        = */
@@ -52,7 +52,7 @@
 
 <div align="center">
     <div style="width:40%;">
-        
+
         <?php
         // incluir os arquivos abaixo:
         include "IkarusWidget.php";
@@ -60,15 +60,15 @@
         include "programs.php";
 
 
-        $login = "public";
-        $password = "tG3z9XvHX1IposLNFIvQ";
-        $id = "pub";
-        $key = "3e2a141122eca316ccf1111213cdd5b2";
+        $login = "sandbox";
+        $password = "Lnvcvhkf6UAcsO89g45x";
+        $id = "san";
+        $key = "9c541da9da4b9a55d9d273cc17ea6f36";
 
         $options = array(
             "search_form_type"     => "GET",
             "search_form_location" => "",
-            
+
             "post_data_content"    => array("passenger", "buyer"),
             "url_to_post_data"     => "/teste.php",
             "myappwebroot"         => "cloud"
@@ -78,7 +78,7 @@
         $ikarus->widget();
 
         ?>
-        
+
     </div>
 </div>
 
