@@ -47,11 +47,6 @@ class IkarusWidget
 
     public function __construct($id, $key, $login, $password, $programs, $airports, $options = array())
     {
-
-        puts(getcwd());
-        pp($options);
-
-
         $this->id             = $id;
         $this->key            = $key;
         $this->login          = $login;
