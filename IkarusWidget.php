@@ -15,7 +15,7 @@ function puts($str)
 }
 
 error_reporting(E_ALL);
-ini_set("display_errors", 1);
+ini_set("display_errors", 2);
 
 
 
@@ -47,7 +47,12 @@ class IkarusWidget
 
     public function __construct($id, $key, $login, $password, $programs, $airports, $options = array())
     {
-        $this->id             = $id;search_form_type
+
+        puts(getcwd());
+        pp($options);
+
+
+        $this->id             = $id;
         $this->key            = $key;
         $this->login          = $login;
         $this->password       = $password;
@@ -81,9 +86,9 @@ class IkarusWidget
             $this->url_to_post_data = $this->search_form_location;
 
         if(isset($options['myappwebroot']) && $options['myappwebroot'] === 'cloud')
-            $this->assets_url = '';
-        else
             $this->assets_url = $this->CdnAssetsUrl();
+        else
+            $this->assets_url = '/ikarusWidget';
 
 
         echo $this->configJs();
@@ -415,9 +420,11 @@ class IkarusWidget
 
     private function passengerForms()
     {
+        $forms = '';
+
         if ($this->post_passenger_info)
         {
-            $forms = '
+            $forms .= '
                 <form name="IkarusWidgetPassengers" class="validate-form" method="post" action="'. $this->url_to_post_data .'" onsubmit=\'return ikarusWidgetJs.validatePassengerForms('. json_encode($this->data) .')\'>
                     <div class="ikarus_widget_row-fluid">';
 
@@ -471,6 +478,10 @@ class IkarusWidget
         if ($this->post_buyer_info)
         {
             // Adicionar aqui forms do comprador
+
+            // nome
+            // telefone
+            // email de contato
         }
 
         return $forms;
