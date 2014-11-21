@@ -143,9 +143,10 @@ class IkarusWidget
     {
         echo $this->searchForm();
 
-        if(isset($_POST["ikarusData"]))
+        if(isset($_POST["ikarusData"]) || isset($_GET["ikarusData"]))
         {
-            $this->data = $_POST["ikarusData"];
+            if(isset($_POST["ikarusData"])) $this->data = $_POST["ikarusData"];
+            if(isset($_GET["ikarusData"]))  $this->data = $_GET["ikarusData"];
             if ($this->validateParams())
             {
                 echo $this->resultTable();
@@ -721,22 +722,36 @@ class IkarusWidget
 
     private function fetchSearchURLs()
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://ws.islogic.com.br/flights/ikarus_ws_resolver.php");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($ch);
-        curl_close($ch);
-
-        $urls = json_decode($output, true);
-
-        $encryptedSearch = $this->encryptParams();
-        $programs = array_keys($urls);
-
-        for($i=0; $i < count($programs); $i++)
+        if($this->login == "sandbox")
         {
-            $urls[$programs[$i]] .= $programs[$i] . "/index.php?search=" . $encryptedSearch . "&sm=" . $this->id;
+            $encryptedSearch = $this->encryptParams();
+            
+            $urls = array();
+            foreach ($this->programs as $hash => $info) :
+            if ($info['activated_sell'] == '1')
+            {
+                $urls[$info["wsname"]]  = "http://104.131.166.6/flights/" . $info["wsname"] . "/index.php?search=" . $encryptedSearch . "&sm=" . $this->id;
+            }
+            endforeach;
         }
+        else
+        {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "http://ws.islogic.com.br/flights/ikarus_ws_resolver.php");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($ch);
+            curl_close($ch);
 
+            $urls = json_decode($output, true);
+
+            $encryptedSearch = $this->encryptParams();
+            $programs = array_keys($urls);
+
+            for($i=0; $i < count($programs); $i++)
+            {
+                $urls[$programs[$i]] .= $programs[$i] . "/index.php?search=" . $encryptedSearch . "&sm=" . $this->id;
+            }
+        }
         return $urls;
     }
 
