@@ -66,7 +66,7 @@
         $key = "9c541da9da4b9a55d9d273cc17ea6f36";
 
         $options = array(
-            "search_form_type"     => "GET",
+            "search_form_type"     => "post",
             "search_form_location" => "",
 
             "post_data_info"    => array("passenger", "buyer"),
