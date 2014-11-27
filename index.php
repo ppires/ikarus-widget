@@ -71,7 +71,7 @@
 
             "post_data_info"    => array("passenger", "buyer"),
             "url_to_post_data"     => "/",
-            "myappwebroot"         => "local"
+            "myappwebroot"         => "cloud"
         );
 
         $ikarus = new IkarusWidget($id, $key, $login, $password, $programs, $airports, $options);
