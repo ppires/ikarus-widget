@@ -51,7 +51,7 @@ class IkarusWidget
         $this->key            = $key;
         $this->login          = $login;
         $this->password       = $password;
-        $this->airports       = $airports;pp
+        $this->airports       = $airports;
         $this->programs       = $programs;
 
         if(isset($options['search_form_type']))
@@ -84,8 +84,6 @@ class IkarusWidget
             $this->assets_url = $this->CdnAssetsUrl();
         else
             $this->assets_url = '/ikarus_widget';
-
-            echo $this->assets_url;
 
 
         echo $this->configJs();
