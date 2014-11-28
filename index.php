@@ -91,12 +91,12 @@
             // "cloud" para incluir js, css, e img do nosso servidor.
             // "local" para usar localmente. Para o uso local você deverá
             // copiar a pasta ikarus_widget para o webroot de sua aplicação.
-            
+            //
             // Exemplos:
             // Na pasta do wamp:       "myappwebroot" => "http://localhost/ikarus-widget/ikarus_widget"
             // Em servidor virtual:    "myappwebroot" => "http://localhost:8080"   OU   "myappwebroot" => "local"
             // Em produção:            "myappwebroot" => "http://dominio.com"      OU   "myappwebroot" => "local"   OU   "myappwebroot" => "cloud"
-            "myappwebroot"               => "http://localhost/ikarus-widget/ikarus_widget"
+            "myappwebroot"               => "local"
         );
 
 

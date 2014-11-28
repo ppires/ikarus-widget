@@ -81,7 +81,7 @@ class IkarusWidget
             $this->url_to_post_passenger_data = $this->search_form_location;
 
         if(isset($options['myappwebroot']) && $options['myappwebroot'] == 'cloud') $this->assets_url = $this->CdnAssetsUrl();
-        if(isset($options['myappwebroot']) && $options['myappwebroot'] == 'local') $this->assets_url = '/ikarus_widget';
+        else if(isset($options['myappwebroot']) && $options['myappwebroot'] == 'local') $this->assets_url = '/ikarus_widget';
         else $this->assets_url = $options['myappwebroot'];
 
 
@@ -125,8 +125,7 @@ class IkarusWidget
             <script src='{$this->assets_url}/js/ikarus_widget_jquery.maskedinput.min.js'></script>
 
 
-            <script src='{$this->assets_url}/js/ikarus-widget.js'></script>";
-            // <script src='{$this->assets_url}/js/ikarus-widget.min.js'></script>
+            <script src='{$this->assets_url}/js/ikarus-widget.min.js'></script>";
 
         return $assets;
     }
