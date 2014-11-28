@@ -789,6 +789,9 @@ window.ikarusWidgetJs = (function() {
     {
         input = IkarusJQuery(elemento);
         operacao = input.prop("checked");
+
+
+
         hash = input.attr('hash');
 
         id = input.attr('id');
@@ -800,11 +803,12 @@ window.ikarusWidgetJs = (function() {
         hash   = infos[1];
         numero = infos[2];
 
-
         outroTrecho = "";
         if(trecho == "ida") outroTrecho = "volta";
         if(trecho == "volta") outroTrecho = "ida";
 
+        info_voo = input.attr('value');
+        IkarusJQuery('#info_voo_' + trecho).attr('value', info_voo);
 
         if(operacao)
         {

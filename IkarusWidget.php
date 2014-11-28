@@ -126,7 +126,8 @@ class IkarusWidget
             <script src='{$this->assets_url}/js/ikarus_widget_jquery.maskedinput.min.js'></script>
 
 
-            <script src='{$this->assets_url}/js/ikarus-widget.min.js'></script>";
+            <script src='{$this->assets_url}/js/ikarus-widget.js'></script>";
+            // <script src='{$this->assets_url}/js/ikarus-widget.min.js'></script>
 
         return $assets;
     }
@@ -413,52 +414,57 @@ class IkarusWidget
     {
         $forms = '';
 
-        if ($this->post_passenger_info)
+        if ($this->post_passenger_info || $this->post_buyer_info)
         {
             $forms .= '
                 <form name="IkarusWidgetPassengers" class="validate-form" method="post" action="'. $this->url_to_post_passenger_data .'" onsubmit=\'return ikarusWidgetJs.validatePassengerForms('. json_encode($this->data) .')\'>
-                    <div class="ikarus_widget_row-fluid">';
+                    <input type="hidden" id="info_voo_ida" name="data[Voos][ida]">
+                    <input type="hidden" id="info_voo_volta" name="data[Voos][volta]">';
 
-            $counter = 0;
-            for ($i = 1; $i <= $this->data['adults']; $i++)
+            if ($this->post_passenger_info)
             {
-                $forms .= $this->adultForm($i, $counter);
-                $counter++;
-                if ($counter % 3 == 0)
+                $forms .= '
+                        <div class="ikarus_widget_row-fluid">';
+                $counter = 0;
+                for ($i = 1; $i <= $this->data['adults']; $i++)
                 {
-                    $forms .= '
-                    </div>
-                    <div class="ikarus_widget_row-fluid">';
+                    $forms .= $this->adultForm($i, $counter);
+                    $counter++;
+                    if ($counter % 3 == 0)
+                    {
+                        $forms .= '
+                        </div>
+                        <div class="ikarus_widget_row-fluid">';
+                    }
                 }
-            }
 
-            for ($i = 1; $i <= $this->data['children']; $i++)
-            {
-                $forms .= $this->childForm($i, $counter);
-                $counter++;
-                if ($counter % 3 == 0)
+                for ($i = 1; $i <= $this->data['children']; $i++)
                 {
-                    $forms .= '
-                    </div>
-                    <div class="ikarus_widget_row-fluid">';
+                    $forms .= $this->childForm($i, $counter);
+                    $counter++;
+                    if ($counter % 3 == 0)
+                    {
+                        $forms .= '
+                        </div>
+                        <div class="ikarus_widget_row-fluid">';
+                    }
                 }
-            }
 
-            for ($i = 1; $i <= $this->data['babies']; $i++)
-            {
-                $forms .= $this->babyForm($i, $counter);
-                $counter++;
-                if ($counter % 3 == 0)
+                for ($i = 1; $i <= $this->data['babies']; $i++)
                 {
-                    $forms .= '
-                    </div>
-                    <div class="ikarus_widget_row-fluid">';
+                    $forms .= $this->babyForm($i, $counter);
+                    $counter++;
+                    if ($counter % 3 == 0)
+                    {
+                        $forms .= '
+                        </div>
+                        <div class="ikarus_widget_row-fluid">';
+                    }
                 }
+                $forms .= '
+                        </div>
+                        <div class="ikarus_widget_row-fluid">';
             }
-            $forms .= '
-                    </div>
-                    <div class="ikarus_widget_row-fluid">';
-
             if ($this->post_buyer_info)
             {
                 $forms .= $this->buyerForm();

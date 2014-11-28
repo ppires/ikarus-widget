@@ -85,7 +85,7 @@
 
             // Localização do post com os dados dos voos, passageiros e
             // do comprador.
-            "url_to_post_passenger_data" => "",
+            "url_to_post_passenger_data" => "/data.php",
 
             // "cloud" para incluir js, css, e img do nosso servidor.
             // "local" para usar localmente. Para o uso local você deverá
