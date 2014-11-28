@@ -80,10 +80,12 @@ class IkarusWidget
         else
             $this->url_to_post_passenger_data = $this->search_form_location;
 
-        if(isset($options['myappwebroot']) && $options['myappwebroot'] === 'cloud')
+        if(isset($options['myappwebroot']) && $options['myappwebroot'] == 'cloud')
             $this->assets_url = $this->CdnAssetsUrl();
         else
             $this->assets_url = '/ikarus_widget';
+
+            echo $this->assets_url;
 
 
         echo $this->configJs();
