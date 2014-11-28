@@ -40,22 +40,18 @@ class IkarusWidget
     // variáveis passadas pelo cliente
     private $search_form_type;
     private $search_form_location;
-    private $url_to_post_data;
+    private $url_to_post_passenger_data;
     private $post_passenger_info;
     private $post_buyer_info;
     private $assets_url;
 
     public function __construct($id, $key, $login, $password, $programs, $airports, $options = array())
     {
-
-        // pp($options);
-        // pp($_POST);
-
         $this->id             = $id;
         $this->key            = $key;
         $this->login          = $login;
         $this->password       = $password;
-        $this->airports       = $airports;
+        $this->airports       = $airports;pp
         $this->programs       = $programs;
 
         if(isset($options['search_form_type']))
@@ -79,10 +75,10 @@ class IkarusWidget
             $this->post_buyer_info = false;
         }
 
-        if(isset($options['url_to_post_data']))
-            $this->url_to_post_data = $options['url_to_post_data'];
+        if(isset($options['url_to_post_passenger_data']))
+            $this->url_to_post_passenger_data = $options['url_to_post_passenger_data'];
         else
-            $this->url_to_post_data = $this->search_form_location;
+            $this->url_to_post_passenger_data = $this->search_form_location;
 
         if(isset($options['myappwebroot']) && $options['myappwebroot'] === 'cloud')
             $this->assets_url = $this->CdnAssetsUrl();
@@ -130,30 +126,27 @@ class IkarusWidget
             <script src='{$this->assets_url}/js/ikarus_widget_jquery.maskedinput.min.js'></script>
 
 
-            <script src='/ikarus_widget/js/ikarus-widget.js'></script>";
-         // <script src='{$this->assets_url}/js/ikarus-widget.min.js'></script>
+            <script src='{$this->assets_url}/js/ikarus-widget.min.js'></script>";
 
         return $assets;
     }
 
 
-
-
-    public function widget()
+    public function searchResult()
     {
-        echo $this->searchForm();
-
         if(isset($_POST["ikarusData"]) || isset($_GET["ikarusData"]))
         {
             if(isset($_POST["ikarusData"])) $this->data = $_POST["ikarusData"];
             if(isset($_GET["ikarusData"]))  $this->data = $_GET["ikarusData"];
             if ($this->validateParams())
             {
-                echo $this->resultTable();
-                echo $this->executeSearch();
+                return $this->resultTable() . $this->executeSearch();
             }
             else
+            {
                 $this->data = null;
+                return 'Erro com os parâmetros da busca.';
+            }
         }
     }
 
@@ -161,14 +154,12 @@ class IkarusWidget
 
     public function searchForm()
     {
-        if(!empty($this->data))
-        {
-            pp($this->data);
+        $str_hide_back_date = "";
+        if(!empty($this->data)) {
 
             if($this->data['trip'] == 'O')
                 $str_hide_back_date = ' style="display: none;" ';
         }
-        else $str_hide_back_date = "";
 
         $str_form = '
             <form name="IkarusWidgetSearch" method="'. $this->search_form_type .'" action="'. $this->search_form_location .'">
@@ -425,7 +416,7 @@ class IkarusWidget
         if ($this->post_passenger_info)
         {
             $forms .= '
-                <form name="IkarusWidgetPassengers" class="validate-form" method="post" action="'. $this->url_to_post_data .'" onsubmit=\'return ikarusWidgetJs.validatePassengerForms('. json_encode($this->data) .')\'>
+                <form name="IkarusWidgetPassengers" class="validate-form" method="post" action="'. $this->url_to_post_passenger_data .'" onsubmit=\'return ikarusWidgetJs.validatePassengerForms('. json_encode($this->data) .')\'>
                     <div class="ikarus_widget_row-fluid">';
 
             $counter = 0;
@@ -760,7 +751,6 @@ class IkarusWidget
     {
         $querySearch  = $this->data['trip'] . ";" . $this->data['from'] . ";" . $this->data['to'] . ";" . $this->formatDate($this->data['departureDate']) . ";";
         $querySearch .= $this->formatDate($this->data['backDate']) . ";" . $this->data['adults'] . ";" . $this->data['children'] . ";" . $this->login . ";" . $this->password;
-        // pp($querySearch);
 
         $ikarusCrypt = new IkarusCrypt($this->key);
 
