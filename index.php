@@ -68,7 +68,7 @@
         $options = array(
             // Forma de envio dos dados da busca.
             // pode ser GET ou POST.
-            "search_form_type"           => "POST",
+            "search_form_type"           => "GET",
 
             // URL para submeter a busca, é o local onde estará o
             // resultado da busca.
@@ -87,10 +87,16 @@
             // do comprador.
             "url_to_post_passenger_data" => "",
 
+            // "endereco_url" para usar localmente sem servidor virtual.
             // "cloud" para incluir js, css, e img do nosso servidor.
             // "local" para usar localmente. Para o uso local você deverá
             // copiar a pasta ikarus_widget para o webroot de sua aplicação.
-            "myappwebroot"               => "local"
+            
+            // Exemplos:
+            // Na pasta do wamp:       "myappwebroot" => "http://localhost/ikarus-widget/ikarus_widget"
+            // Em servidor virtual:    "myappwebroot" => "http://localhost:8080"   OU   "myappwebroot" => "local"
+            // Em produção:            "myappwebroot" => "http://dominio.com"      OU   "myappwebroot" => "local"   OU   "myappwebroot" => "cloud"
+            "myappwebroot"               => "http://localhost/ikarus-widget/ikarus_widget"
         );
 
 
