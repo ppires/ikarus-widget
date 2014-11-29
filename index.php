@@ -68,7 +68,7 @@
         $options = array(
             // Forma de envio dos dados da busca.
             // pode ser GET ou POST.
-            "search_form_type"           => "GET",
+            "search_form_type"           => "POST",
 
             // URL para submeter a busca, é o local onde estará o
             // resultado da busca.

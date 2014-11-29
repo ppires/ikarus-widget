@@ -266,7 +266,7 @@ class IkarusWidget
             <div class="ikarus_widget_continer-fluid">
                 <div class="ikarus_widget_row-fluid">
                     <div class="ikarus_widget_span12">
-                        <table class="ikarus_widget_table" style="margin-bottom:0; font-size: 13px" width="100%">
+                        <table id="tabela_ida" class="ikarus_widget_table" style="margin-bottom:0; font-size: 13px" width="100%">
                             <thead>
                                 <tr>
                                     <th colspan="10">
@@ -331,15 +331,15 @@ class IkarusWidget
         if ($this->data['trip'] == "R")
         {
             $resultTable .= '
-                        <table data="" style="padding-top: 100px; margin-bottom:0; font-size: 13px" width="100%">
+                        <table id="tabela_volta" data="" style="padding-top: 100px; margin-bottom:0; font-size: 13px" width="100%">
                             <thead>
                                 <tr>
-                                    <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de Ida. </th>
-                                </tr>
-                                <tr>
                                     <th colspan="10">
-                                        <table id="delete_loaders_ida" width="100%">
-                                            <tr>';
+                                        <table id="delete_loaders_volta" width="100%">
+                                            <tr id="validaVooVoltaTabela" style="display: none;">
+                                                <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de volta. </th>
+                                            </tr>
+                                            <tr id="verifica_loaders_volta">';
             foreach ($this->programs as $hash => $info) :
                 if ($info['activated_sell'] == '1')
                 {

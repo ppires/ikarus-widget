@@ -4,7 +4,6 @@ window.ikarusWidgetJs = (function() {
 
     var searchFlights = function(url, hash, programs, airports, search)
     {
-        console.log(url);
         IkarusJQuery.ajax({
             url: url,
             timeout: 120000,
@@ -18,8 +17,8 @@ window.ikarusWidgetJs = (function() {
                     IkarusJQuery('#ida_'+ hash +'_searchLoader').remove();
                     IkarusJQuery('#volta_'+ hash +'_searchLoader').remove();
                     tempFlights = JSON.parse(data);
-                    console.log('result '+ hash +":");
-                    console.log(tempFlights);
+                    // console.log('result '+ hash +":");
+                    // console.log(tempFlights);
                     IkarusJQuery('#ikarus_widget_tabela-ida').append(tr_flights(tempFlights['independentes'][hash]['ida'], 'ida', hash, programs, airports, search));
                     if (search['trip'] == 'R')
                     {
@@ -39,7 +38,7 @@ window.ikarusWidgetJs = (function() {
     var setAssetsUrl = function(url)
     {
         _assetsUrl = url;
-        console.log('assets url: ' + _assetsUrl);
+        // console.log('assets url: ' + _assetsUrl);
     }
 
 
@@ -92,81 +91,127 @@ window.ikarusWidgetJs = (function() {
 
 
 
-    var validatePassengerForms = function(search)
-    {
-        // Validação nome do passageiro
-        IkarusJQuery('.ikarus_widget_validation_error').each(function(i, element){
-            IkarusJQuery(element).remove();
-        });
-        var valid = true;
-        var nomes = IkarusJQuery("input[id$='Name']");
-        for(i = 0; i < nomes.length; i++)
-        {
-            var nome = IkarusJQuery(nomes[i]).val();
-            if(nome.match(/^[A-z0-9àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇ\s]+$/g) == null)
-            {
-                // validacao frase
-                errorAppend(nomes[i], "Por favor não usar pontuações ou abreviações no seu nome.");
-                valid = false;
-            }
-        }
 
-        // Validação data de nascimento
-        var nascimentos = IkarusJQuery("input[id$='Birthday']");
-        for(i = 0; i < nascimentos.length; i++)
+
+    var validateFormSelectFlights = function(search)
+    {
+        if(search['trip'] == "R")
         {
-            var nascimento = IkarusJQuery(nascimentos[i]).val();
-            var tipo = IkarusJQuery(nascimentos[i]).attr("typePassenger");
-            if(nascimento.match(/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/g) == null)
+            if(IkarusJQuery('#info_voo_ida').val() && IkarusJQuery('#info_voo_volta').val())
             {
-                errorAppend(nascimentos[i], "Data inválida.");
-                valid = false;
+                return true;
             }
             else
             {
-                var idade = ikarusWidgetJs.calculateAge(nascimento, search);
-                if((tipo == "adult" && idade >= 12) || (tipo == "child" && (idade >= 2 || idade < 12)) || (tipo == "baby" && idade < 2))
+                if(!IkarusJQuery('#info_voo_volta').val())
                 {
-                    // remove validacao frase
-                    // errorRemove(nascimentos[i], msg);
+                    IkarusJQuery('#validaVooVoltaTabela').show();
+                    IkarusJQuery(window).scrollTop(IkarusJQuery("#tabela_volta").offset());
+
                 }
-                else
+                if(!IkarusJQuery('#info_voo_ida').val())
+                {
+                    IkarusJQuery('#validaVooIdaTabela').show();
+                    IkarusJQuery(window).scrollTop(IkarusJQuery("#tabela_ida").offset());
+                }
+                return false;
+            }
+        }
+        else
+        {
+            if(IkarusJQuery('#info_voo_volta').val())
+            {
+                return true;
+            }
+            else
+            {
+                IkarusJQuery('#validaVooIdaTabela').attr("style", "");
+                return false;
+            }
+        }
+    }
+
+
+    var validatePassengerForms = function(search)
+    {
+        if (validateFormSelectFlights(search)) {
+
+            // Validação nome do passageiro
+            IkarusJQuery('.ikarus_widget_validation_error').each(function(i, element){
+                IkarusJQuery(element).remove();
+            });
+            var valid = true;
+            var nomes = IkarusJQuery("input[id$='Name']");
+            for(i = 0; i < nomes.length; i++)
+            {
+                var nome = IkarusJQuery(nomes[i]).val();
+                if(nome.match(/^[A-z0-9àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇ\s]+$/g) == null)
                 {
                     // validacao frase
-                    if(tipo == "adult" && idade < 12) msg = "Um passageiro adulto deve possuir mais que 12 anos até a data do(s) voo(s).";
-                    if(tipo == "child" && (idade < 2 || idade >= 12)) msg = "É considerado criança o passageiro entre 2 e 12 anos antes da data do(s) voo(s).";
-                    if(tipo == "baby" && idade >= 2) msg = "É considerado bebê o passageiro menor que 2 anos antes da data do(s) voo(s).";
-
-                    errorAppend(nascimentos[i], msg);
+                    errorAppend(nomes[i], "Por favor não usar pontuações ou abreviações no seu nome.");
                     valid = false;
                 }
             }
-        }
 
-        // Validação do CPF
-        if (false)
-        {
-            var ssns = IkarusJQuery("input[id$='Ssn']");
-            for(var i = 0; i < ssns.length; i++)
+            // Validação data de nascimento
+            var nascimentos = IkarusJQuery("input[id$='Birthday']");
+            for(i = 0; i < nascimentos.length; i++)
             {
-                var ssn = IkarusJQuery(ssns[i]).val();
-                if(ssn)
+                var nascimento = IkarusJQuery(nascimentos[i]).val();
+                var tipo = IkarusJQuery(nascimentos[i]).attr("typePassenger");
+                if(nascimento.match(/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/g) == null)
                 {
-                    var ssntype = IkarusJQuery("#" + IkarusJQuery(ssns[i]).attr("id") + "type").val();
-                    if(ssntype == "CPF")
+                    errorAppend(nascimentos[i], "Data inválida.");
+                    valid = false;
+                }
+                else
+                {
+                    var idade = ikarusWidgetJs.calculateAge(nascimento, search);
+                    if((tipo == "adult" && idade >= 12) || (tipo == "child" && (idade >= 2 || idade < 12)) || (tipo == "baby" && idade < 2))
                     {
-                        if(!validarCPF(ssn))
+                        // remove validacao frase
+                        // errorRemove(nascimentos[i], msg);
+                    }
+                    else
+                    {
+                        // validacao frase
+                        if(tipo == "adult" && idade < 12) msg = "Um passageiro adulto deve possuir mais que 12 anos até a data do(s) voo(s).";
+                        if(tipo == "child" && (idade < 2 || idade >= 12)) msg = "É considerado criança o passageiro entre 2 e 12 anos antes da data do(s) voo(s).";
+                        if(tipo == "baby" && idade >= 2) msg = "É considerado bebê o passageiro menor que 2 anos antes da data do(s) voo(s).";
+
+                        errorAppend(nascimentos[i], msg);
+                        valid = false;
+                    }
+                }
+            }
+
+            // Validação do CPF
+            if (false)
+            {
+                var ssns = IkarusJQuery("input[id$='Ssn']");
+                for(var i = 0; i < ssns.length; i++)
+                {
+                    var ssn = IkarusJQuery(ssns[i]).val();
+                    if(ssn)
+                    {
+                        var ssntype = IkarusJQuery("#" + IkarusJQuery(ssns[i]).attr("id") + "type").val();
+                        if(ssntype == "CPF")
                         {
-                            // debugger;
-                            errorAppend(ssns[i], "CPF Inválido.");
-                            valid = false;
+                            if(!validarCPF(ssn))
+                            {
+                                // debugger;
+                                errorAppend(ssns[i], "CPF Inválido.");
+                                valid = false;
+                            }
                         }
                     }
                 }
             }
-        }
 
-        return valid;
+            return valid;
+        }
+        else
+            return false;
     }
 
 
@@ -807,7 +852,10 @@ window.ikarusWidgetJs = (function() {
         if(trecho == "ida") outroTrecho = "volta";
         if(trecho == "volta") outroTrecho = "ida";
 
-        info_voo = input.attr('value');
+        if (input.prop('checked'))
+            info_voo = input.attr('value');
+        else
+            info_voo = '';
         IkarusJQuery('#info_voo_' + trecho).attr('value', info_voo);
 
         if(operacao)
@@ -959,6 +1007,6 @@ window.ikarusWidgetJs = (function() {
         abrirDetalhes: abrirDetalhes,
         fecharDetalhes: fecharDetalhes,
         validatePassengerForms: validatePassengerForms,
-        calculateAge: calculateAge
+        calculateAge: calculateAge,
     };
 })();
