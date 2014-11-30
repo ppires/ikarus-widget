@@ -89,7 +89,6 @@ class IkarusWidget
     }
 
 
-
     private function configJs()
     {
         $html = $this->assets();
@@ -148,7 +147,6 @@ class IkarusWidget
             }
         }
     }
-
 
 
     public function searchForm()
@@ -259,7 +257,6 @@ class IkarusWidget
     }
 
 
-
     private function resultTable()
     {
         $resultTable = '
@@ -268,6 +265,12 @@ class IkarusWidget
                     <div class="ikarus_widget_span12">
                         <table id="tabela_ida" class="ikarus_widget_table" style="margin-bottom:0; font-size: 13px" width="100%">
                             <thead>
+                                <tr>
+                                    <td colspan="10" align="center">
+                                        <h2>Escolha seu Voo de Ida...</h2>
+                                        <span align="center">'. $this->airports[$this->data['from']]['name'] .'&#8594;'. $this->airports[$this->data['to']]['name'] .'</span>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th colspan="10">
                                         <table id="delete_loaders_ida" width="100%">
@@ -333,6 +336,10 @@ class IkarusWidget
             $resultTable .= '
                         <table id="tabela_volta" data="" style="padding-top: 100px; margin-bottom:0; font-size: 13px" width="100%">
                             <thead>
+                                <tr>
+                                    <td colspan="10"><h2 align="center">Escolha seu Voo de Volta...</h2></td>
+                                    <span align="center">'. $this->airports[$this->data['to']]['name'] .'&#8594;'. $this->airports[$this->data['from']]['name'] .'</span>
+                                </tr>
                                 <tr>
                                     <th colspan="10">
                                         <table id="delete_loaders_volta" width="100%">
