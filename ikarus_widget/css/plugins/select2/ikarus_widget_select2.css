@@ -32,7 +32,7 @@ Version: 3.5.1 Timestamp: Tue Jul 22 18:58:56 EDT 2014
     overflow: hidden;
     position: relative;
 
-    border: 1px solid #aaa;
+    border: 2px solid #aaa;
     white-space: nowrap;
     line-height: 26px;
     color: #444;
@@ -146,7 +146,7 @@ html[dir="rtl"] .ikarus_widget_select2-container .ikarus_widget_select2-choice >
 
     background: #fff;
     color: #000;
-    border: 1px solid #aaa;
+    border: 2px solid #aaa;
     border-top: 0;
 
     border-radius: 0 0 4px 4px;
@@ -167,7 +167,7 @@ html[dir="rtl"] .ikarus_widget_select2-container .ikarus_widget_select2-choice >
 }
 
 .ikarus_widget_select2-drop-active {
-    border: 1px solid #5897fb;
+    border: 2px solid #5897fb;
     border-top: none;
 }
 
@@ -242,7 +242,7 @@ html[dir="rtl"] .ikarus_widget_select2-container .ikarus_widget_select2-choice .
     font-family: sans-serif;
     font-size: 1em;
 
-    border: 1px solid #aaa;
+    border: 2px solid #aaa;
     border-radius: 0;
 
     -webkit-box-shadow: none;
@@ -279,7 +279,7 @@ html[dir="rtl"] .ikarus_widget_select2-search input {
 
 .ikarus_widget_select2-container-active .ikarus_widget_select2-choice,
 .ikarus_widget_select2-container-active .ikarus_widget_select2-choices {
-    border: 1px solid #5897fb;
+    border: 2px solid #5897fb;
     outline: none;
 
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);
@@ -297,7 +297,7 @@ html[dir="rtl"] .ikarus_widget_select2-search input {
 
 .ikarus_widget_select2-dropdown-open.ikarus_widget_select2-drop-above .ikarus_widget_select2-choice,
 .ikarus_widget_select2-dropdown-open.ikarus_widget_select2-drop-above .ikarus_widget_select2-choices {
-    border: 1px solid #5897fb;
+    border: 2px solid #5897fb;
     border-top-color: transparent;
 
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.5, #eee));
@@ -477,7 +477,7 @@ disabled look for disabled choices in the results dropdown
     padding: 0 5px 0 0;
     position: relative;
 
-    border: 1px solid #aaa;
+    border: 2px solid #aaa;
     cursor: text;
     overflow: hidden;
 
@@ -501,7 +501,7 @@ html[dir="rtl"] .ikarus_widget_select2-container-multi .ikarus_widget_select2-ch
 }
 
 .ikarus_widget_select2-container-multi.ikarus_widget_select2-container-active .ikarus_widget_select2-choices {
-    border: 1px solid #5897fb;
+    border: 2px solid #5897fb;
     outline: none;
 
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);

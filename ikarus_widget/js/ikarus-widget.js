@@ -76,8 +76,8 @@ window.ikarusWidgetJs = (function() {
             minDate: 0
         });
 
-        IkarusJQuery("#ikarusDataFrom").ikarus_widget_select2();
-        IkarusJQuery("#ikarusDataTo").ikarus_widget_select2();
+        IkarusJQuery("#ikarusDataFrom").ikarus_widget_select2({ width: 'resolve' });
+        IkarusJQuery("#ikarusDataTo").ikarus_widget_select2({ width: 'resolve' });
     }
 
 
@@ -758,7 +758,7 @@ window.ikarusWidgetJs = (function() {
 
 
                     html += "<td style='text-align:center;vertical-align:middle;'>";
-                        html += "<div>"
+                        html += "<div class='btn_detalhes'>"
                             html += "<bottom id='btnCloseDetails__"+way+"__"+hash+"__"+i+"' style='display: none;' onclick=\"ikarusWidgetJs.fecharDetalhes('"+way+"__"+hash+"__"+i+"');\"><b>-</b></bottom>"
                             html += "<bottom id='btnOpenDetails__"+way+"__"+hash+"__"+i+"' onclick=\"ikarusWidgetJs.abrirDetalhes('"+way+"__"+hash+"__"+i+"');\"><b>+</b></bottom>"
                         html += "</div>"

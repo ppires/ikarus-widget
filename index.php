@@ -51,7 +51,7 @@
 
 
 <div align="center">
-    <div style="width:40%;">
+    <div style="width:60%;">
 
     <?php
         // incluir os arquivos abaixo:

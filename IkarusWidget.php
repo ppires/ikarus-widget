@@ -259,6 +259,7 @@ class IkarusWidget
 
     private function resultTable()
     {
+        $date = $this->data['departureDate'];
         $resultTable = '
             <div class="ikarus_widget_continer-fluid">
                 <div class="ikarus_widget_row-fluid">
@@ -266,15 +267,15 @@ class IkarusWidget
                         <table id="tabela_ida" class="ikarus_widget_table" style="margin-bottom:0; font-size: 13px" width="100%">
                             <thead>
                                 <tr>
-                                    <td colspan="10" align="center">
-                                        <h2>Escolha seu Voo de Ida...</h2>
-                                        <span align="center">'. $this->airports[$this->data['from']]['name'] .'&#8594;'. $this->airports[$this->data['to']]['name'] .'</span>
-                                    </td>
+                                    <th colspan="10" align="center">
+                                        <h2>Voos de ida - '.$date.'</h2>
+                                        <h3 align="center">'. $this->airports[$this->data['from']]['name'] .'&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;'. $this->airports[$this->data['to']]['name'] .'</h3>
+                                    </th>
                                 </tr>
                                 <tr>
                                     <th colspan="10">
-                                        <table id="delete_loaders_ida" width="100%">
-                                            <tr id="validaVooIdaTabela" style="display: none;">
+                                        <table id="delete_loaders_ida" width="90%" align="center">
+                                            <tr id="validaVooIdaTabela" style="display: none;" class="border_none">
                                                 <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de Ida. </th>
                                             </tr>
                                             <tr id="verifica_loaders_ida">';
@@ -282,10 +283,10 @@ class IkarusWidget
             if ($info['activated_sell'] == '1')
             {
                 $resultTable .= '
-                                                <td id="ida_'. $hash .'_searchLoader" align="center" style="text-align: center;">
-                                                    <img src="'. $this->assets_url .'/images/'. $hash .'_ativo.png">
+                                                <td id="ida_'. $hash .'_searchLoader" align="center" class="loaders_bg_td border_none">
+                                                    <img src="'. $this->assets_url .'/images/'. $hash .'_ativo.png" class="operadora_img">
                                                     <br />
-                                                    <img src="'. $this->assets_url .'/images/loading_'. $hash .'.gif">
+                                                    <img src="'. $this->assets_url .'/images/loading_'. $hash .'.gif" class="loader_img">
                                                 </td>';
             }
         endforeach;
@@ -294,35 +295,33 @@ class IkarusWidget
                                         </table>
                                     </th>
                                 </tr>
-                                <tr style="background-color: #eee;">
-                                    <th style="text-align: center;">
-                                        x
-                                    </th>
-                                    <th style="text-align: center;">
+                                <tr>
+                                    <th></th>
+                                    <th>
                                         Cia
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         nº
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         Paradas
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         Partida
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         Chegada
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         na Cia
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         em Milhas
                                     </th>
-                                    <th style="text-align: center;">
-                                        na BDS
+                                    <th>
+                                        conosco
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         Info.
                                     </th>
                                 </tr>
@@ -333,17 +332,20 @@ class IkarusWidget
 
         if ($this->data['trip'] == "R")
         {
+            $date = $this->data['backDate'];
             $resultTable .= '
-                        <table id="tabela_volta" data="" style="padding-top: 100px; margin-bottom:0; font-size: 13px" width="100%">
+                        <table id="tabela_volta" class="ikarus_widget_table" style="margin-bottom: 50px; margin-top: 80px; font-size: 13px" width="100%">
                             <thead>
                                 <tr>
-                                    <td colspan="10"><h2 align="center">Escolha seu Voo de Volta...</h2></td>
-                                    <span align="center">'. $this->airports[$this->data['to']]['name'] .'&#8594;'. $this->airports[$this->data['from']]['name'] .'</span>
+                                    <th colspan="10" align="center">
+                                        <h2>Voos de volta - '.$date.'</h2>
+                                        <h3>'. $this->airports[$this->data['to']]['name'] .'&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;'. $this->airports[$this->data['from']]['name'] .'</h3>
+                                    </th>
                                 </tr>
                                 <tr>
                                     <th colspan="10">
-                                        <table id="delete_loaders_volta" width="100%">
-                                            <tr id="validaVooVoltaTabela" style="display: none;">
+                                        <table id="delete_loaders_volta" width="90%" align="center">
+                                            <tr id="validaVooVoltaTabela" style="display: none;" class="border_none">
                                                 <th colspan="10" style=" color: #F54519;"> Por favor selecione seu voo de volta. </th>
                                             </tr>
                                             <tr id="verifica_loaders_volta">';
@@ -351,10 +353,10 @@ class IkarusWidget
                 if ($info['activated_sell'] == '1')
                 {
                     $resultTable .= '
-                                                <td id="volta_'. $hash .'_searchLoader" align="center" style="text-align: center;">
-                                                    <img src="'. $this->assets_url .'/images/'. $hash .'_ativo.png">
+                                                <td id="volta_'. $hash .'_searchLoader" align="center" align="center" class="loaders_bg_td border_none">
+                                                    <img src="'. $this->assets_url .'/images/'. $hash .'_ativo.png" class="operadora_img">
                                                     <br />
-                                                    <img src="'. $this->assets_url .'/images/loading_'. $hash .'.gif">
+                                                    <img src="'. $this->assets_url .'/images/loading_'. $hash .'.gif" class="operadora_img">
                                                 </td>';
                 }
             endforeach;
@@ -363,35 +365,33 @@ class IkarusWidget
                                         </table>
                                     </th>
                                 </tr>
-                                <tr style="background-color: #eee;">
-                                    <th style="text-align: center;">
-                                        x
-                                    </th>
-                                    <th style="text-align: center;">
+                                <tr>
+                                    <th></th>
+                                    <th>
                                         Cia
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         nº
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         Paradas
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         Partida
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         Chegada
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         na Cia
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         em Milhas
                                     </th>
-                                    <th style="text-align: center;">
-                                        na BDS
+                                    <th>
+                                        conosco
                                     </th>
-                                    <th style="text-align: center;">
+                                    <th>
                                         Info.
                                     </th>
                                 </tr>
@@ -479,7 +479,7 @@ class IkarusWidget
             }
             $forms .= '
                         <div class="ikarus_widget_span12" align="center">
-                            <input type="submit" value="Enviar dados" class="ikarus_widget_btn_input" style="float: none;">
+                            <input type="submit" value="Enviar Pedido" class="ikarus_widget_btn_input" style="float: none;">
                         </div>
                     </div>
                 </form>';
@@ -564,7 +564,7 @@ class IkarusWidget
                         </div>
                     </div>
                     <div class="ikarus_widget_row-fluid">
-                        <div class="ikarus_widget_span12">
+                        <div class="ikarus_widget_span12 marginbottom20">
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Nome Completo: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
@@ -574,7 +574,7 @@ class IkarusWidget
                         </div>
                     </div>
                     <div class="ikarus_widget_row-fluid">
-                        <div class="ikarus_widget_span12">
+                        <div class="ikarus_widget_span12 marginbottom20">
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Data de Nascimento: <b style="color: #FF0000; font-size:15px;">*</b></label>
                                 <div class="ikarus_widget_controls">
@@ -584,7 +584,7 @@ class IkarusWidget
                         </div>
                     </div>
                     <div class="ikarus_widget_row-fluid">
-                        <div class="ikarus_widget_span5">
+                        <div class="ikarus_widget_span5 marginbottom20">
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">Documento: </label>
                                 <div class="ikarus_widget_controls">
@@ -595,7 +595,7 @@ class IkarusWidget
                                 </div>
                             </div>
                         </div>
-                        <div class="ikarus_widget_span7">
+                        <div class="ikarus_widget_span7 marginbottom20">
                             <div class="ikarus_widget_control-group">
                                 <label class="ikarus_widget_control-label" for="validation_name">&nbsp;</label>
                                 <div class="ikarus_widget_controls">
